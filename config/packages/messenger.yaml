@@ -1,0 +1,13 @@
+framework:
+    messenger:
+        transports:
+            default:
+                dsn: "%env(string:RABBITMQ_URL)%"
+                retry_strategy:
+                    delay: 0
+            high_priority:
+                dsn: "%env(string:RABBITMQ_URL_PRIO)%"
+                retry_strategy:
+                    delay: 0
+        routing:
+            'Symfony\Component\Mailer\Messenger\SendEmailMessage': high_priority

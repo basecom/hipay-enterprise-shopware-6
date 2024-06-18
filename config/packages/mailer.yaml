@@ -1,0 +1,4 @@
+framework:
+    # Send mails over Message Queue
+    mailer:
+        message_bus: 'messenger.default_bus'

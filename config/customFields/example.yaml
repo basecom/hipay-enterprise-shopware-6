@@ -1,0 +1,7 @@
+field_sets:
+    'fieldSetName':
+        label:
+            en-GB: 'fieldSet label en'
+            de-DE: 'fieldSet label de'
+        entityName: product
+        fields: []

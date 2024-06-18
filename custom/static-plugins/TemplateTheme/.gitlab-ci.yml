@@ -1,0 +1,103 @@
+default:
+  interruptible: true
+  tags:
+    - bsc-hetzner-x86
+
+stages:
+    - 'test'
+
+variables:
+    COMPOSER_COMMAND: '/var/www/html/composer install --prefer-dist --no-ansi --no-interaction --no-progress --optimize-autoloader'
+    BASE_PHP_VERSION: '8.2'
+    PLUGIN_NAME: 'TemplateTheme'
+    PLUGIN_COMPOSER_NAME: 'basecom/sw6-template-theme'
+    COMPOSER_HOME: '/var/www/html/composer'
+    XDEBUG_ENABLED: 0
+    DOCKWARE_CI: 1
+
+# STAGE TEST
+test phpunit template theme:
+    stage: 'test'
+    image: 'dockware/dev:${SW_VERSION}'
+    variables:
+        DOCKWARE_CI: 1
+    parallel:
+        matrix:
+            - PHP_VERSION: ['8.2']
+              SW_VERSION: ['6.5.7.3']
+    before_script:
+        - 'curl https://getcomposer.org/download/2.3.5/composer.phar -o /var/www/html/composer'
+        - 'chmod +x /var/www/html/composer'
+        - 'export HOME=/var/www'
+        - 'cd ${CI_PROJECT_DIR}/custom/static-plugins/${PLUGIN_NAME} && ${COMPOSER_COMMAND}'
+        - 'cp -r ${CI_PROJECT_DIR}/custom/static-plugins/${PLUGIN_NAME} /var/www/html/custom/static-plugins/${CI_PROJECT_NAME}'
+        - 'sudo rm -rf /var/run/mysqld/mysqld.sock.lock'
+        - 'sudo chown -R mysql:mysql /var/lib/mysql /var/run/mysqld'
+        - 'sudo service mysql start'
+        - 'cd /var/www/html/ && rm -rf vendor && composer config --unset platform.php && ${COMPOSER_COMMAND} --no-scripts'
+    script:
+        - 'cp ${CI_PROJECT_DIR}/custom/static-plugins/${PLUGIN_NAME}/auth.json /var/www/html/auth.json'
+        - 'cd /var/www/html/ && /var/www/html/composer config repositories.papple composer https://papple.bsc.basecom.cloud/get'
+        - 'cd /var/www/html/ && /var/www/html/composer require ${PLUGIN_COMPOSER_NAME}:dev-main'
+        - 'cd /var/www/html/ && php bin/console plugin:refresh -nq && php bin/console plugin:install --activate -c BasecomFixturePlugin -n && php bin/console plugin:install --activate -c ${PLUGIN_NAME} -nq'
+        - 'composer require --dev phpunit/phpunit:9.5.28 rregeer/phpunit-coverage-check symfony/browser-kit'
+        - 'cat composer.json'
+        - 'php -dpcov.enabled=1 -dpcov.directory=. ./vendor/bin/phpunit -c custom/static-plugins/${CI_PROJECT_NAME}/phpunit.xml.dist --coverage-html coverage --coverage-clover clover.xml --log-junit report.xml --coverage-text --colors=always'
+        - 'cp -r /var/www/html/coverage ${CI_PROJECT_DIR}'
+        - 'cp -r /var/www/html/report.xml ${CI_PROJECT_DIR}'
+        - 'vendor/bin/coverage-check clover.xml 100' # Coverage threshold; 100 = 100 % code coverage to pass the job
+    coverage: '/Total code coverage is \d+\.\d+/'
+    artifacts:
+        when: always
+        reports:
+            junit: report.xml
+        paths:
+            - coverage
+        expire_in: '30 days'
+
+test php cs fixer template theme:
+    stage: 'test'
+    image: 'dockware/flex:latest'
+    variables:
+        DOCKWARE_CI: 1
+    before_script:
+        - '(cd /var/www && make switch-php version=${BASE_PHP_VERSION})'
+        - 'export HOME=/var/www'
+        - 'cd ${CI_PROJECT_DIR}/custom/static-plugins/${PLUGIN_NAME} && composer install --prefer-dist --no-ansi --no-interaction --no-progress --optimize-autoloader'
+    script:
+        - 'cd ${CI_PROJECT_DIR}/custom/static-plugins/${PLUGIN_NAME} && ./vendor/bin/php-cs-fixer fix --dry-run'
+
+test phpstan template theme:
+    stage: 'test'
+    image: 'dockware/flex:latest'
+    variables:
+        DOCKWARE_CI: 1
+    before_script:
+        - '(cd /var/www && make switch-php version=${BASE_PHP_VERSION})'
+        - 'export HOME=/var/www'
+        - 'cd ${CI_PROJECT_DIR}/custom/static-plugins/${PLUGIN_NAME} && composer install --prefer-dist --no-ansi --no-interaction --no-progress --optimize-autoloader'
+    script:
+        - 'cd ${CI_PROJECT_DIR}/custom/static-plugins/${PLUGIN_NAME} && ./vendor/bin/phpstan analyse --memory-limit=1G'
+
+test psalm template theme:
+    stage: 'test'
+    image: 'dockware/flex:latest'
+    variables:
+        DOCKWARE_CI: 1
+    before_script:
+        - '(cd /var/www && make switch-php version=${BASE_PHP_VERSION})'
+        - 'export HOME=/var/www'
+        - 'cd ${CI_PROJECT_DIR}/custom/static-plugins/${PLUGIN_NAME} && composer install --prefer-dist --no-ansi --no-interaction --no-progress --optimize-autoloader'
+    script:
+        - 'cd ${CI_PROJECT_DIR}/custom/static-plugins/${PLUGIN_NAME} && ./vendor/bin/psalm --show-info=false'
+
+test prettier template theme:
+    stage: 'test'
+    image: 'dockware/flex:latest'
+    variables:
+        DOCKWARE_CI: 1
+    before_script:
+        - 'export HOME=/var/www'
+        - 'cd ${CI_PROJECT_DIR}/custom/static-plugins/${PLUGIN_NAME} && npm ci'
+    script:
+        - 'cd ${CI_PROJECT_DIR}/custom/static-plugins/${PLUGIN_NAME} && ./node_modules/.bin/prettier --check "src/**/*.{js,scss,yaml,yml,json,md,ts}"'

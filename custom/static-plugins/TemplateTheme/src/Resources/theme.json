@@ -1,0 +1,11 @@
+{
+    "name": "Template Theme",
+    "author": "basecom GmbH & Co. KG",
+    "views": ["@Storefront", "@Plugins", "@TemplateTheme"],
+    "style": ["@Storefront", "app/storefront/src/scss/base.scss"],
+    "script": ["@Storefront", "app/storefront/dist/storefront/js/template-theme.js"],
+    "asset": ["app/storefront/src/assets"],
+    "config": {
+        "fields": {}
+    }
+}
