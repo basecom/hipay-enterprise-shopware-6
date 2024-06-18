@@ -1,6 +1,6 @@
 #!/bin/bash
 
-TEMPLATE_URL="git@gitlab.com:basecom-gmbh/shopware/v6/customer-projects/templates/bscshopwarelaunchpadultimate/launchpad-4.git"
+TEMPLATE_URL="git@gitlab.com:basecom-gmbh/shopware/v6/customer-projects/templates/sw6-launchpad.git"
 
 fork() {
     git remote add upstream $TEMPLATE_URL
