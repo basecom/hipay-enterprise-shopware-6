@@ -1,0 +1,67 @@
+version: "3"
+
+services:
+    shopware:
+        image: 'dockware/dev:6.5.7.3'
+        container_name: 'shopware'
+        ports:
+            - "80:80"       # Webserver / Apache
+            - "3306:3306"   # MySQL database
+            # - "22:22"       # SSH
+            - "8888:8888"   # Admin watcher
+            - "9999:9999"   # Storefront watcher (background)
+            - "9998:9998"   # Storefront watcher (background)
+        networks:
+            - 'web'
+        environment:
+            - 'XDEBUG_ENABLED=0'
+            - 'PHP_VERSION=8.2'
+        volumes:
+            - "./custom/static-plugins:/var/www/html/custom/static-plugins"
+            - "./composer.json:/var/www/html/composer.json"
+            - "./composer.lock:/var/www/html/composer.lock"
+            - "./auth.json:/var/www/html/auth.json"
+            - "./vendor:/var/www/html/vendor"
+            - "./config/customFields:/var/www/html/config/customFields"
+
+            - "./config/packages/dev:/var/www/html/config/dev"
+            - "./config/packages/prod:/var/www/html/config/prod"
+            - "./config/packages/elasticsearch.yaml:/var/www/html/config/elasticsearch.yaml"
+            - "./config/packages/lock.yaml:/var/www/html/config/lock.yaml"
+            - "./config/packages/mailer.yaml:/var/www/html/config/mailer.yaml"
+            - "./config/packages/shopware.yaml:/var/www/html/config/shopware.yaml"
+            - "./config/bundles.php:/var/www/html/config/bundles.php"
+
+            - "./config/services_dockware.yaml:/var/www/html/config/services.yaml"
+            - "./Makefile:/var/www/html/Makefile"
+            - "./fixtures:/var/www/html/src/Fixtures"
+            - "./scripts:/var/www/html/scripts"
+            - "./.env:/var/www/html/.env"
+            - "db:/var/lib/mysql"
+
+    opensearch:
+        image: "opensearchproject/opensearch:2"
+        restart: 'unless-stopped'
+        container_name: 'shopware-opensearch'
+        networks:
+            - 'web'
+        ports:
+            - "9200:9200"
+        environment:
+            - "EA_JAVA_OPTS=-Xms512m -Xms512m"
+            - "discovery.type=single-node"
+            # we don't need security features for local development
+            - "plugins.security.disabled=true"
+        volumes:
+            - "opensearch:/usr/share/opensearch/data"
+
+
+networks:
+    web:
+        external: false
+
+volumes:
+    db:
+        driver: local
+    opensearch:
+        driver: local

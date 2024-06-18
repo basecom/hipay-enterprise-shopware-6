@@ -1,0 +1,14 @@
+parameters:
+    shopware.store.frw: '1'
+    default_cdn_strategy: 'physical_filename'
+    shopware.cdn.strategy: '%env(default:default_cdn_strategy:SHOPWARE_CDN_STRATEGY_DEFAULT)%'
+    env(OPENSEARCH_URL): 'http://localhost:9200'
+    default_redis_database: '0'
+    default_redis_host: 'redis.internal'
+    default_redis_port: '6379'
+    env(CACHE_URL): 'redis://redis.internal'
+
+services:
+    _defaults:
+        autowire: true # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
