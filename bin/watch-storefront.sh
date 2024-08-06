@@ -2,13 +2,29 @@
 
 CWD="$(cd -P -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
 
-set -euo pipefail
-
-export PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 export PROJECT_ROOT="${PROJECT_ROOT:-"$(dirname "$CWD")"}"
+export ENV_FILE=${ENV_FILE:-"${PROJECT_ROOT}/.env"}
 export NPM_CONFIG_FUND=false
 export NPM_CONFIG_AUDIT=false
 export NPM_CONFIG_UPDATE_NOTIFIER=false
+
+# shellcheck source=functions.sh
+source "${PROJECT_ROOT}/bin/functions.sh"
+
+curenv=$(declare -p -x)
+
+load_dotenv "$ENV_FILE"
+
+# Restore environment variables set globally
+set -o allexport
+eval "$curenv"
+set +o allexport
+
+export APP_URL
+export ESLINT_DISABLE
+export PROXY_URL
+export STOREFRONT_ASSETS_PORT
+export STOREFRONT_PROXY_PORT
 
 if [[ -e "${PROJECT_ROOT}/vendor/shopware/platform" ]]; then
     STOREFRONT_ROOT="${STOREFRONT_ROOT:-"${PROJECT_ROOT}/vendor/shopware/platform/src/Storefront"}"
@@ -16,19 +32,14 @@ else
     STOREFRONT_ROOT="${STOREFRONT_ROOT:-"${PROJECT_ROOT}/vendor/shopware/storefront"}"
 fi
 
-BIN_TOOL="${CWD}/console"
-
-if [[ ${CI:-""} ]]; then
-    BIN_TOOL="${CWD}/ci"
-
-    if [[ ! -x "$BIN_TOOL" ]]; then
-        chmod +x "$BIN_TOOL"
-    fi
+if [[ ! -d "${STOREFRONT_ROOT}"/Resources/app/storefront/node_modules/webpack-dev-server ]]; then
+    npm --prefix "${STOREFRONT_ROOT}"/Resources/app/storefront install --prefer-offline
 fi
 
-# build storefront
-[[ ${SHOPWARE_SKIP_BUNDLE_DUMP:-""} ]] || "${BIN_TOOL}" bundle:dump
-[[ ${SHOPWARE_SKIP_FEATURE_DUMP:-""} ]] || "${BIN_TOOL}" feature:dump
+"${CWD}"/console bundle:dump
+"${CWD}"/console feature:dump
+"${CWD}"/console theme:compile --active-only
+"${CWD}"/console theme:dump
 
 if [[ $(command -v jq) ]]; then
     OLDPWD=$(pwd)
@@ -50,7 +61,7 @@ if [[ $(command -v jq) ]]; then
         if [[ -f "$path/package.json" && ! -d "$path/node_modules" && $name != "storefront" ]]; then
             echo "=> Installing npm dependencies for ${name}"
 
-            npm install --prefix "$path" --prefer-offline
+            npm install --prefix "$path"
         fi
     done
     cd "$OLDPWD" || exit
@@ -58,12 +69,4 @@ else
     echo "Cannot check extensions for required npm installations as jq is not installed"
 fi
 
-npm --prefix "${STOREFRONT_ROOT}"/Resources/app/storefront install --prefer-offline --production
-node "${STOREFRONT_ROOT}"/Resources/app/storefront/copy-to-vendor.js
-npm --prefix "${STOREFRONT_ROOT}"/Resources/app/storefront run production
-[[ ${SHOPWARE_SKIP_ASSET_COPY:-""} ]] ||"${BIN_TOOL}" assets:install
-[[ ${SHOPWARE_SKIP_THEME_COMPILE:-""} ]] || "${BIN_TOOL}" theme:compile --active-only
-
-if ! [ "${1:-default}" = "--keep-cache" ]; then
-    "${BIN_TOOL}" cache:clear
-fi
+npm --prefix "${STOREFRONT_ROOT}"/Resources/app/storefront run-script hot-proxy

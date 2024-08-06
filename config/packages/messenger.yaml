@@ -1,7 +1,12 @@
 framework:
     messenger:
+        failure_transport: failed
         transports:
-            default:
+            async:
+                dsn: "%env(string:RABBITMQ_URL)%"
+                retry_strategy:
+                    delay: 0
+            low_priority:
                 dsn: "%env(string:RABBITMQ_URL)%"
                 retry_strategy:
                     delay: 0
@@ -9,5 +14,8 @@ framework:
                 dsn: "%env(string:RABBITMQ_URL_PRIO)%"
                 retry_strategy:
                     delay: 0
-        routing:
-            'Symfony\Component\Mailer\Messenger\SendEmailMessage': high_priority
+            failed: "doctrine://default?queue_name=failed"
+
+    # Send mails over Message Queue
+    mailer:
+        message_bus: 'messenger.default_bus'
