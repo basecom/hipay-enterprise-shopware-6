@@ -24,7 +24,7 @@ test phpunit template theme:
     parallel:
         matrix:
             - PHP_VERSION: ['8.2']
-              SW_VERSION: ['6.5.7.3']
+              SW_VERSION: ['6.6.4.0']
     before_script:
         - 'curl https://getcomposer.org/download/2.3.5/composer.phar -o /var/www/html/composer'
         - 'chmod +x /var/www/html/composer'
