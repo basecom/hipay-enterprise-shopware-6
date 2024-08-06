@@ -42,10 +42,10 @@
         }
     },
     "require": {
-        "shopware/core": "6.5.*",
-        "shopware/administration": "6.5.*",
-        "shopware/storefront": "6.5.*",
-        "basecom/sw6-fixtures-plugin": "^2.0"
+        "shopware/core": "6.6.*",
+        "shopware/administration": "6.6.*",
+        "shopware/storefront": "6.6.*",
+        "basecom/sw6-fixtures-plugin": "^3.0"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.0",
