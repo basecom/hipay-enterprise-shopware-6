@@ -26,7 +26,7 @@ class ExampleIntegrationTest extends TestCase
         /** @var FixtureHelper $helper */
         $helper = $this->getContainer()->get(FixtureHelper::class);
 
-        self::assertNotEmpty($helper->SalesChannel()->getTax19()->getId());
+        self::assertNotEmpty($helper->Tax()->getTax19()->getId());
     }
 
     public function getName(bool $withDataSet = true): string
