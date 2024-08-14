@@ -159,7 +159,7 @@
   # side is in the form `<service name>:<endpoint name>`.
     relationships:
         database: "db:mysql"
-        redissession: "redis-session:redis-persistent"
+        redissession: "redis-session:redis"
         rediscache: "redis-cache:redis"
         elastic: "elastic:opensearch"
         rabbitmq: "rabbitmq:rabbitmq"
