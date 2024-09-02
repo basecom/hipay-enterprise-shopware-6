@@ -1,9 +1,9 @@
 services:
     shopware:
-        image: 'dockware/dev:6.6.4.0'
+        image: 'dockware/dev:6.6.5.1'
         container_name: 'shopware'
         ports:
-            - "80:80"       # Webserver / Apache
+            - "81:80"       # Webserver / Apache
             - "3306:3306"   # MySQL database
             # - "22:22"       # SSH
             - "8888:8888"   # Admin watcher
@@ -21,28 +21,18 @@ services:
             - 'SHOPWARE_ES_THROW_EXCEPTION=1'
 
         volumes:
-            - "./.env:/var/www/html/.env"
-            - "./custom/static-plugins:/var/www/html/custom/static-plugins"
+            - "./custom/static-plugins/:/var/www/html/custom/static-plugins"
+            - "./.env.dockware:/var/www/html/.env"
             - "./composer.json:/var/www/html/composer.json"
             - "./composer.lock:/var/www/html/composer.lock"
             - "./auth.json:/var/www/html/auth.json"
-            - "./config/customFields:/var/www/html/config/customFields"
-
-            - "./config/packages/dev:/var/www/html/config/packages/dev"
-            - "./config/packages/prod:/var/www/html/config/packages/prod"
-            - "./config/packages/elasticsearch.yaml:/var/www/html/config/packages/elasticsearch.yaml"
-            - "./config/packages/lock.yaml:/var/www/html/config/packages/lock.yaml"
-            - "./config/packages/mailer.yaml:/var/www/html/config/packages/mailer.yaml"
-            - "./config/packages/shopware.yaml:/var/www/html/config/packages/shopware.yaml"
-            - "./config/packages/cache.yaml:/var/www/html/config/packages/cache.yaml"
-            - "./config/bundles.php:/var/www/html/config/bundles.php"
-
-            - "./config/services_dockware.yaml:/var/www/html/config/services.yaml"
+            - "./config:/var/www/html/config"
             - "./Makefile:/var/www/html/Makefile"
             - "./fixtures:/var/www/html/src/Fixtures"
             - "./scripts:/var/www/html/scripts"
             - "db:/var/lib/mysql"
             - "vendor:/var/www/html/vendor"
+            - "./symfony.lock:/var/www/html/symfony.lock"
 
     opensearch:
         image: "opensearchproject/opensearch:2"
@@ -87,7 +77,7 @@ services:
         networks:
             - 'web'
         ports:
-            - "15672:15672"
+            - "15671:15672"
             - "5672:5672"
         environment:
             - 'RABBITMQ_DEFAULT_USER=shopware'
