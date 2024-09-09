@@ -3,7 +3,7 @@ services:
         image: 'dockware/dev:6.6.5.1'
         container_name: 'shopware'
         ports:
-            - "81:80"       # Webserver / Apache
+            - "80:80"       # Webserver / Apache
             - "3306:3306"   # MySQL database
             # - "22:22"       # SSH
             - "8888:8888"   # Admin watcher
