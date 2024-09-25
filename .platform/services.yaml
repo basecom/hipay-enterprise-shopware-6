@@ -16,7 +16,3 @@ elastic:
 storage-shared:
   type: network-storage:2.0
   disk: 1024
-
-rabbitmq:
-  type: rabbitmq:3.12
-  disk: 512

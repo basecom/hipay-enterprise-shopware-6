@@ -162,7 +162,6 @@
         redissession: "redis-session:redis"
         rediscache: "redis-cache:redis"
         elastic: "elastic:opensearch"
-        rabbitmq: "rabbitmq:rabbitmq"
 
   # The size of the persistent disk of the application (in MB).
     disk: 1024
@@ -222,13 +221,13 @@
               expires: 4w
     workers:
       worker-0:
-        disk: 256
+        disk: 512
         commands:
           start: |
             bin/console cache:clear
             bin/console messenger:consume async low_priority --memory-limit=$(cat /run/config.json | jq .info.limits.memory)M
       worker-1-prio:
-        disk: 256
+        disk: 512
         commands:
           start: |
             bin/console messenger:consume high_priority --memory-limit=$(cat /run/config.json | jq .info.limits.memory)M

@@ -1,0 +1,16 @@
+name: Test Plugins
+on: [push]
+
+jobs:
+    test-matrix:
+        strategy:
+            fail-fast: false
+            matrix:
+                include:
+                    - plugin: 'TemplateTheme'
+                      pluginComposerName: 'basecom/sw6-template-theme'
+        uses: ./.github/workflows/test_plugin.yaml
+        with:
+            plugin: ${{ matrix.plugin }}
+            pluginComposerName: ${{ matrix.pluginComposerName }}
+        secrets: inherit

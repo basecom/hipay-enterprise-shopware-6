@@ -7,7 +7,7 @@ namespace Shopware\Core;
 use Basecom\TemplateTheme\CustomTestBootstrapper;
 use RuntimeException;
 
-$jwtDir = '/var/www/html/var/test/jwt';
+$jwtDir = 'var/test/jwt';
 
 if (!file_exists($jwtDir) && !mkdir($jwtDir, 0770, true) && !is_dir($jwtDir)) {
     throw new \RuntimeException(sprintf('Directory "%s" was not created', $jwtDir));

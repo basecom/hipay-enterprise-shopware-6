@@ -2,7 +2,7 @@
 
 namespace Basecom\TemplatePlugin\Tests\Unit;
 
-use plugins\TemplateTheme\src\TemplateTheme;
+use Basecom\TemplateTheme\TemplateTheme;
 use PHPUnit\Framework\TestCase;
 
 class TemplateThemeTest extends TestCase

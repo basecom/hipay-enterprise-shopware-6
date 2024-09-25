@@ -1,0 +1,13 @@
+name: Lint Plugins
+on: [push]
+
+jobs:
+    lint-matrix:
+        strategy:
+            fail-fast: false
+            matrix:
+                plugin: ['TemplateTheme']
+        uses: ./.github/workflows/lint_plugin.yaml
+        with:
+            plugin: ${{ matrix.plugin }}
+        secrets: inherit
