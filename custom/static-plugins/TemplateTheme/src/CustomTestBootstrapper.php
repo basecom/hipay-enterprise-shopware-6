@@ -50,7 +50,7 @@ class CustomTestBootstrapper
         $classLoader = $this->getClassLoader();
 
         if ($this->autoloadTestsDir) {
-            $classLoader->addPsr4(__NAMESPACE__.'\\Tests\\', __DIR__.'/../tests');
+            $classLoader->addPsr4(__NAMESPACE__.'\Tests\\', __DIR__.'/../tests');
         }
 
         if ($this->loadEnvFile) {
@@ -126,7 +126,7 @@ class CustomTestBootstrapper
 
         $auth = isset($dbUrlParts['user']) ? ($dbUrlParts['user'].(isset($dbUrlParts['pass']) ? (':'.$dbUrlParts['pass']) : '').'@') : '';
 
-        return $this->databaseUrl = sprintf(
+        return $this->databaseUrl = \sprintf(
             '%s://%s%s%s%s%s',
             $dbUrlParts['scheme'] ?? 'mysql',
             $auth,
@@ -183,20 +183,20 @@ class CustomTestBootstrapper
             }
 
             if ($max <= 0) {
-                throw new \RuntimeException(sprintf('Failed to find plugin "composer.json". Starting point: %s', $callerFile));
+                throw new \RuntimeException(\sprintf('Failed to find plugin "composer.json". Starting point: %s', $callerFile));
             }
 
             $pathToComposerJson = $dir.'/composer.json';
         }
 
         if (!file_exists($pathToComposerJson)) {
-            throw new \RuntimeException(sprintf('Could not auto detect plugin name via "composer.json". Path: %s', $pathToComposerJson));
+            throw new \RuntimeException(\sprintf('Could not auto detect plugin name via "composer.json". Path: %s', $pathToComposerJson));
         }
 
         $composer  = json_decode((string) file_get_contents($pathToComposerJson), true);
         $baseClass = $composer['extra']['shopware-plugin-class'] ?? '';
         if ($baseClass === '') {
-            throw new \RuntimeException(sprintf('The "composer.json" does not contain "%s". Path: %s', 'extra.shopware-plugin-class', $pathToComposerJson));
+            throw new \RuntimeException(\sprintf('The "composer.json" does not contain "%s". Path: %s', 'extra.shopware-plugin-class', $pathToComposerJson));
         }
 
         $parts      = explode('\\', $baseClass);
@@ -293,7 +293,7 @@ class CustomTestBootstrapper
     private function loadEnvFile(): void
     {
         if (!class_exists(Dotenv::class)) {
-            throw new \RuntimeException(sprintf('The "%s" environment variable is not defined. You need to define environment variables for configuration or add "%s" as a composer dependency to load variables from a "%s" file(s).', 'APP_ENV', 'symfony/dotenv', '.env'));
+            throw new \RuntimeException(\sprintf('The "%s" environment variable is not defined. You need to define environment variables for configuration or add "%s" as a composer dependency to load variables from a "%s" file(s).', 'APP_ENV', 'symfony/dotenv', '.env'));
         }
 
         $envFilePath = $this->getProjectDir().'/.env';
@@ -325,7 +325,7 @@ class CustomTestBootstrapper
         );
 
         if ($returnCode !== 0) {
-            throw new \RuntimeException(sprintf('The "%s" command failed with return code: %d', 'system:install', $returnCode));
+            throw new \RuntimeException(\sprintf('The "%s" command failed with return code: %d', 'system:install', $returnCode));
         }
 
         // create new kernel after install
@@ -359,7 +359,7 @@ class CustomTestBootstrapper
             );
 
             if ($returnCode !== 0) {
-                throw new \RuntimeException(sprintf('The "%s" command failed on plugin "%s" with return code: %d', 'plugin:install', $activePlugin, $returnCode));
+                throw new \RuntimeException(\sprintf('The "%s" command failed on plugin "%s" with return code: %d', 'plugin:install', $activePlugin, $returnCode));
             }
         }
 

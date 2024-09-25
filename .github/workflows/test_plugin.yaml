@@ -1,0 +1,105 @@
+name: Test Plugin
+
+on:
+    workflow_call:
+        inputs:
+            plugin:
+                required: true
+                type: string
+            pluginComposerName:
+                required: true
+                type: string
+
+jobs:
+    phpunit:
+        runs-on: '${{ vars.RUNNER_NAME_AMD64_DEFAULT }}'
+        services:
+            mysql:
+                image: mysql:8.0
+                env:
+                    MYSQL_ROOT_PASSWORD: root
+                    MYSQL_DATABASE: shopware
+                ports:
+                    - 3306:3306
+                options: >-
+                    --health-cmd "mysqladmin ping -h localhost"
+                    --health-interval 10s
+                    --health-timeout 5s
+                    --health-retries 3
+            redis:
+                image: redis:7-alpine
+                ports:
+                    - 6379:6379
+                options: >-
+                    --health-cmd "redis-cli ping"
+                    --health-interval 10s
+                    --health-timeout 5s
+                    --health-retries 3
+        env:
+            PLUGIN_NAME: ${{ inputs.plugin }}
+            PLUGIN_COMPOSER_NAME: ${{ inputs.pluginComposerName }}
+
+        steps:
+            - name: Set up PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '8.2'
+                  coverage: pcov
+                  extensions: gd, redis, soap
+              env:
+                  runner: 'self-hosted'
+
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - name: Install Composer
+              run: |
+                  curl -sS https://getcomposer.org/installer | php
+                  sudo mv composer.phar /usr/local/bin/composer
+            - name: Set up Shopware .env file
+              run: |
+                  mv .env.ci .env
+                  echo "DATABASE_URL=mysql://root:root@127.0.0.1:3306/shopware" >> .env
+                  echo "REDIS_SESSION_URL=redis://127.0.0.1:6379" >> .env
+                  echo "REDIS_CACHE_URL=redis://127.0.0.1:6379" >> .env
+            - name: Install Shopware
+              run: |
+                  composer install --no-interaction --optimize-autoloader --no-scripts
+                  bin/console system:install --create-database --basic-setup -n
+            - name: Install Composer dependencies in plugin
+              run: |
+                  composer install --no-interaction --optimize-autoloader
+              working-directory: custom/static-plugins/${{ env.PLUGIN_NAME }}
+
+            - name: Require plugin via Composer
+              run: |
+                  composer require ${{ env.PLUGIN_COMPOSER_NAME}}:dev-${{ github.ref_name }}
+              working-directory: ./
+
+            - name: Install and activate plugin
+              run: |
+                  bin/console plugin:refresh
+                  bin/console plugin:install --activate ${{ env.PLUGIN_NAME }}
+            - name: Install dev dependencies
+              run: |
+                  composer require --dev phpunit/phpunit:^10 rregeer/phpunit-coverage-check symfony/browser-kit
+              working-directory: ./
+
+            - name: Set Permissions
+              run: |
+                  mkdir -p var/test/jwt
+                  chmod -R 0777 var/test
+              working-directory: ./
+
+            - name: Run Unit Tests
+              run: |
+                  php -dpcov.enabled=1 -dpcov.directory=. ./vendor/bin/phpunit -c custom/static-plugins/${{ env.PLUGIN_NAME }}/phpunit.xml.dist --coverage-html coverage --coverage-clover clover.xml --log-junit report.xml --coverage-text --colors=always
+            - name: Upload coverage report
+              uses: actions/upload-artifact@v3
+              with:
+                  name: coverage
+                  path: coverage
+
+            - name: Check coverage threshold
+              run: |
+                  ./vendor/bin/coverage-check clover.xml 100

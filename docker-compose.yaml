@@ -1,6 +1,6 @@
 services:
     shopware:
-        image: 'dockware/dev:6.6.5.1'
+        image: 'dockware/dev:6.6.6.0'
         container_name: 'shopware'
         ports:
             - "80:80"       # Webserver / Apache
@@ -71,21 +71,6 @@ services:
         volumes:
             - "redis-cache:/data"
 
-    rabbitmq:
-        image: 'rabbitmq:3-management'
-        container_name: 'rabbitmq'
-        networks:
-            - 'web'
-        ports:
-            - "15671:15672"
-            - "5672:5672"
-        environment:
-            - 'RABBITMQ_DEFAULT_USER=shopware'
-            - 'RABBITMQ_DEFAULT_PASS=shopware'
-        volumes:
-            - "rabbitmq:/var/lib/rabbitmq"
-
-
 networks:
     web:
         external: false
@@ -100,6 +85,4 @@ volumes:
     redis-session:
         driver: local
     redis-cache:
-        driver: local
-    rabbitmq:
         driver: local
