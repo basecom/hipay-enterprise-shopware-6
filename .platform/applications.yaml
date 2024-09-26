@@ -11,7 +11,7 @@
         APP_ENV: prod
         # Instance ID is empty by default, change to something unique in your project
         INSTANCE_ID: 1
-        APP_SECRET: 1
+        APP_SECRET: 'EpZH3O/2R+m4dBbpeOgCmxiPOgQY+qmFa0/vr9KePvo='
         # Enable HTTP Cache to get cache-control headers
         SHOPWARE_HTTP_CACHE_ENABLED: 1
         # NVM and Node.js versions to install
@@ -19,7 +19,10 @@
         NODE_VERSION: v18
         # Use different redis dbs for cache and sessions
         REDIS_CACHE_DATABASE: 0
-        REDIS_SESSION_DATABASE: 2
+        REDIS_SESSION_DATABASE: 1
+        # Cache and Session URL have to be defined here for the build hook to succeed
+        REDIS_SESSION_URL: "redis://redissession.internal:6379"
+        REDIS_CACHE_URL: "redis://rediscache.internal:6379"
         # Improve admin build speed
         DISABLE_ADMIN_COMPILATION_TYPECHECK: 1
         # Only build extension. Shopware assets are pre built in the tags
@@ -159,8 +162,8 @@
   # side is in the form `<service name>:<endpoint name>`.
     relationships:
         database: "db:mysql"
-        redissession: "redis-session:redis"
-        rediscache: "redis-cache:redis"
+        redissession: "redissession:redis"
+        rediscache: "rediscache:redis"
         elastic: "elastic:opensearch"
 
   # The size of the persistent disk of the application (in MB).
