@@ -3,15 +3,15 @@ framework:
         failure_transport: failed
         transports:
             async:
-                dsn: "%env(string:RABBITMQ_URL)%"
+                dsn: "%env(string:REDIS_SESSION_URL)%"
                 retry_strategy:
                     delay: 0
             low_priority:
-                dsn: "%env(string:RABBITMQ_URL)%"
+                dsn: "%env(string:REDIS_SESSION_URL)%"
                 retry_strategy:
                     delay: 0
             high_priority:
-                dsn: "%env(string:RABBITMQ_URL_PRIO)%"
+                dsn: "%env(string:REDIS_SESSION_URL)%"
                 retry_strategy:
                     delay: 0
             failed: "doctrine://default?queue_name=failed"

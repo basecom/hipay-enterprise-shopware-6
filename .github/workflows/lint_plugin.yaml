@@ -1,0 +1,71 @@
+name: Lint Plugin
+
+on:
+    workflow_call:
+        inputs:
+            plugin:
+                required: true
+                type: string
+
+jobs:
+    php-cs-fixer:
+        runs-on: '${{ vars.RUNNER_NAME_AMD64_DEFAULT }}'
+
+        steps:
+            -   name: Set up PHP
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: 8.2
+                    extensions: gd, redis, soap
+                env:
+                    runner: 'self-hosted'
+
+            -   name: Checkout repository
+                uses: actions/checkout@v4
+
+            -   name: Cache Composer packages
+                id: composer-cache
+                uses: actions/cache@v4
+                with:
+                    path: /custom/static-plugins/${{inputs.plugin}}/vendor
+                    key: ${{ runner.os }}-php-${{inputs.plugin}}-${{ hashFiles('**/composer.lock') }}
+                    restore-keys: |
+                        ${{ runner.os }}-${{inputs.plugin}}-php-
+            -   name: Install Composer dependencies
+                run: composer install --no-interaction --optimize-autoloader
+                working-directory: custom/static-plugins/${{ inputs.plugin }}
+
+            -   name: Run PHP-CS-Fixer
+                run: ./vendor/bin/php-cs-fixer fix --allow-risky=yes --config=.php-cs-fixer.php --dry-run
+                working-directory: custom/static-plugins/${{ inputs.plugin }}
+
+    phpstan:
+        runs-on: '${{ vars.RUNNER_NAME_AMD64_DEFAULT }}'
+
+        steps:
+            -   name: Set up PHP
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: 8.2
+                    extensions: gd, redis, soap
+                env:
+                    runner: 'self-hosted'
+
+            -   name: Checkout repository
+                uses: actions/checkout@v4
+
+            -   name: Cache Composer packages
+                id: composer-cache
+                uses: actions/cache@v4
+                with:
+                    path: /custom/static-plugins/${{inputs.plugin}}/vendor
+                    key: ${{ runner.os }}-php-${{inputs.plugin}}-${{ hashFiles('**/composer.lock') }}
+                    restore-keys: |
+                        ${{ runner.os }}-${{inputs.plugin}}-php-
+            -   name: Install Composer dependencies
+                run: composer install --no-interaction --optimize-autoloader
+                working-directory: custom/static-plugins/${{ inputs.plugin }}
+
+            -   name: Run PHPStan
+                run: ./vendor/bin/phpstan analyse src/ --memory-limit=1G --level 7
+                working-directory: custom/static-plugins/${{ inputs.plugin }}
