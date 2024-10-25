@@ -2,7 +2,7 @@
   :title="$tc('hipay.settings.paypal.title')"
   :is-loading="isLoading">
 
-    <sw-alert>
+    <sw-alert v-if="!isPayPalV2">
         <div>{{ $tc('hipay.settings.paypal.info')}}</div>
     </sw-alert>
 

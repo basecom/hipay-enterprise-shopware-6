@@ -108,7 +108,7 @@
       "paypal": {
         "title": "PayPal v2 Konfiguration",
         "merchantPayPalId": "Händler PayPal ID",
-        "info": "Es ist notwendig, eine Händler PayPal ID anzugeben, um PayPal v2 nutzen zu können und den Button anzupassen.",
+        "info": "ie neue PayPal-Integration ermöglicht es Ihnen, mit PayPal zu bezahlen, ohne umgeleitet zu werden, und bietet die Möglichkeit zur Ratenzahlung. Derzeit nur auf Einladung verfügbar. Bitte wenden Sie sich an unseren Support oder Ihren Account Manager für weitere Informationen.",
         "bnpl_label": "'Jetzt kaufen, später bezahlen' Funktion aktivieren",
         "info_bnpl": "Die Funktion 'Jetzt kaufen, später bezahlen' ist nur verfügbar, wenn die Währung des Geschäfts Euro ist und wenn der Warenkorbwert zwischen 30 und 2000 liegt.",
         "color": {
