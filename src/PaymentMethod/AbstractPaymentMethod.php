@@ -293,6 +293,10 @@ abstract class AbstractPaymentMethod implements AsynchronousPaymentHandlerInterf
         array $payload,
         AsyncPaymentTransactionStruct $transaction
     ): OrderRequest {
+        if (isset($payload['payment_product'])) {
+            $orderRequest->payment_product = $payload['payment_product'];
+        }
+
         return $orderRequest;
     }
 

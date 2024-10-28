@@ -55,10 +55,10 @@ export default class HipayHostedFieldsPlugin extends Plugin {
 
       let valid = false;
       // Generate
-      this._cardInstance.on('change', response => {
+      this._cardInstance.on('change', (response) => {
         valid = response.valid;
         if (valid) {
-          this._cardInstance.getPaymentData().then(result => {
+          this._cardInstance.getPaymentData().then((result) => {
             inputResponse.setAttribute('value', JSON.stringify(result));
           });
         } else {
@@ -67,13 +67,13 @@ export default class HipayHostedFieldsPlugin extends Plugin {
       });
 
       // handle errors on form validation
-      inputResponse.addEventListener('invalid', e => {
+      inputResponse.addEventListener('invalid', (e) => {
         if (!valid) {
           this._cardInstance.getPaymentData().then(
             () => {},
-            result => {
+            (result) => {
               inputResponse.setAttribute('value', '');
-              result.forEach(element =>
+              result.forEach((element) =>
                 this._errorHandler(element.field, true, element.error)
               );
             }
@@ -81,11 +81,11 @@ export default class HipayHostedFieldsPlugin extends Plugin {
         }
       });
 
-      this._form.addEventListener('submit', e => {
+      this._form.addEventListener('submit', (e) => {
         e.preventDefault();
         const target = e.currentTarget;
 
-        this._cardInstance.getPaymentData().then(result => {
+        this._cardInstance.getPaymentData().then((result) => {
           inputResponse.setAttribute('value', JSON.stringify(result));
           target.submit();
         });
