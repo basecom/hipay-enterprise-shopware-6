@@ -13,6 +13,7 @@ use HiPay\Payment\PaymentMethod\Bancontact;
 use HiPay\Payment\PaymentMethod\CreditCard;
 use HiPay\Payment\PaymentMethod\Giropay;
 use HiPay\Payment\PaymentMethod\Ideal;
+use HiPay\Payment\PaymentMethod\Klarna;
 use HiPay\Payment\PaymentMethod\Mbway;
 use HiPay\Payment\PaymentMethod\Multibanco;
 use HiPay\Payment\PaymentMethod\Mybank;
@@ -94,6 +95,7 @@ class HiPayPaymentPlugin extends Plugin
         CreditCard::class,
         Giropay::class,
         Ideal::class,
+        Klarna::class,
         Paypal::class,
         Mbway::class,
         Multibanco::class,

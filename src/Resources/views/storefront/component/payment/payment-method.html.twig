@@ -26,11 +26,7 @@
     {% set isPayPalV2 = isPayPalV2Enabled %}
     {% set componentName = payment.formattedHandlerIdentifier|replace({'_':'-'}) %}
 
-    {% if config('HiPayPaymentPlugin.config.operationMode') == 'hostedFields'
-        and payment.extensions.hipayConfig.haveHostedFields
-        or isPayPalV2
-        and config('HiPayPaymentPlugin.config.operationMode') != 'hostedPage'
-    %}
+    {% if config('HiPayPaymentPlugin.config.operationMode') == 'hostedFields' %}
       <script src={{config('HiPayPaymentPlugin.config.sdkjsUrl')}}></script>
       {% if componentName == 'handler-hipay-applepay'%}
         {% set hipayConfig = {
@@ -78,6 +74,7 @@
         }%}
       {% else %}
         {% set hipayConfig = {
+            paymentProductName: payment.technicalName|replace({'hipay-':''}),
             username: config('HiPayPaymentPlugin.config.publicLogin' ~ environment),
             password: config('HiPayPaymentPlugin.config.publicPassword' ~ environment),
             environment: environment|lower,
@@ -106,7 +103,11 @@
           required
         />
       {% endblock %}
-      {% sw_include '@HiPayPaymentPlugin/storefront/component/payment/hosted-fields/' ~ componentName ~ '.html.twig' %}
+      {% if payment.extensions.hipayConfig.haveHostedFields or isPayPalV2 %}
+        {% sw_include '@HiPayPaymentPlugin/storefront/component/payment/hosted-fields/' ~ componentName ~ '.html.twig' %}
+      {% else %}
+        {% sw_include '@HiPayPaymentPlugin/storefront/component/payment/hosted-fields/handler-hipay-default.html.twig' %}
+      {% endif %}
 
     {% elseif payment.formattedHandlerIdentifier != 'handler_hipay_multibanco' || config('HiPayPaymentPlugin.config.operationMode') != 'hostedFields'
     %}
