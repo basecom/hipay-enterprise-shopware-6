@@ -29,6 +29,7 @@
     {% if config('HiPayPaymentPlugin.config.operationMode') == 'hostedFields'
         and payment.extensions.hipayConfig.haveHostedFields
         or isPayPalV2
+        and config('HiPayPaymentPlugin.config.operationMode') != 'hostedPage'
     %}
       <script src={{config('HiPayPaymentPlugin.config.sdkjsUrl')}}></script>
       {% if componentName == 'handler-hipay-applepay'%}
@@ -107,7 +108,7 @@
       {% endblock %}
       {% sw_include '@HiPayPaymentPlugin/storefront/component/payment/hosted-fields/' ~ componentName ~ '.html.twig' %}
 
-    {% elseif payment.formattedHandlerIdentifier != 'handler_hipay_multibanco' && not isPayPalV2 || config('HiPayPaymentPlugin.config.operationMode') != 'hostedFields'
+    {% elseif payment.formattedHandlerIdentifier != 'handler_hipay_multibanco' || config('HiPayPaymentPlugin.config.operationMode') != 'hostedFields'
     %}
       <p>{{ 'hipay.hosted-page.redirect-message'|trans }}</p>
     {% endif %}
