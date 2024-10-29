@@ -5,6 +5,7 @@ namespace HiPay\Payment\Tests\Unit\PaymentMethod;
 use HiPay\Payment\PaymentMethod\Paypal;
 use HiPay\Payment\Tests\Tools\PaymentMethodMockTrait;
 use PHPUnit\Framework\TestCase;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 
 class PaypalTest extends TestCase
 {
@@ -12,7 +13,18 @@ class PaypalTest extends TestCase
 
     public function testHydratePage()
     {
-        $hostedPaymentPageRequest = $this->getHostedPagePaymentRequest(Paypal::class);
+        $hostedPaymentPageRequest = $this->getHostedPagePaymentRequest(
+            Paypal::class,
+            null,
+            ['transaction.payment_method.custom_fields' =>
+                ['color' => 'gold'],
+                ['shape' => 'pill'],
+                ['label' => 'paypal'],
+                ['height' => '40'],
+                ['bnpl' => true]
+            ],
+            [$this->createMock(EntityRepository::class)]
+        );
 
         $this->assertSame(
             'paypal',
@@ -24,7 +36,12 @@ class PaypalTest extends TestCase
     {
         $response = ['payment_product' => 'paypal'];
 
-        $orderRequest = $this->getHostedFiledsOrderRequest(Paypal::class, $response);
+        $orderRequest = $this->getHostedFiledsOrderRequest(
+            Paypal::class,
+            $response,
+            null,
+            [$this->createMock(EntityRepository::class)],
+        );
 
         $this->assertSame(
             'paypal',
@@ -36,7 +53,6 @@ class PaypalTest extends TestCase
     {
         $this->assertEquals(
             [
-                'merchantPayPalId' => '',
                 'color' => 'gold',
                 'shape' => 'pill',
                 'label' => 'paypal',
