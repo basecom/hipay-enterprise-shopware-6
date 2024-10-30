@@ -36,9 +36,11 @@ bin/console cache:clear --quiet
 if [ "$XDEBUG_ENABLED" = "1" ]; then
     if ! grep "xdebug.start_with_request = yes" /etc/php/$PHP_VERSION/fpm/conf.d/20-xdebug.ini >/dev/null; then
         printf "\nxdebug.start_with_request = yes\n" | sudo tee -a /etc/php/$PHP_VERSION/fpm/conf.d/20-xdebug.ini >/dev/null
+        printf "\nxdebug.idekey = VSCODE\n" | sudo tee -a /etc/php/$PHP_VERSION/fpm/conf.d/20-xdebug.ini >/dev/null
     fi
     if ! grep "xdebug.start_with_request = yes" /etc/php/$PHP_VERSION/cli/conf.d/20-xdebug.ini >/dev/null; then
         printf "\nxdebug.start_with_request = yes\n" | sudo tee -a /etc/php/$PHP_VERSION/cli/conf.d/20-xdebug.ini >/dev/null
+        printf "\nxdebug.idekey = VSCODE\n" | sudo tee -a /etc/php/$PHP_VERSION/cli/conf.d/20-xdebug.ini >/dev/null
     fi
 
     sudo service php$PHP_VERSION-fpm reload

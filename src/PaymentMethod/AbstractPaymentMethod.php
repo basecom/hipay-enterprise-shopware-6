@@ -42,7 +42,7 @@ use Shopware\Core\Checkout\Order\OrderEntity;
 use Shopware\Core\Checkout\Payment\Cart\AsyncPaymentTransactionStruct;
 use Shopware\Core\Checkout\Payment\Cart\PaymentHandler\AsynchronousPaymentHandlerInterface;
 use Shopware\Core\Checkout\Payment\Exception\AsyncPaymentFinalizeException;
-use Shopware\Core\Checkout\Payment\Exception\AsyncPaymentProcessException;
+use Shopware\Core\Checkout\Payment\PaymentException;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
@@ -130,7 +130,7 @@ abstract class AbstractPaymentMethod implements AsynchronousPaymentHandlerInterf
         } catch (\Throwable $e) {
             $message = 'An error occurred during the communication with external payment gateway : '.$e->getMessage();
             $this->logger->error($message);
-            throw new AsyncPaymentProcessException($transaction->getOrderTransaction()->getId(), $message);
+            throw PaymentException::asyncProcessInterrupted($transaction->getOrderTransaction()->getId(), $message);
         }
 
         // Redirect to external gateway
@@ -235,6 +235,11 @@ abstract class AbstractPaymentMethod implements AsynchronousPaymentHandlerInterf
         return null;
     }
 
+    public static function requiresBasket(): bool
+    {
+        return false;
+    }
+
     /**
      * Generate the config for the payment method.
      */
@@ -288,6 +293,10 @@ abstract class AbstractPaymentMethod implements AsynchronousPaymentHandlerInterf
         array $payload,
         AsyncPaymentTransactionStruct $transaction
     ): OrderRequest {
+        if (isset($payload['payment_product'])) {
+            $orderRequest->payment_product = $payload['payment_product'];
+        }
+
         return $orderRequest;
     }
 
@@ -399,12 +408,14 @@ abstract class AbstractPaymentMethod implements AsynchronousPaymentHandlerInterf
     ): OrderRequest {
         $isCaptureAuto = $this->config->isCaptureAuto();
         $order = $transaction->getOrder();
-
         $operationId = Uuid::randomHex();
         $orderRequest->orderid = $order->getOrderNumber().'-'.dechex(crc32($transaction->getOrderTransaction()->getId()));
         $orderRequest->operation = $isCaptureAuto ? 'Sale' : 'Authorization';
         $orderRequest->description = $this->generateDescription($order->getLineItems(), 255, '...');
-        // $orderRequest->basket = $this->generateBasket($transaction->getOrder());
+
+        if (static::requiresBasket()) {
+            $orderRequest->basket = $this->generateBasket($order);
+        }
 
         // Amounts data
         if ($order->getCurrency()) {
@@ -465,7 +476,6 @@ abstract class AbstractPaymentMethod implements AsynchronousPaymentHandlerInterf
         return strlen($description) <= $maxLength ? $description : substr($description, 0, $maxLength).$trailing;
     }
 
-    /*
     private function generateBasket(OrderEntity $order): array
     {
         $listType = [
@@ -474,6 +484,7 @@ abstract class AbstractPaymentMethod implements AsynchronousPaymentHandlerInterf
 
         $basket = [];
         foreach ($order->getLineItems() as $lineItem) {
+            $tax_rate = $lineItem->getPrice()->getTaxRules()->first() ? $lineItem->getPrice()->getTaxRules()->first()->getTaxRate() : null;
             $basket[] = [
                 'product_reference' => $lineItem->getPayload()['productNumber'],
                 'name' => $lineItem->getLabel(),
@@ -481,14 +492,13 @@ abstract class AbstractPaymentMethod implements AsynchronousPaymentHandlerInterf
                 'quantity' => $lineItem->getQuantity(),
                 'unit_price' => $lineItem->getUnitPrice(),
                 'discount' => 0,
-                // 'tax_rate' => $lineItem->getPrice()->getCalculatedTaxes(),
+                'tax_rate' => $tax_rate,
                 'total_amount' => $lineItem->getTotalPrice(),
             ];
         }
 
         return $basket;
     }
-    */
 
     /**
      * Retreive billing informations.

@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## Version 2.3.0
+
+- **Add** : Added **Klarna** payment method
+- **Fix** : Fixed notification flow on transactions with **Sepa Direct Debit** payment method
+- **Fix** : Fixed **Sepa Direct Debit** logo
+
 ## Version 2.2.0
 
 - **Add** : Add PayPal v2
