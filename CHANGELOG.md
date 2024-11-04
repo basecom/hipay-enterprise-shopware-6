@@ -3,6 +3,7 @@
 ## Version 1.4.0
 
 - **Add** : Added Klarna payment method
+- **Fix** : Fixed notification flow on transactions with Sepa Direct Debit payment method
 - **Fix** : Fixed Sepa Direct Debit logo
 
 ## Version 1.3.0
