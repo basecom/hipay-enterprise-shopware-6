@@ -23,7 +23,6 @@
       and activeRoute in ['frontend.account.edit-order.page', 'frontend.checkout.confirm.page']
   %}
     {% set environment = config('HiPayPaymentPlugin.config.environment') %}
-    {% set isPayPalV2 = isPayPalV2Enabled %}
     {% set componentName = payment.formattedHandlerIdentifier|replace({'_':'-'}) %}
 
     {% if config('HiPayPaymentPlugin.config.operationMode') == 'hostedFields' %}
@@ -55,7 +54,7 @@
             }
           }
         %}
-      {% elseif componentName == 'handler-hipay-paypal' %}
+      {% elseif isPayPalV2Enabled %}
         {% set hipayConfig = {
           username: config('HiPayPaymentPlugin.config.publicLogin' ~ environment),
           password: config('HiPayPaymentPlugin.config.publicPassword' ~ environment),
@@ -103,7 +102,7 @@
           required
         />
       {% endblock %}
-      {% if payment.extensions.hipayConfig.haveHostedFields or isPayPalV2 %}
+      {% if payment.extensions.hipayConfig.haveHostedFields or isPayPalV2Enabled %}
         {% sw_include '@HiPayPaymentPlugin/storefront/component/payment/hosted-fields/' ~ componentName ~ '.html.twig' %}
       {% else %}
         {% sw_include '@HiPayPaymentPlugin/storefront/component/payment/hosted-fields/handler-hipay-default.html.twig' %}
