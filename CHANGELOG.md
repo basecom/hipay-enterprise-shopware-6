@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## Unreleased
+## Version 1.4.0
 
 - **Add** : Added Klarna payment method
 - **Fix** : Fixed Sepa Direct Debit logo
