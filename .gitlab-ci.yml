@@ -350,10 +350,10 @@ get-jira-tickets:
           const tickets = [];
 
           mergeRequests.forEach((mr) => {
-            const matches = mr.source_branch.match(/EC-\d+/);
-            if(matches?.length) {
-              tickets.push(matches[0].toUpperCase());
-            }
+            const matches = mr.title.match(/(EC-\d+)/g);
+            matches.forEach((match) => {
+                tickets.push(match.toUpperCase());
+            });
           });
 
           console.log("tickets", tickets);
