@@ -351,7 +351,7 @@ get-jira-tickets:
 
           mergeRequests.forEach((mr) => {
             const matches = mr.title.match(/(EC-\d+)/g);
-            matches.forEach((match) => {
+            matches?.forEach((match) => {
                 tickets.push(match.toUpperCase());
             });
           });
