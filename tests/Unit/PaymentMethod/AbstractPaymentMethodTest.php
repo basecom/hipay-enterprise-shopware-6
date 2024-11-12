@@ -23,8 +23,7 @@ use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStateHandler;
 use Shopware\Core\Checkout\Payment\Cart\AsyncPaymentTransactionStruct;
-use Shopware\Core\Checkout\Payment\Exception\AsyncPaymentFinalizeException;
-use Shopware\Core\Checkout\Payment\Exception\AsyncPaymentProcessException;
+use Shopware\Core\Checkout\Payment\PaymentException;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\Store\Authentication\LocaleProvider;
 use Shopware\Core\Framework\Validation\DataBag\RequestDataBag;
@@ -390,7 +389,7 @@ class AbstractPaymentMethodTest extends TestCase
             $redirectResponse->getTargetUrl()
         );
 
-        $this->expectException(AsyncPaymentFinalizeException::class);
+        $this->expectException(PaymentException::class);
         $this->expectExceptionMessage('Payment '.$state);
 
         $paymentMethod->finalize(
@@ -541,7 +540,7 @@ class AbstractPaymentMethodTest extends TestCase
             $this->createMock(HipayLogger::class)
         );
 
-        $this->expectException(AsyncPaymentProcessException::class);
+        $this->expectException(PaymentException::class);
         $this->expectExceptionMessage('An error occurred during the communication with external payment gateway : Random Exception');
 
         /** @var RequestDataBag&MockObject */
@@ -575,7 +574,7 @@ class AbstractPaymentMethodTest extends TestCase
             true
         );
 
-        $this->expectException(AsyncPaymentProcessException::class);
+        $this->expectException(PaymentException::class);
         $this->expectExceptionMessage('An error occurred during the communication with external payment gateway : Configuration mode "Foobar" is invalid');
 
         /** @var RequestDataBag&MockObject */

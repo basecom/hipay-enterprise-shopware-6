@@ -7,14 +7,13 @@ use HiPay\Payment\Service\NotificationService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * Controller use to receive notifications from Hipay.
- *
- * @Route(defaults={"_routeScope"={"api"}, "auth_required"=false})
  */
+#[Route(defaults: ['_routeScope' => 'api', 'auth_required' => false])]
 class NotificationController
 {
     private HipayLogger $logger;
@@ -29,9 +28,7 @@ class NotificationController
         $this->notificationService = $notificationService;
     }
 
-    /**
-     * @Route("/api/hipay/notify", name="store-api.action.hipay.notification", methods={"POST","GET"})
-     */
+    #[Route('/api/hipay/notify', name: 'store-api.action.hipay.notification', methods: ['POST', 'GET'])]
     public function receiveNotification(Request $request): JsonResponse
     {
         try {
