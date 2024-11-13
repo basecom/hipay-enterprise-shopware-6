@@ -134,3 +134,16 @@ test-coverage:
 ## shortcut to delete test database
 delete-test-database:
 	docker compose exec shopware bash -c "mysql -uroot -proot -e 'DROP DATABASE shopware_test;'"
+
+## PSH COMMANDS
+## Use PSH Hoster Module
+## Run this command to get access to the rabbitmq ui. After running open http://localhost:15672/ in your browser. (https://docs.platform.sh/add-services/rabbitmq.html)
+rabbit-ui:
+	ssh -L 15672:rabbitmq.internal:15672 $$(platform ssh --pipe)
+
+template-sync-shopware:
+	git pull upstream/main
+
+template-sync-psh:
+	git pull upstream/PSH
+

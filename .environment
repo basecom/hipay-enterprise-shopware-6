@@ -1,0 +1,34 @@
+# MySQL
+export MYSQL_HOST=$(echo $PLATFORM_RELATIONSHIPS | base64 --decode | jq -r ".database[0].host")
+export MYSQL_PORT=$(echo $PLATFORM_RELATIONSHIPS | base64 --decode | jq -r ".database[0].port")
+export MYSQL_DATABASE=$(echo $PLATFORM_RELATIONSHIPS | base64 --decode | jq -r ".database[0].path")
+export MYSQL_USER=$(echo $PLATFORM_RELATIONSHIPS | base64 --decode | jq -r ".database[0].username")
+export MYSQL_PASSWORD=$(echo $PLATFORM_RELATIONSHIPS | base64 --decode | jq -r ".database[0].password")
+export DATABASE_URL="mysql://$MYSQL_USER:$MYSQL_PASSWORD@$MYSQL_HOST:$MYSQL_PORT/$MYSQL_DATABASE"
+
+# Redis (also see config/services.yaml)
+export REDIS_CACHE_HOST=$(echo $PLATFORM_RELATIONSHIPS | base64 --decode | jq -r ".rediscache[0].host")
+export REDIS_CACHE_PORT=$(echo $PLATFORM_RELATIONSHIPS | base64 --decode | jq -r ".rediscache[0].port")
+export REDIS_CACHE_URL="redis://$REDIS_CACHE_HOST:$REDIS_CACHE_PORT"
+
+export REDIS_SESSION_HOST=$(echo $PLATFORM_RELATIONSHIPS | base64 --decode | jq -r ".redissession[0].host")
+export REDIS_SESSION_PORT=$(echo $PLATFORM_RELATIONSHIPS | base64 --decode | jq -r ".redissession[0].port")
+export REDIS_SESSION_URL="redis://$REDIS_SESSION_HOST:$REDIS_SESSION_PORT"
+
+# App URL
+export APP_URL=`echo $PLATFORM_ROUTES | base64 --decode | jq -r 'to_entries[] | select(.value.id=="shopware") | .key'`
+
+# RabbitMQ
+export RABBITMQ_HOST=$(echo $PLATFORM_RELATIONSHIPS | base64 --decode | jq -r ".rabbitmq[0].host")
+export RABBITMQ_USER=$(echo $PLATFORM_RELATIONSHIPS | base64 --decode | jq -r ".rabbitmq[0].username")
+export RABBITMQ_PASSWORD=$(echo $PLATFORM_RELATIONSHIPS | base64 --decode | jq -r ".rabbitmq[0].password")
+export RABBITMQ_PORT=$(echo $PLATFORM_RELATIONSHIPS | base64 --decode | jq -r ".rabbitmq[0].port")
+export RABBITMQ_URL="amqp://$RABBITMQ_USER:$RABBITMQ_PASSWORD@$RABBITMQ_HOST:$RABBITMQ_PORT/%2f/default-priority-messages"
+export RABBITMQ_URL_PRIO="amqp://$RABBITMQ_USER:$RABBITMQ_PASSWORD@$RABBITMQ_HOST:$RABBITMQ_PORT/%2f/high-priority-messages"
+
+# Elastic Search
+export ELASTIC_SCHEME=$(echo $PLATFORM_RELATIONSHIPS | base64 --decode | jq -r ".elastic[0].scheme")
+export ELASTIC_HOST=$(echo $PLATFORM_RELATIONSHIPS | base64 --decode | jq -r ".elastic[0].host")
+export ELASTIC_PORT=$(echo $PLATFORM_RELATIONSHIPS | base64 --decode | jq -r ".elastic[0].port")
+export OPENSEARCH_URL="$ELASTIC_SCHEME://$ELASTIC_HOST:$ELASTIC_PORT"
+export ADMIN_OPENSEARCH_URL=$(echo $OPENSEARCH_URL)

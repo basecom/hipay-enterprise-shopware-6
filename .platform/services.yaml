@@ -1,0 +1,18 @@
+db:
+  type: oracle-mysql:8.0
+  disk: 1024
+
+redissession:
+    type: redis-persistent:6.2
+    disk: 512
+
+rediscache:
+    type: redis:6.2
+
+elastic:
+  type: opensearch:2
+  disk: 1024
+
+storage-shared:
+  type: network-storage:2.0
+  disk: 1024
