@@ -224,13 +224,13 @@
               expires: 4w
     workers:
       worker-0:
-        disk: 512
+        disk: 128
         commands:
           start: |
             bin/console cache:clear
             bin/console messenger:consume async low_priority --memory-limit=$(cat /run/config.json | jq .info.limits.memory)M
       worker-1-prio:
-        disk: 512
+        disk: 128
         commands:
           start: |
             bin/console messenger:consume high_priority --memory-limit=$(cat /run/config.json | jq .info.limits.memory)M
