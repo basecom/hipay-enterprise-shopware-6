@@ -105,7 +105,7 @@
             # this will try to run theme:compile which cannot be disabled, so it will throw a bunch of warnings
             # that can be ignored (we use stateless build anyway, so this is done already at this point)
             echo "Running system:install (Warnings for theme:compile can be ignored)"
-            bin/console system:install --create-database --basic-setup --force --shop-locale=de-DE
+            bin/console system:install --create-database --basic-setup --force
             bin/console theme:change --all Storefront --no-compile
             bin/console theme:dump
             bin/console theme:compile
