@@ -210,6 +210,12 @@
       "/custom/plugins":
         source: local
         source_path: "custom/plugins"
+      "/composer.json":
+        source: local
+        source_path: "composer.json"
+      "/composer.lock":
+        source: local
+        source_path: "composer.lock"
   # The configuration of app when it is exposed to the web.
     web:
       locations:
