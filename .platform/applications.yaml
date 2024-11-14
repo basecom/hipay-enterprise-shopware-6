@@ -212,7 +212,6 @@
         source_path: "custom/plugins"
       "/":
         source: local
-        source_path: "."
   # The configuration of app when it is exposed to the web.
     web:
       locations:
