@@ -6,13 +6,13 @@
         "basecom/sw6-custom-fields-plugin": "4.0.0",
         "basecom/sw6-fixtures-plugin": "3.0.0",
         "frosh/tools": "^2.1",
-        "shopware/administration": "6.6.6.0",
-        "shopware/core": "6.6.6.0",
-        "shopware/elasticsearch": "6.6.6.0",
+        "shopware/administration": "6.6.8.2",
+        "shopware/core": "6.6.8.2",
+        "shopware/elasticsearch": "6.6.8.2",
         "shopware/paas-meta": "6.4.16.2",
-        "shopware/storefront": "6.6.6.0",
-        "symfony/redis-messenger": "^7.1",
+        "shopware/storefront": "6.6.8.2",
         "symfony/flex": "~2",
+        "symfony/redis-messenger": "^7.1",
         "symfony/runtime": "^7.0"
     },
     "repositories": {
