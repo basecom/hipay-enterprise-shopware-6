@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a647a45940df8eeeb8476fff7bba03a8",
+    "content-hash": "4b3a415192fa23900215b3445fe7ff36",
     "packages": [
         {
             "name": "async-aws/core",
@@ -2067,6 +2067,139 @@
             "time": "2024-08-16T10:30:40+00:00"
         },
         {
+            "name": "giggsey/libphonenumber-for-php",
+            "version": "8.13.49",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/giggsey/libphonenumber-for-php.git",
+                "reference": "3f5414aeccd152e5a6d02e2064e40713cad65a07"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/3f5414aeccd152e5a6d02e2064e40713cad65a07",
+                "reference": "3f5414aeccd152e5a6d02e2064e40713cad65a07",
+                "shasum": ""
+            },
+            "require": {
+                "giggsey/locale": "^2.0",
+                "php": "^7.4|^8.0",
+                "symfony/polyfill-mbstring": "^1.17"
+            },
+            "replace": {
+                "giggsey/libphonenumber-for-php-lite": "self.version"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.64",
+                "pear/pear-core-minimal": "^1.10",
+                "pear/pear_exception": "^1.0",
+                "pear/versioncontrol_git": "^0.7",
+                "phing/phing": "^3.0",
+                "php-coveralls/php-coveralls": "^2.0",
+                "phpunit/phpunit": "^9.6",
+                "symfony/console": "^v5.2",
+                "symfony/var-exporter": "^5.2"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "8.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "libphonenumber\\": "src/"
+                },
+                "exclude-from-classmap": [
+                    "/src/data/",
+                    "/src/carrier/data/",
+                    "/src/geocoding/data/",
+                    "/src/timezone/data/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Joshua Gigg",
+                    "email": "giggsey@gmail.com",
+                    "homepage": "https://giggsey.com/"
+                }
+            ],
+            "description": "PHP Port of Google's libphonenumber",
+            "homepage": "https://github.com/giggsey/libphonenumber-for-php",
+            "keywords": [
+                "geocoding",
+                "geolocation",
+                "libphonenumber",
+                "mobile",
+                "phonenumber",
+                "validation"
+            ],
+            "support": {
+                "issues": "https://github.com/giggsey/libphonenumber-for-php/issues",
+                "source": "https://github.com/giggsey/libphonenumber-for-php"
+            },
+            "time": "2024-11-04T10:44:34+00:00"
+        },
+        {
+            "name": "giggsey/locale",
+            "version": "2.7.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/giggsey/Locale.git",
+                "reference": "a5c65ea3c2630f27ccb78977990eefbee6dd8f97"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/giggsey/Locale/zipball/a5c65ea3c2630f27ccb78977990eefbee6dd8f97",
+                "reference": "a5c65ea3c2630f27ccb78977990eefbee6dd8f97",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.4|^8.0"
+            },
+            "require-dev": {
+                "ext-json": "*",
+                "friendsofphp/php-cs-fixer": "^3.64",
+                "pear/pear-core-minimal": "^1.9",
+                "pear/pear_exception": "^1.0",
+                "pear/versioncontrol_git": "^0.5",
+                "phing/phing": "^2.7",
+                "php-coveralls/php-coveralls": "^2.0",
+                "phpunit/phpunit": "^8.5|^9.5",
+                "symfony/console": "^5.0|^6.0",
+                "symfony/filesystem": "^5.0|^6.0",
+                "symfony/finder": "^5.0|^6.0",
+                "symfony/process": "^5.0|^6.0",
+                "symfony/var-exporter": "^5.2|^6.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Giggsey\\Locale\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Joshua Gigg",
+                    "email": "giggsey@gmail.com",
+                    "homepage": "https://giggsey.com/"
+                }
+            ],
+            "description": "Locale functions required by libphonenumber-for-php",
+            "support": {
+                "issues": "https://github.com/giggsey/Locale/issues",
+                "source": "https://github.com/giggsey/Locale/tree/2.7.0"
+            },
+            "time": "2024-11-04T11:18:07+00:00"
+        },
+        {
             "name": "guzzlehttp/guzzle",
             "version": "7.9.2",
             "source": {
@@ -2390,6 +2523,154 @@
                 }
             ],
             "time": "2024-07-18T11:15:46+00:00"
+        },
+        {
+            "name": "hipay/hipay-enterprise-shopware-6",
+            "version": "dev-main-6-6",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:basecom/hipay-enterprise-shopware-6.git",
+                "reference": "38a4bd96231f3aeaf4be390f761d6279b7cc2933"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://papple.bsc.basecom.cloud/get/dist/hipay/hipay-enterprise-shopware-6/hipay-hipay-enterprise-shopware-6-dev-main-6-6-ab7cad.zip",
+                "reference": "38a4bd96231f3aeaf4be390f761d6279b7cc2933",
+                "shasum": "6b2fcb235f9462eab4b060603c2c3d2eb59f2549"
+            },
+            "require": {
+                "giggsey/libphonenumber-for-php": "^8.13",
+                "hipay/hipay-fullservice-sdk-php": "^2.19.1"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "*",
+                "infection/infection": "^0.26.6",
+                "phpstan/phpstan": "^1.8",
+                "phpunit/php-code-coverage": "~9.2.14",
+                "phpunit/phpunit": "~9.5.17",
+                "shopware/core": "6.5.*",
+                "shopware/storefront": "6.5.*",
+                "symfony/phpunit-bridge": "~4.4 || ~5.2.3 || ~5.3.0 || ~5.4.0"
+            },
+            "type": "shopware-platform-plugin",
+            "extra": {
+                "shopware-plugin-class": "HiPay\\Payment\\HiPayPaymentPlugin",
+                "plugin-icon": "src/Resources/config/hipay.png",
+                "author": "HiPay",
+                "label": {
+                    "en-GB": "HiPay Payment",
+                    "de-DE": "HiPay Payment"
+                },
+                "description": {
+                    "en-GB": "Hipay enterprise module for Shopware",
+                    "de-DE": "Hipay Enterprise-Modul für Shopware"
+                },
+                "manufacturerLink": {
+                    "en-GB": "#",
+                    "de-DE": "#"
+                },
+                "supportLink": {
+                    "en-GB": "#",
+                    "de-DE": "#"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "HiPay\\Payment\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "HiPay\\Payment\\Tests\\": "tests/"
+                }
+            },
+            "notification-url": "https://papple.bsc.basecom.cloud/api/installations/02Y8GNwih2qMlNpsNEDJmtQNzexT7yygH8wLt3VubA0UD6ra",
+            "archive": {
+                "exclude": [
+                    "/bin",
+                    "./\\.*",
+                    "docker-compose.yaml",
+                    "shopware.sh"
+                ]
+            },
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "email": "support.tpp@hipay.com",
+                    "homepage": "https://www.hipay.com",
+                    "name": "HiPay"
+                }
+            ],
+            "description": "HiPay enterprise plugin for Shopware 6",
+            "keywords": [
+                "HiPay",
+                "payment",
+                "php",
+                "shopware"
+            ],
+            "time": "2024-11-04T13:37:02+00:00"
+        },
+        {
+            "name": "hipay/hipay-fullservice-sdk-php",
+            "version": "2.19.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/hipay/hipay-fullservice-sdk-php.git",
+                "reference": "6dd3b3217b3779b4dbb13bb0774ece08f755c1fc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/hipay/hipay-fullservice-sdk-php/zipball/6dd3b3217b3779b4dbb13bb0774ece08f755c1fc",
+                "reference": "6dd3b3217b3779b4dbb13bb0774ece08f755c1fc",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "php": ">=7.2",
+                "ramsey/uuid": "^3 || ^4"
+            },
+            "require-dev": {
+                "dealerdirect/phpcodesniffer-composer-installer": "^0.7.1",
+                "friendsofphp/php-cs-fixer": "^3.2",
+                "phpcompatibility/php-compatibility": "^9.3",
+                "phpstan/phpstan": "0.*",
+                "phpunit/phpunit": "9.6",
+                "vlucas/phpdotenv": "^4.2.1",
+                "yoast/phpunit-polyfills": "^1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "HiPay\\Fullservice\\": "lib/HiPay/Fullservice/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "HiPay",
+                    "email": "support.tpp@hipay.com",
+                    "homepage": "http://www.hipay.com"
+                }
+            ],
+            "description": "The HiPay Enterprise SDK for PHP is a library for developers who want to integrate HiPay Enterprise payment methods to any PHP platform.",
+            "homepage": "https://hipay.com/product-enterprise/",
+            "keywords": [
+                "hipay",
+                "payment",
+                "payment method"
+            ],
+            "support": {
+                "email": "support.tpp@hipay.com",
+                "issues": "https://github.com/hipay/hipay-fullservice-sdk-php/issues",
+                "source": "https://github.com/hipay/hipay-fullservice-sdk-php/tree/2.19.1"
+            },
+            "time": "2024-10-25T11:40:51+00:00"
         },
         {
             "name": "justinrainbow/json-schema",
@@ -13255,12 +13536,14 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "hipay/hipay-enterprise-shopware-6": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
         "composer-runtime-api": "^2.0"
     },
-    "platform-dev": [],
-    "plugin-api-version": "2.2.0"
+    "platform-dev": {},
+    "plugin-api-version": "2.6.0"
 }
