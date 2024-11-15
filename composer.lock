@@ -79,14 +79,14 @@
             "version": "4.0.0",
             "source": {
                 "type": "git",
-                "url": "git@gitlab.com:basecom-gmbh/shopware/v6/plugins/CustomFieldsPlugin.git",
+                "url": "git@github.com:basecom/sw6-custom-fields-plugin.git",
                 "reference": "cc1dba25d344e50528c1f912f2b3a6898c023702"
             },
             "dist": {
                 "type": "zip",
                 "url": "https://papple.bsc.basecom.cloud/get/dist/basecom/sw6-custom-fields-plugin/basecom-sw6-custom-fields-plugin-4.0.0-709abb.zip",
                 "reference": "cc1dba25d344e50528c1f912f2b3a6898c023702",
-                "shasum": "6f13ea0c586b553db7bb3a15707f151394e768ed"
+                "shasum": "c68ab4b7485b8c105d5976e09c68a258accaa745"
             },
             "require": {
                 "shopware/administration": "^6.5",
@@ -118,7 +118,7 @@
                     "Basecom\\CustomFieldsPlugin\\": "src/"
                 }
             },
-            "notification-url": "https://papple.bsc.basecom.cloud/api/installations/gdnj7bo7QWWPn43xlMTRSmk8n02NpPciNIzp8LoGeG5CoGI8",
+            "notification-url": "https://papple.bsc.basecom.cloud/api/installations/02Y8GNwih2qMlNpsNEDJmtQNzexT7yygH8wLt3VubA0UD6ra",
             "license": [
                 "GPL-3.0-or-later"
             ],
