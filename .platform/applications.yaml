@@ -96,6 +96,8 @@
         export NVM_DIR="$PLATFORM_APP_DIR/.nvm"
         [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
+        composer install --no-interaction --optimize-autoloader
+
         # Initialize the Shopware site's data set if it's not already installed.
         # (This is only for demo/first install and can be removed once Shopware is initialized)
 
