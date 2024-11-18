@@ -99,7 +99,7 @@ abstract class AbstractPaymentMethod implements AsynchronousPaymentHandlerInterf
         $this->request = $requestStack->getCurrentRequest();
         $this->logger = $hipayLogger->setChannel(HipayLogger::API);
 
-        if (-1 === static::PAYMENT_POSITION) {
+        if ( static::PAYMENT_POSITION === -1 ) {
             throw new UnexpectedValueException('Constant ' . __CLASS__ . '::PAYMENT_POSITION must be defined');
         }
 
@@ -255,7 +255,7 @@ abstract class AbstractPaymentMethod implements AsynchronousPaymentHandlerInterf
         if (file_exists(static::PAYMENT_CONFIG_FILE_PATH . $product_code . '.json')) {
             $paymentProductConfig = file_get_contents(static::PAYMENT_CONFIG_FILE_PATH . $product_code . '.json');
 
-            if (false === $paymentProductConfig) {
+            if ($paymentProductConfig === false) {
                 return null;
             }
 
@@ -453,7 +453,7 @@ abstract class AbstractPaymentMethod implements AsynchronousPaymentHandlerInterf
     {
         $description = [];
         foreach ($lineItems as $lineItem) {
-            if ('product' === $lineItem->getType()) {
+            if ( $lineItem->getType() === 'product' ) {
                 $description[] = $lineItem->getQuantity() . ' x ' . $lineItem->getLabel();
             }
         }
@@ -686,9 +686,9 @@ abstract class AbstractPaymentMethod implements AsynchronousPaymentHandlerInterf
         $gender = 'U';
 
         if ($salutation) {
-            if ('mrs' === $salutation->getSalutationKey()) {
+            if ( $salutation->getSalutationKey() === 'mrs') {
                 $gender = 'F';
-            } elseif ('mr' === $salutation->getSalutationKey()) {
+            } elseif ( $salutation->getSalutationKey() === 'mr') {
                 $gender = 'M';
             }
         }

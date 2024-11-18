@@ -319,7 +319,7 @@ class AdminController extends AbstractController
 
             $response = new Response(
                 file_get_contents($zipName) ?: null,
-                200,
+                Response::HTTP_OK,
                 [
                     'Content-Type' => 'application/zip',
                     'Content-Disposition' => 'attachment;filename="' . $zipName . '"',

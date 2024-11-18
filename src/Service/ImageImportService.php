@@ -115,7 +115,7 @@ class ImageImportService
         $criteria->setLimit(1);
         $defaultFolder = $this->mediaFolderRepository->search($criteria, $context);
         $defaultFolderId = null;
-        if (1 === $defaultFolder->count()) {
+        if ($defaultFolder->count() === 1) {
             $folder = $defaultFolder->getEntities()->first();
             if (method_exists($folder, 'getId')) {
                 $defaultFolderId = $folder->getId();

@@ -28,7 +28,7 @@ class HipayAvailablePaymentProducts
      */
     public static function getInstance($hipayConfigTool)
     {
-        if (null === self::$instance) {
+        if ( self::$instance === null ) {
             self::$instance = new self($hipayConfigTool);
         }
 

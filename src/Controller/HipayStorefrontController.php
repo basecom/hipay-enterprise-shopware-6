@@ -42,7 +42,7 @@ class HipayStorefrontController extends StorefrontController
                 $context->getContext()
             );
 
-            if (1 !== $result->getTotal()) {
+            if ($result->getTotal() !== 1) {
                 throw new NotFoundHttpException();
             }
 

@@ -429,10 +429,10 @@ class NotificationService
 
         $capture = $hipayOrder->getCaptures()->getCaptureByOperationId($operationId);
 
-        if (TransactionStatus::CAPTURE_REQUESTED === $hipayStatus) {
+        if ( $hipayStatus === TransactionStatus::CAPTURE_REQUESTED ) {
             $this->checkAllPreviousStatus($hipayStatus, [TransactionStatus::AUTHORIZED], $hipayOrder);
 
-            if ($capture && CaptureStatus::IN_PROGRESS === $capture->getStatus()) {
+            if ($capture && $capture->getStatus() === CaptureStatus::IN_PROGRESS ) {
                 $this->logger->info('Ignore notification ' . $notification->getId() . '. Capture ' . $capture->getOperationId() . ' already in progress');
             } else {
                 if (!$capture) {
@@ -448,10 +448,10 @@ class NotificationService
             return;
         }
 
-        if (TransactionStatus::CAPTURE_REFUSED === $hipayStatus) {
+        if ( $hipayStatus === TransactionStatus::CAPTURE_REFUSED ) {
             $this->checkAllPreviousStatus($hipayStatus, [TransactionStatus::AUTHORIZED, TransactionStatus::CAPTURE_REQUESTED], $hipayOrder);
 
-            if (!$capture || CaptureStatus::IN_PROGRESS !== $capture->getStatus()) {
+            if (!$capture || $capture->getStatus() !== CaptureStatus::IN_PROGRESS ) {
                 throw new SkipNotificationException('No IN_PROGRESS capture found with operation ID ' . $operationId . ' for the transaction ' . $hipayOrder->getTransactionId());
             }
 
@@ -465,15 +465,15 @@ class NotificationService
     private function handleSepaAuthorizedNotification(HipayNotificationEntity $notification, HipayOrderEntity $hipayOrder): bool
     {
         $data = $notification->getData();
-        if (!empty($data['payment_product']) && 'sdd' === $data['payment_product']) {
+        if (!empty($data['payment_product']) && $data['payment_product'] === 'sdd' ) {
             $hipayStatus = intval($data['status']);
             $operationId = $this->getOperationId($data);
 
             $capture = $hipayOrder->getCaptures()->getCaptureByOperationId($operationId);
-            if (TransactionStatus::AUTHORIZED === $hipayStatus) {
+            if ( $hipayStatus === TransactionStatus::AUTHORIZED) {
                 $this->checkAllPreviousStatus($hipayStatus, [TransactionStatus::AUTHORIZATION_REQUESTED], $hipayOrder);
 
-                if ($capture && CaptureStatus::IN_PROGRESS === $capture->getStatus()) {
+                if ($capture && $capture->getStatus() === CaptureStatus::IN_PROGRESS) {
                     $this->logger->info('Ignore notification ' . $notification->getId() . '. Capture ' . $capture->getOperationId() . ' already in progress');
                 } else {
                     if (!$capture) {
@@ -543,10 +543,10 @@ class NotificationService
 
         $refund = $hipayOrder->getRefunds()->getRefundByOperationId($operationId);
 
-        if (TransactionStatus::REFUND_REQUESTED === $hipayStatus) {
+        if ( $hipayStatus === TransactionStatus::REFUND_REQUESTED ) {
             $refundedAmount = $data['operation']['amount'] ?? $data['refunded_amount'];
 
-            if ($refund && RefundStatus::IN_PROGRESS === $refund->getStatus()) {
+            if ($refund && $refund->getStatus() === RefundStatus::IN_PROGRESS ) {
                 $this->logger->info('Ignore notification ' . $notification->getId() . '. Refund ' . $refund->getId() . ' already in progress');
             } else {
                 if (!$refund) {
@@ -560,10 +560,10 @@ class NotificationService
             return;
         }
 
-        if (TransactionStatus::REFUND_REFUSED === $hipayStatus) {
+        if ( $hipayStatus === TransactionStatus::REFUND_REFUSED ) {
             $this->checkAllPreviousStatus($hipayStatus, [TransactionStatus::CAPTURED, TransactionStatus::REFUND_REQUESTED], $hipayOrder);
 
-            if (!$refund || RefundStatus::IN_PROGRESS !== $refund->getStatus()) {
+            if (!$refund || $refund->getStatus() !== RefundStatus::IN_PROGRESS ) {
                 throw new SkipNotificationException('No IN_PROGRESS refund found with operation ID ' . $operationId . ' for the transaction ' . $hipayOrder->getTransactionId());
             }
 
