@@ -15,10 +15,10 @@ use HiPay\Payment\HiPayPaymentPlugin;
 use HiPay\Payment\Logger\HipayLogger;
 use HiPay\Payment\Service\HiPayHttpClientService;
 use Psr\Log\LoggerInterface;
-use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\Validation\DataBag\RequestDataBag;
+use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -72,7 +72,7 @@ class AdminController extends AbstractController
 
 
     #[Route(path: "/api/_action/hipay/capture")]
-    public function capture(RequestDataBag $params, HiPayHttpClientService $clientService): JsonResponse
+    public function capture(RequestDataBag $params, HiPayHttpClientService $clientService, SalesChannelContext $salesChannelContext): JsonResponse
     {
         if (!is_string($params->get('hipayOrder'))) {
             return new JsonResponse(['success' => false, 'message' => 'HiPay Order parameter is mandatory'], Response::HTTP_BAD_REQUEST);
@@ -82,7 +82,7 @@ class AdminController extends AbstractController
             $hipayOrderData = json_decode($params->get('hipayOrder'));
             $captureAmount = floatval($params->get('amount'));
 
-            $context = Context::createDefaultContext();
+            $context = $salesChannelContext->getContext();
 
             // Search HiPay order entity by ID
             $hipayOrderCriteria = new Criteria([$hipayOrderData->id]);
@@ -147,7 +147,7 @@ class AdminController extends AbstractController
     }
 
     #[Route(path: "/api/_action/hipay/refund")]
-    public function refund(RequestDataBag $params, HiPayHttpClientService $clientService): JsonResponse
+    public function refund(RequestDataBag $params, HiPayHttpClientService $clientService, SalesChannelContext $salesChannelContext): JsonResponse
     {
         if (!is_string($params->get('hipayOrder'))) {
             return new JsonResponse(['success' => false, 'message' => 'HiPay Order parameter is mandatory'], Response::HTTP_BAD_REQUEST);
@@ -162,7 +162,7 @@ class AdminController extends AbstractController
                 'operation' => Operation::REFUND,
             ]);
 
-            $context = Context::createDefaultContext();
+            $context = $salesChannelContext->getContext();
 
             // Search HiPay order entity by ID
             $hipayOrderCriteria = new Criteria([$hipayOrderData->id]);
@@ -206,7 +206,7 @@ class AdminController extends AbstractController
     }
 
     #[Route(path: "/api/_action/hipay/cancel")]
-    public function cancel(RequestDataBag $params, HiPayHttpClientService $clientService): JsonResponse
+    public function cancel(RequestDataBag $params, HiPayHttpClientService $clientService, SalesChannelContext $salesChannelContext): JsonResponse
     {
         if (!is_string($params->get('hipayOrder'))) {
             return new JsonResponse(['success' => false, 'message' => 'HiPay Order parameter is mandatory'], Response::HTTP_BAD_REQUEST);
@@ -220,7 +220,7 @@ class AdminController extends AbstractController
                 'operation' => Operation::CANCEL,
             ]);
 
-            $context = Context::createDefaultContext();
+            $context = $salesChannelContext->getContext();
 
             // Search HiPay order entity by ID
             $hipayOrderCriteria = new Criteria([$hipayOrderData->id]);

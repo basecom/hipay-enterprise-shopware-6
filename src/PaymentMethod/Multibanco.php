@@ -106,7 +106,7 @@ class Multibanco extends AbstractPaymentMethod
         return $orderRequest;
     }
 
-    protected function handleHostedFieldResponse(AsyncPaymentTransactionStruct $transaction, Transaction $response): string
+    protected function handleHostedFieldResponse(AsyncPaymentTransactionStruct $transaction, Transaction $response, Context $context): string
     {
         // error as main return
         $redirect = $transaction->getReturnUrl() . '&return=' . TransactionState::ERROR;
@@ -132,7 +132,7 @@ class Multibanco extends AbstractPaymentMethod
                     ['reference_to_pay' => $response->getReferenceToPay()]
                 ),
             ]],
-            Context::createDefaultContext()
+            $context
         );
 
         return $redirect;

@@ -113,7 +113,7 @@ abstract class AbstractPaymentMethod implements AsynchronousPaymentHandlerInterf
     ): RedirectResponse {
         try {
             $locale = $this->localeProvider->getLocaleFromContext($salesChannelContext->getContext());
-            $redirectUri = $this->getRedirectUri($transaction, $locale);
+            $redirectUri = $this->getRedirectUri($transaction, $locale, $salesChannelContext->getContext());
         } catch (\Throwable $e) {
             $message = 'An error occurred during the communication with external payment gateway : ' . $e->getMessage();
             $this->logger->error($message);
@@ -135,7 +135,7 @@ abstract class AbstractPaymentMethod implements AsynchronousPaymentHandlerInterf
             throw PaymentException::asyncFinalizeInterrupted($transaction->getId(), 'Payment ' . $return);
         }
 
-        $this->transactionStateHandler->process($transaction->getId(), Context::createDefaultContext());
+        $this->transactionStateHandler->process($transaction->getId(), $salesChannelContext->getContext());
     }
 
     public static function getPosition(): int
@@ -300,13 +300,13 @@ abstract class AbstractPaymentMethod implements AsynchronousPaymentHandlerInterf
     /**
      * Generate the redirect URI after payment.
      */
-    private function getRedirectUri(AsyncPaymentTransactionStruct $transaction, string $locale): string
+    private function getRedirectUri(AsyncPaymentTransactionStruct $transaction, string $locale, Context $context): string
     {
         $isApplePay = false;
 
         if ($this->config->isHostedFields()) {
             // hosted fields
-            $request = $this->generateRequestHostedFields($transaction, $locale);
+            $request = $this->generateRequestHostedFields($transaction, $locale, $context);
             $this->logger->info('Sending an hosted fields request', [$request]);
 
             $isApplePay = isset($request->custom_data['isApplePay']);
@@ -316,12 +316,12 @@ abstract class AbstractPaymentMethod implements AsynchronousPaymentHandlerInterf
             $response = $client->requestNewOrder($request);
             $this->logger->info('Hosted fields response received', $response->toArray());
 
-            return $this->handleHostedFieldResponse($transaction, $response);
+            return $this->handleHostedFieldResponse($transaction, $response, $context);
         }
 
         if ($this->config->isHostedPage()) {
             // hosted page
-            $request = $this->generateRequestHostedPage($transaction, $locale);
+            $request = $this->generateRequestHostedPage($transaction, $locale, $context);
             $this->logger->info('Sending an hosted page request', [$request]);
 
             $isApplePay = isset($request->custom_data['isApplePay']);
@@ -342,10 +342,11 @@ abstract class AbstractPaymentMethod implements AsynchronousPaymentHandlerInterf
      */
     private function generateRequestHostedPage(
         AsyncPaymentTransactionStruct $transaction,
-        string $locale
+        string $locale,
+        Context $context
     ): HostedPaymentPageRequest {
         /** @var HostedPaymentPageRequest $orderRequest */
-        $orderRequest = $this->hydrateGenericOrderRequest(new HostedPaymentPageRequest(), $transaction, $locale);
+        $orderRequest = $this->hydrateGenericOrderRequest(new HostedPaymentPageRequest(), $transaction, $locale, $context);
         $orderRequest->payment_product_list = static::getProductCode();
 
         $orderRequest->display_cancel_button = $this->config->isCancelButtonDisplayed();
@@ -358,9 +359,10 @@ abstract class AbstractPaymentMethod implements AsynchronousPaymentHandlerInterf
      */
     private function generateRequestHostedFields(
         AsyncPaymentTransactionStruct $transaction,
-        string $locale
+        string $locale,
+        Context $context
     ): OrderRequest {
-        $orderRequest = $this->hydrateGenericOrderRequest(new OrderRequest(), $transaction, $locale);
+        $orderRequest = $this->hydrateGenericOrderRequest(new OrderRequest(), $transaction, $locale, $context);
 
         if (!empty($payload = json_decode($this->request->get('hipay-response', '[]'), true))) {
             $requestInfo = $payload['browser_info'] ?? [];
@@ -391,7 +393,8 @@ abstract class AbstractPaymentMethod implements AsynchronousPaymentHandlerInterf
     private function hydrateGenericOrderRequest(
         OrderRequest $orderRequest,
         AsyncPaymentTransactionStruct $transaction,
-        string $locale
+        string $locale,
+        Context $context
     ): OrderRequest {
         $isCaptureAuto = $this->config->isCaptureAuto();
         $order = $transaction->getOrder();
@@ -432,8 +435,8 @@ abstract class AbstractPaymentMethod implements AsynchronousPaymentHandlerInterf
             'operation_id' => $operationId,
         ];
 
-        $orderRequest->merchant_risk_statement = $this->generateMerchantRiskStatement($order);
-        $orderRequest->account_info = $this->generateAccountInfo($order);
+        $orderRequest->merchant_risk_statement = $this->generateMerchantRiskStatement($order, $context);
+        $orderRequest->account_info = $this->generateAccountInfo($order, $context);
 
         $orderRequest->accept_url = $transaction->getReturnUrl();
         $orderRequest->pending_url = $transaction->getReturnUrl();
@@ -562,7 +565,7 @@ abstract class AbstractPaymentMethod implements AsynchronousPaymentHandlerInterf
     /**
      * Generate Merchant risk statement.
      */
-    private function generateMerchantRiskStatement(OrderEntity $order): MerchantRiskStatement
+    private function generateMerchantRiskStatement(OrderEntity $order, Context $context): MerchantRiskStatement
     {
         $statement = new MerchantRiskStatement();
 
@@ -591,7 +594,7 @@ abstract class AbstractPaymentMethod implements AsynchronousPaymentHandlerInterf
         // Reorder indicator
         $statement->reorder_indicator = ReorderIndicator::FIRST_TIME_ORDERED;
 
-        $orderCustomers = $this->getOrderCustomers($order->getOrderCustomer()->getCustomer()->getId());
+        $orderCustomers = $this->getOrderCustomers($order->getOrderCustomer()->getCustomer()->getId(), $context);
 
         $sameOrders = $orderCustomers->filter(
             function (OrderCustomerEntity $orderCustomer) use ($order) {
@@ -615,7 +618,7 @@ abstract class AbstractPaymentMethod implements AsynchronousPaymentHandlerInterf
         }
 
         // Shipping indicator
-        $statement->shipping_indicator = $this->generateShippingIndicator($order);
+        $statement->shipping_indicator = $this->generateShippingIndicator($order, $context);
 
         // Gift card
         $statement->gift_card = new GiftCard();
@@ -626,7 +629,7 @@ abstract class AbstractPaymentMethod implements AsynchronousPaymentHandlerInterf
     /**
      * Generate Account Info.
      */
-    private function generateAccountInfo(OrderEntity $order): AccountInfo
+    private function generateAccountInfo(OrderEntity $order, Context $context): AccountInfo
     {
         $customer = $order->getOrderCustomer()->getCustomer();
         $accountInfo = new AccountInfo();
@@ -640,7 +643,7 @@ abstract class AbstractPaymentMethod implements AsynchronousPaymentHandlerInterf
 
         $accountInfo->purchase = new Purchase();
         $accountInfo->purchase->count = count(
-            $this->getOrderCustomers($customer->getId())->filter(
+            $this->getOrderCustomers($customer->getId(), $context)->filter(
                 fn(OrderCustomerEntity $oc) => $oc->getOrderId() !== $order->getId()
                     && $oc->getOrder()->getCreatedAt() >= (new \DateTime())->modify('-6 months')
             )
@@ -658,7 +661,7 @@ abstract class AbstractPaymentMethod implements AsynchronousPaymentHandlerInterf
             )
         );
 
-        $orderCustomers = $this->getOrderCustomers($customer->getId());
+        $orderCustomers = $this->getOrderCustomers($customer->getId(), $context);
 
         $accountInfo->purchase->payment_attempts_24h = $countPaymentAttemptFn($orderCustomers, '-1 day');
         $accountInfo->purchase->payment_attempts_1y = $countPaymentAttemptFn($orderCustomers, '-1 year');
@@ -713,7 +716,7 @@ abstract class AbstractPaymentMethod implements AsynchronousPaymentHandlerInterf
     /**
      * Determinate the shipping indicator.
      */
-    private function generateShippingIndicator(OrderEntity $order): int
+    private function generateShippingIndicator(OrderEntity $order, Context $context): int
     {
         if ($shippingAddress = $order->getDeliveries()->getShippingAddress()->first()) {
             $shippingHash = $this->getAddressHash($shippingAddress);
@@ -723,7 +726,7 @@ abstract class AbstractPaymentMethod implements AsynchronousPaymentHandlerInterf
             }
 
             if ($customer = $order->getOrderCustomer()->getCustomer()) {
-                foreach ($this->getOrderCustomers($customer->getId()) as $orderCustomer) {
+                foreach ($this->getOrderCustomers($customer->getId(), $context) as $orderCustomer) {
                     $shipping = $orderCustomer->getOrder()->getDeliveries()->getShippingAddress()->first();
                     if (
                         $shipping
@@ -764,7 +767,7 @@ abstract class AbstractPaymentMethod implements AsynchronousPaymentHandlerInterf
     /**
      * Get the OrderCustomers from a customer Id.
      */
-    private function getOrderCustomers(string $customerId): OrderCustomerCollection
+    private function getOrderCustomers(string $customerId, Context $context): OrderCustomerCollection
     {
         return new OrderCustomerCollection(
             $this->orderCustomerRepository->search(
@@ -777,7 +780,7 @@ abstract class AbstractPaymentMethod implements AsynchronousPaymentHandlerInterf
                     ->addAssociation('order.lineItems')
                     ->addSorting(new FieldSorting('order.createdAt', FieldSorting::DESCENDING))
                     ->setLimit(5),
-                Context::createDefaultContext()
+                $context
             )->getEntities()
         );
     }
@@ -808,7 +811,7 @@ abstract class AbstractPaymentMethod implements AsynchronousPaymentHandlerInterf
     /**
      * Handle hosted fields response and return the redirect url.
      */
-    protected function handleHostedFieldResponse(AsyncPaymentTransactionStruct $transaction, Transaction $response): string
+    protected function handleHostedFieldResponse(AsyncPaymentTransactionStruct $transaction, Transaction $response, Context $context): string
     {
         // error as main return
         $redirect = $transaction->getReturnUrl() . '&return=' . TransactionState::ERROR;
