@@ -62,11 +62,7 @@ class AdminController extends AbstractController
 
                 /* @infection-ignore-all */
                 $this->logger->error($message);
-
-                return new JsonResponse([
-                    'success' => false,
-                    'message' => $message,
-                ]);
+                return new JsonResponse(['success' => false, 'message' => $message], Response::HTTP_BAD_REQUEST);
             }
         }
 
@@ -80,11 +76,11 @@ class AdminController extends AbstractController
     #[Route(path: "/api/_action/hipay/capture")]
     public function capture(RequestDataBag $params, HiPayHttpClientService $clientService): JsonResponse
     {
-        try {
-            if (!is_string($params->get('hipayOrder'))) {
-                throw new JsonException('HiPay Order parameter is mandatory');
-            }
+        if (!is_string($params->get('hipayOrder'))) {
+            return new JsonResponse(['success' => false, 'message' => 'HiPay Order parameter is mandatory'], Response::HTTP_BAD_REQUEST);
+        }
 
+        try {
             $hipayOrderData = json_decode($params->get('hipayOrder'));
             $captureAmount = floatval($params->get('amount'));
 
@@ -100,7 +96,7 @@ class AdminController extends AbstractController
             $totalTransaction = $hipayOrder->getTransaction()->getAmount()->getTotalPrice();
 
             if (!boolval($config['allowPartialCapture']) && $captureAmount !== $totalTransaction) {
-                throw new InvalidParameterException('Only the full capture is allowed');
+                return new JsonResponse(['success' => false, 'message' => 'Only the full capture is allowed'], Response::HTTP_BAD_REQUEST);
             }
 
             $isApplePay = 'apple_pay' === $hipayOrder->getTransaction()->getPaymentMethod()->getShortName();
@@ -148,19 +144,18 @@ class AdminController extends AbstractController
         } catch (\Exception $e) {
             /* @infection-ignore-all */
             $this->logger->error($e->getCode() . ' : ' . $e->getMessage());
-
-            return new JsonResponse(['success' => false]);
+            return new JsonResponse(['success' => false, 'message' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
     #[Route(path: "/api/_action/hipay/refund")]
     public function refund(RequestDataBag $params, HiPayHttpClientService $clientService): JsonResponse
     {
-        try {
-            if (!is_string($params->get('hipayOrder'))) {
-                throw new JsonException('HiPay Order parameter is mandatory');
-            }
+        if (!is_string($params->get('hipayOrder'))) {
+            return new JsonResponse(['success' => false, 'message' => 'HiPay Order parameter is mandatory'], Response::HTTP_BAD_REQUEST);
+        }
 
+        try {
             $hipayOrderData = json_decode($params->get('hipayOrder'));
 
             $maintenanceRequestFormatter = new MaintenanceRequestFormatter();
@@ -186,11 +181,7 @@ class AdminController extends AbstractController
                 $hipayOrder
             );
 
-            /* @infection-ignore-all */
-            $this->logger->info(
-                'Payload for Maintenance refund request',
-                (array)$maintenanceRequest
-            );
+            $this->logger->info('Payload for Maintenance refund request', (array)$maintenanceRequest);
 
             // Make HiPay Maintenance request to refund transaction
             $maintenanceResponse = $clientService
@@ -203,11 +194,7 @@ class AdminController extends AbstractController
                     $maintenanceRequest
                 );
 
-            /* @infection-ignore-all */
-            $this->logger->info(
-                'Response of Maintenance refund request',
-                (array)$maintenanceResponse
-            );
+            $this->logger->info('Response of Maintenance refund request', (array)$maintenanceResponse);
 
             // Save HiPay refund to database
             $this->hipayOrderRefundRepository->create([$refund->toArray()], $context);
@@ -216,19 +203,18 @@ class AdminController extends AbstractController
         } catch (\Exception $e) {
             /* @infection-ignore-all */
             $this->logger->error($e->getCode() . ' : ' . $e->getMessage());
-
-            return new JsonResponse(['success' => false]);
+            return new JsonResponse(['success' => false, 'message' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
     #[Route(path: "/api/_action/hipay/cancel")]
     public function cancel(RequestDataBag $params, HiPayHttpClientService $clientService): JsonResponse
     {
-        try {
-            if (!is_string($params->get('hipayOrder'))) {
-                throw new JsonException('HiPay Order parameter is mandatory');
-            }
+        if (!is_string($params->get('hipayOrder'))) {
+            return new JsonResponse(['success' => false, 'message' => 'HiPay Order parameter is mandatory'], Response::HTTP_BAD_REQUEST);
+        }
 
+        try {
             $hipayOrderData = json_decode($params->get('hipayOrder'));
 
             $maintenanceRequestFormatter = new MaintenanceRequestFormatter();
@@ -270,8 +256,7 @@ class AdminController extends AbstractController
         } catch (\Exception $e) {
             /* @infection-ignore-all */
             $this->logger->error($e->getCode() . ' : ' . $e->getMessage());
-
-            return new JsonResponse(['success' => false]);
+            return new JsonResponse(['success' => false, 'message' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -348,7 +333,7 @@ class AdminController extends AbstractController
 
             return $response;
         } catch (\Throwable $e) {
-            return new JsonResponse(['success' => false, 'message' => $e->getMessage()]);
+            return new JsonResponse(['success' => false, 'message' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }
