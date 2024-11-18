@@ -10,6 +10,7 @@ use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Shopware\Storefront\Controller\StorefrontController;
 use Shopware\Storefront\Framework\Routing\Attribute\NoStore;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -49,9 +50,9 @@ class HipayStorefrontController extends StorefrontController
 
             return new JsonResponse(['success' => true]);
         } catch (NotFoundHttpException $e) {
-            return new JsonResponse(['success' => false, 'message' => 'Card token not found'], 404);
+            return new JsonResponse(['success' => false, 'message' => 'Card token not found'], Response::HTTP_NOT_FOUND);
         } catch (\Throwable $e) {
-            return new JsonResponse(['success' => false, 'message' => ''], 500);
+            return new JsonResponse(['success' => false, 'message' => ''], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }

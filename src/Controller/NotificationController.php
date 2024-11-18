@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Controller use to receive notifications from Hipay.
@@ -34,11 +35,11 @@ class NotificationController
             $message = 'Notification fail : ' . $e->getMessage();
             $this->logger->error($message);
 
-            $code = 500;
+            $code = Response::HTTP_INTERNAL_SERVER_ERROR;
             if ($e instanceof UnauthorizedHttpException) {
-                $code = 401;
+                $code = Response::HTTP_UNAUTHORIZED;
             } elseif ($e instanceof AccessDeniedException) {
-                $code = 403;
+                $code = Response::HTTP_FORBIDDEN;
             }
 
             return new JsonResponse(['success' => false, 'error' => $message], $code);
