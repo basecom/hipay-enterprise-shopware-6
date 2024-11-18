@@ -94,7 +94,7 @@ class AdminController extends AbstractController
             $hipayOrderCriteria = new Criteria([$hipayOrderData->id]);
             $hipayOrderCriteria->addAssociations(['captures', 'transaction.paymentMethod']);
             /** @var HipayOrderEntity */
-            $hipayOrder = $this->hipayOrderRepository->search($hipayOrderCriteria, $context)->first();
+            $hipayOrder = $this->hipayOrderRepository->search($hipayOrderCriteria, $context)->getEntities()->first();
 
             $config = $hipayOrder->getTransaction()->getPaymentMethod()->getExtension('hipayConfig');
             $totalTransaction = $hipayOrder->getTransaction()->getAmount()->getTotalPrice();
@@ -175,7 +175,7 @@ class AdminController extends AbstractController
             $hipayOrderCriteria = new Criteria([$hipayOrderData->id]);
             $hipayOrderCriteria->addAssociations(['refunds', 'transaction.paymentMethod']);
             /** @var HipayOrderEntity */
-            $hipayOrder = $this->hipayOrderRepository->search($hipayOrderCriteria, $context)->first();
+            $hipayOrder = $this->hipayOrderRepository->search($hipayOrderCriteria, $context)->getEntities()->first();
 
             $isApplePay = 'apple_pay' === $hipayOrder->getTransaction()->getPaymentMethod()->getShortName();
 
@@ -242,7 +242,7 @@ class AdminController extends AbstractController
             $hipayOrderCriteria = new Criteria([$hipayOrderData->id]);
             $hipayOrderCriteria->addAssociation('transaction.paymentMethod');
             /** @var HipayOrderEntity */
-            $hipayOrder = $this->hipayOrderRepository->search($hipayOrderCriteria, $context)->first();
+            $hipayOrder = $this->hipayOrderRepository->search($hipayOrderCriteria, $context)->getEntities()->first();
 
             $isApplePay = 'apple_pay' === $hipayOrder->getTransaction()->getPaymentMethod()->getShortName();
 

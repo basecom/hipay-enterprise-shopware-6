@@ -129,7 +129,7 @@ class NotificationService
         }
 
         $transactionCriteria = (new Criteria([$orderTransactionId]))->addAssociation('order');
-        if (!$transaction = $this->transactionRepository->search($transactionCriteria, $context)->first()) {
+        if (!$transaction = $this->transactionRepository->search($transactionCriteria, $context)->getEntities()->first()) {
             throw new NotFoundResourceException('Transaction ' . $orderTransactionId . ' is not found');
         }
         /** @var OrderTransactionEntity $transaction */
@@ -649,7 +649,7 @@ class NotificationService
 
     private function getAssociatedHiPayOrder(Criteria $criteria): ?Entity
     {
-        return $this->hipayOrderRepository->search($criteria, Context::createDefaultContext())->first();
+        return $this->hipayOrderRepository->search($criteria, Context::createDefaultContext())->getEntities()->first();
     }
 
     /**

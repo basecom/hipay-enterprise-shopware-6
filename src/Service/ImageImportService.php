@@ -116,7 +116,7 @@ class ImageImportService
         $defaultFolder = $this->mediaFolderRepository->search($criteria, $context);
         $defaultFolderId = null;
         if (1 === $defaultFolder->count()) {
-            $folder = $defaultFolder->first();
+            $folder = $defaultFolder->getEntities()->first();
             if (method_exists($folder, 'getId')) {
                 $defaultFolderId = $folder->getId();
             }
