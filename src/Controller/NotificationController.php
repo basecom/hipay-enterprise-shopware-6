@@ -18,14 +18,11 @@ class NotificationController
 {
     private HipayLogger $logger;
 
-    private NotificationService $notificationService;
-
     public function __construct(
         HipayLogger $hipayLogger,
-        NotificationService $notificationService
+        private NotificationService $notificationService
     ) {
         $this->logger = $hipayLogger->setChannel(HipayLogger::API);
-        $this->notificationService = $notificationService;
     }
 
     #[Route('/api/hipay/notify', name: 'store-api.action.hipay.notification', methods: ['POST', 'GET'])]
@@ -34,7 +31,7 @@ class NotificationController
         try {
             $this->notificationService->saveNotificationRequest($request);
         } catch (\Throwable $e) {
-            $message = 'Notification fail : '.$e->getMessage();
+            $message = 'Notification fail : ' . $e->getMessage();
             $this->logger->error($message);
 
             $code = 500;

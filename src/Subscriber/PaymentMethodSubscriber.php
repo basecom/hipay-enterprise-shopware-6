@@ -16,16 +16,10 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class PaymentMethodSubscriber implements EventSubscriberInterface
 {
-    private RequestStack $requestStack;
-    private ReadHipayConfigService $config;
-
     public function __construct(
-        RequestStack $requestStack,
-        ReadHipayConfigService $config
-    ) {
-        $this->requestStack = $requestStack;
-        $this->config = $config;
-    }
+        private RequestStack $requestStack,
+        private ReadHipayConfigService $config
+    ) {}
 
     public static function getSubscribedEvents(): array
     {

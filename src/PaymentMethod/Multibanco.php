@@ -11,6 +11,7 @@ use HiPay\Fullservice\Gateway\Request\PaymentMethod\ExpirationLimitPaymentMethod
 use HiPay\Payment\Logger\HipayLogger;
 use HiPay\Payment\Service\HiPayHttpClientService;
 use HiPay\Payment\Service\ReadHipayConfigService;
+use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionCollection;
 use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStateHandler;
 use Shopware\Core\Checkout\Payment\Cart\AsyncPaymentTransactionStruct;
 use Shopware\Core\Framework\Context;
@@ -34,8 +35,10 @@ class Multibanco extends AbstractPaymentMethod
 
     protected static PaymentProduct $paymentConfig;
 
-    protected EntityRepository $transactionRepo;
-
+    /**
+     * @param EntityRepository<OrderCustomerCollection> $orderCustomerRepository
+     * @param EntityRepository<OrderTransactionCollection> $orderTransactionRepository
+     */
     public function __construct(
         OrderTransactionStateHandler $transactionStateHandler,
         ReadHipayConfigService $config,
@@ -44,7 +47,7 @@ class Multibanco extends AbstractPaymentMethod
         LocaleProvider $localeProvider,
         EntityRepository $orderCustomerRepository,
         HipayLogger $hipayLogger,
-        EntityRepository $orderTransactionRepository
+        protected EntityRepository $orderTransactionRepository
     ) {
         parent::__construct(
             $transactionStateHandler,
@@ -55,8 +58,6 @@ class Multibanco extends AbstractPaymentMethod
             $orderCustomerRepository,
             $hipayLogger
         );
-
-        $this->transactionRepo = $orderTransactionRepository;
     }
 
     public static function getName(string $lang): ?string
@@ -108,7 +109,7 @@ class Multibanco extends AbstractPaymentMethod
     protected function handleHostedFieldResponse(AsyncPaymentTransactionStruct $transaction, Transaction $response): string
     {
         // error as main return
-        $redirect = $transaction->getReturnUrl().'&return='.TransactionState::ERROR;
+        $redirect = $transaction->getReturnUrl() . '&return=' . TransactionState::ERROR;
 
         switch ($response->getState()) {
             case TransactionState::FORWARDING:
@@ -118,12 +119,12 @@ class Multibanco extends AbstractPaymentMethod
                 break;
 
             case TransactionState::DECLINED:
-                $redirect = $transaction->getReturnUrl().'&return='.TransactionState::DECLINED;
+                $redirect = $transaction->getReturnUrl() . '&return=' . TransactionState::DECLINED;
                 break;
         }
 
         // save the reference to pay
-        $this->transactionRepo->update(
+        $this->orderTransactionRepository->update(
             [[
                 'id' => $transaction->getOrderTransaction()->getId(),
                 'customFields' => array_merge(

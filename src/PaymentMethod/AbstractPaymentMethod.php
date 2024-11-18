@@ -62,17 +62,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  */
 abstract class AbstractPaymentMethod implements AsynchronousPaymentHandlerInterface, PaymentMethodInterface
 {
-    protected OrderTransactionStateHandler $transactionStateHandler;
-
-    protected HiPayHttpClientService $clientService;
-
-    protected ReadHipayConfigService $config;
-
     protected ?Request $request;
-
-    protected LocaleProvider $localeProvider;
-
-    private EntityRepository $orderCustomerRepo;
 
     protected HipayLogger $logger;
 
@@ -89,30 +79,28 @@ abstract class AbstractPaymentMethod implements AsynchronousPaymentHandlerInterf
     protected const PAYMENT_IMAGE = null;
 
     /** @var string Path to payment methods config folder */
-    protected const PAYMENT_CONFIG_FILE_PATH = __DIR__.'/../PaymentConfigFiles/local/';
+    protected const PAYMENT_CONFIG_FILE_PATH = __DIR__ . '/../PaymentConfigFiles/local/';
 
     /** @var PaymentProduct Configuration loaded from the json file. MUST be redeclare for each payment method */
     protected static PaymentProduct $paymentConfig;
 
+    /**
+     * @param EntityRepository<OrderCustomerCollection> $orderCustomerRepository
+     */
     public function __construct(
-        OrderTransactionStateHandler $transactionStateHandler,
-        ReadHipayConfigService $config,
-        HiPayHttpClientService $clientService,
+        protected OrderTransactionStateHandler $transactionStateHandler,
+        protected ReadHipayConfigService $config,
+        protected HiPayHttpClientService $clientService,
         RequestStack $requestStack,
-        LocaleProvider $localeProvider,
-        EntityRepository $orderCustomerRepository,
+        protected LocaleProvider $localeProvider,
+        private EntityRepository $orderCustomerRepository,
         HipayLogger $hipayLogger
     ) {
-        $this->transactionStateHandler = $transactionStateHandler;
-        $this->config = $config;
-        $this->clientService = $clientService;
         $this->request = $requestStack->getCurrentRequest();
-        $this->localeProvider = $localeProvider;
-        $this->orderCustomerRepo = $orderCustomerRepository;
         $this->logger = $hipayLogger->setChannel(HipayLogger::API);
 
         if (-1 === static::PAYMENT_POSITION) {
-            throw new UnexpectedValueException('Constant '.__CLASS__.'::PAYMENT_POSITION must be defined');
+            throw new UnexpectedValueException('Constant ' . __CLASS__ . '::PAYMENT_POSITION must be defined');
         }
 
         static::$paymentConfig = static::loadPaymentConfig();
@@ -127,7 +115,7 @@ abstract class AbstractPaymentMethod implements AsynchronousPaymentHandlerInterf
             $locale = $this->localeProvider->getLocaleFromContext($salesChannelContext->getContext());
             $redirectUri = $this->getRedirectUri($transaction, $locale);
         } catch (\Throwable $e) {
-            $message = 'An error occurred during the communication with external payment gateway : '.$e->getMessage();
+            $message = 'An error occurred during the communication with external payment gateway : ' . $e->getMessage();
             $this->logger->error($message);
             throw PaymentException::asyncProcessInterrupted($transaction->getOrderTransaction()->getId(), $message);
         }
@@ -144,7 +132,7 @@ abstract class AbstractPaymentMethod implements AsynchronousPaymentHandlerInterf
         $transaction = $transaction->getOrderTransaction();
 
         if ($return = $request->query->getAlpha('return')) {
-            throw PaymentException::asyncFinalizeInterrupted($transaction->getId(), 'Payment '.$return);
+            throw PaymentException::asyncFinalizeInterrupted($transaction->getId(), 'Payment ' . $return);
         }
 
         $this->transactionStateHandler->process($transaction->getId(), Context::createDefaultContext());
@@ -169,7 +157,7 @@ abstract class AbstractPaymentMethod implements AsynchronousPaymentHandlerInterf
 
     public static function getTechnicalName(): string
     {
-        return 'hipay-'.(static::TECHNICAL_NAME ?? static::getProductCode());
+        return 'hipay-' . (static::TECHNICAL_NAME ?? static::getProductCode());
     }
 
     /**
@@ -245,11 +233,11 @@ abstract class AbstractPaymentMethod implements AsynchronousPaymentHandlerInterf
     protected static function loadPaymentConfig(): PaymentProduct
     {
         if (empty(static::PAYMENT_CODE)) {
-            throw new UnexpectedValueException('Constant '.__CLASS__.'::PAYMENT_CODE must be defined');
+            throw new UnexpectedValueException('Constant ' . __CLASS__ . '::PAYMENT_CODE must be defined');
         }
 
         if (!$config = (static::getLocalItem(static::PAYMENT_CODE) ?? Collection::getItem(static::PAYMENT_CODE))) {
-            throw new UnexpectedValueException('The constant '.__CLASS__.'::PAYMENT_CODE is invalid');
+            throw new UnexpectedValueException('The constant ' . __CLASS__ . '::PAYMENT_CODE is invalid');
         }
 
         return $config;
@@ -264,8 +252,8 @@ abstract class AbstractPaymentMethod implements AsynchronousPaymentHandlerInterf
      */
     public static function getLocalItem($product_code)
     {
-        if (file_exists(static::PAYMENT_CONFIG_FILE_PATH.$product_code.'.json')) {
-            $paymentProductConfig = file_get_contents(static::PAYMENT_CONFIG_FILE_PATH.$product_code.'.json');
+        if (file_exists(static::PAYMENT_CONFIG_FILE_PATH . $product_code . '.json')) {
+            $paymentProductConfig = file_get_contents(static::PAYMENT_CONFIG_FILE_PATH . $product_code . '.json');
 
             if (false === $paymentProductConfig) {
                 return null;
@@ -346,7 +334,7 @@ abstract class AbstractPaymentMethod implements AsynchronousPaymentHandlerInterf
             return $this->handleHostedPageResponse($transaction, $response);
         }
 
-        throw new UnexpectedValueException('Configuration mode "'.$this->config->getOperationMode().'" is invalid');
+        throw new UnexpectedValueException('Configuration mode "' . $this->config->getOperationMode() . '" is invalid');
     }
 
     /**
@@ -408,7 +396,7 @@ abstract class AbstractPaymentMethod implements AsynchronousPaymentHandlerInterf
         $isCaptureAuto = $this->config->isCaptureAuto();
         $order = $transaction->getOrder();
         $operationId = Uuid::randomHex();
-        $orderRequest->orderid = $order->getOrderNumber().'-'.dechex(crc32($transaction->getOrderTransaction()->getId()));
+        $orderRequest->orderid = $order->getOrderNumber() . '-' . dechex(crc32($transaction->getOrderTransaction()->getId()));
         $orderRequest->operation = $isCaptureAuto ? 'Sale' : 'Authorization';
         $orderRequest->description = $this->generateDescription($order->getLineItems(), 255, '...');
 
@@ -449,11 +437,11 @@ abstract class AbstractPaymentMethod implements AsynchronousPaymentHandlerInterf
 
         $orderRequest->accept_url = $transaction->getReturnUrl();
         $orderRequest->pending_url = $transaction->getReturnUrl();
-        $orderRequest->decline_url = $transaction->getReturnUrl().'&return='.TransactionState::ERROR;
-        $orderRequest->exception_url = $transaction->getReturnUrl().'&return='.TransactionState::ERROR;
-        $orderRequest->cancel_url = $transaction->getReturnUrl().'&return='.TransactionState::ERROR;
+        $orderRequest->decline_url = $transaction->getReturnUrl() . '&return=' . TransactionState::ERROR;
+        $orderRequest->exception_url = $transaction->getReturnUrl() . '&return=' . TransactionState::ERROR;
+        $orderRequest->cancel_url = $transaction->getReturnUrl() . '&return=' . TransactionState::ERROR;
 
-        $orderRequest->notify_url = $this->request->getSchemeAndHttpHost().'/api/hipay/notify';
+        $orderRequest->notify_url = $this->request->getSchemeAndHttpHost() . '/api/hipay/notify';
 
         return $orderRequest;
     }
@@ -466,13 +454,13 @@ abstract class AbstractPaymentMethod implements AsynchronousPaymentHandlerInterf
         $description = [];
         foreach ($lineItems as $lineItem) {
             if ('product' === $lineItem->getType()) {
-                $description[] = $lineItem->getQuantity().' x '.$lineItem->getLabel();
+                $description[] = $lineItem->getQuantity() . ' x ' . $lineItem->getLabel();
             }
         }
         $description = implode(' + ', $description);
         $maxLength -= strlen($trailing);
 
-        return strlen($description) <= $maxLength ? $description : substr($description, 0, $maxLength).$trailing;
+        return strlen($description) <= $maxLength ? $description : substr($description, 0, $maxLength) . $trailing;
     }
 
     private function generateBasket(OrderEntity $order): array
@@ -521,7 +509,7 @@ abstract class AbstractPaymentMethod implements AsynchronousPaymentHandlerInterf
         $billingInfo->recipientinfo = $billingAddress->getCompany();
         $billingInfo->streetaddress = $billingAddress->getStreet();
         $billingInfo->streetaddress2 = trim(
-            trim($billingAddress->getAdditionalAddressLine1()).' '.trim($billingAddress->getAdditionalAddressLine2())
+            trim($billingAddress->getAdditionalAddressLine1()) . ' ' . trim($billingAddress->getAdditionalAddressLine2())
         );
         $billingInfo->zipcode = $billingAddress->getZipcode();
         $billingInfo->city = $billingAddress->getCity();
@@ -557,7 +545,7 @@ abstract class AbstractPaymentMethod implements AsynchronousPaymentHandlerInterf
             $shippingInfo->shipto_recipientinfo = $shippingAddress->getCompany();
             $shippingInfo->shipto_streetaddress = $shippingAddress->getStreet();
             $shippingInfo->shipto_streetaddress2 = trim(
-                trim($shippingAddress->getAdditionalAddressLine1()).' '.trim($shippingAddress->getAdditionalAddressLine2())
+                trim($shippingAddress->getAdditionalAddressLine1()) . ' ' . trim($shippingAddress->getAdditionalAddressLine2())
             );
             $shippingInfo->shipto_city = $shippingAddress->getCity();
             $shippingInfo->shipto_zipcode = $shippingAddress->getZipcode();
@@ -610,7 +598,7 @@ abstract class AbstractPaymentMethod implements AsynchronousPaymentHandlerInterf
                 $mapLineItemsCallback = function (OrderLineItemCollection $lineItems) {
                     /* @infection-ignore-all */
                     $lineItemsHashs = $lineItems->map(
-                        fn (OrderLineItemEntity $lineItem) => $lineItem->getQuantity().$lineItem->getProductId()
+                        fn(OrderLineItemEntity $lineItem) => $lineItem->getQuantity() . $lineItem->getProductId()
                     );
                     sort($lineItemsHashs);
 
@@ -653,16 +641,16 @@ abstract class AbstractPaymentMethod implements AsynchronousPaymentHandlerInterf
         $accountInfo->purchase = new Purchase();
         $accountInfo->purchase->count = count(
             $this->getOrderCustomers($customer->getId())->filter(
-                fn (OrderCustomerEntity $oc) => $oc->getOrderId() !== $order->getId()
+                fn(OrderCustomerEntity $oc) => $oc->getOrderId() !== $order->getId()
                     && $oc->getOrder()->getCreatedAt() >= (new \DateTime())->modify('-6 months')
             )
         );
 
-        $countPaymentAttemptFn = fn (OrderCustomerCollection $occ, $delay) => (int) array_sum(
+        $countPaymentAttemptFn = fn(OrderCustomerCollection $occ, $delay) => (int) array_sum(
             $occ->map(
-                fn (OrderCustomerEntity $oc) => count(
+                fn(OrderCustomerEntity $oc) => count(
                     $oc->getOrder()->getTransactions()->filter(
-                        fn (OrderTransactionEntity $ot) => $ot->getOrderId() !== $order->getId()
+                        fn(OrderTransactionEntity $ot) => $ot->getOrderId() !== $order->getId()
                             && CreditCard::class === $ot->getPaymentMethod()->getHandlerIdentifier()
                             && $ot->getCreatedAt() >= (new \DateTime())->modify($delay)
                     )
@@ -759,18 +747,18 @@ abstract class AbstractPaymentMethod implements AsynchronousPaymentHandlerInterf
     private function getAddressHash(OrderAddressEntity $address): string
     {
         return $address->getSalutationId()
-            .$address->getFirstName()
-            .$address->getLastName()
-            .$address->getStreet()
-            .$address->getZipcode()
-            .$address->getCity()
-            .$address->getCompany()
-            .$address->getTitle()
-            .$address->getPhoneNumber()
-            .$address->getAdditionalAddressLine1()
-            .$address->getAdditionalAddressLine2()
-            .$address->getCountryId()
-            .$address->getCountryStateId();
+            . $address->getFirstName()
+            . $address->getLastName()
+            . $address->getStreet()
+            . $address->getZipcode()
+            . $address->getCity()
+            . $address->getCompany()
+            . $address->getTitle()
+            . $address->getPhoneNumber()
+            . $address->getAdditionalAddressLine1()
+            . $address->getAdditionalAddressLine2()
+            . $address->getCountryId()
+            . $address->getCountryStateId();
     }
 
     /**
@@ -779,7 +767,7 @@ abstract class AbstractPaymentMethod implements AsynchronousPaymentHandlerInterf
     private function getOrderCustomers(string $customerId): OrderCustomerCollection
     {
         return new OrderCustomerCollection(
-            $this->orderCustomerRepo->search(
+            $this->orderCustomerRepository->search(
                 (new Criteria())
                     ->addFilter(new EqualsFilter('customerId', $customerId))
                     ->addAssociation('order')
@@ -809,7 +797,7 @@ abstract class AbstractPaymentMethod implements AsynchronousPaymentHandlerInterf
             }
         } catch (\Throwable $e) {
             if ($phoneNumber) {
-                $this->logger->error('Error on parsing phone number "'.$phoneNumber.'"');
+                $this->logger->error('Error on parsing phone number "' . $phoneNumber . '"');
             }
             unset($e);
         }
@@ -823,7 +811,7 @@ abstract class AbstractPaymentMethod implements AsynchronousPaymentHandlerInterf
     protected function handleHostedFieldResponse(AsyncPaymentTransactionStruct $transaction, Transaction $response): string
     {
         // error as main return
-        $redirect = $transaction->getReturnUrl().'&return='.TransactionState::ERROR;
+        $redirect = $transaction->getReturnUrl() . '&return=' . TransactionState::ERROR;
 
         switch ($response->getState()) {
             case TransactionState::FORWARDING:
@@ -835,7 +823,7 @@ abstract class AbstractPaymentMethod implements AsynchronousPaymentHandlerInterf
                 break;
 
             case TransactionState::DECLINED:
-                $redirect = $transaction->getReturnUrl().'&return='.TransactionState::DECLINED;
+                $redirect = $transaction->getReturnUrl() . '&return=' . TransactionState::DECLINED;
                 break;
         }
 

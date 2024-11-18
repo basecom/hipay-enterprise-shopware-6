@@ -4,8 +4,11 @@ namespace HiPay\Payment\Controller;
 
 use HiPay\Fullservice\Enum\Transaction\Operation;
 use HiPay\Fullservice\HTTP\Configuration\Configuration;
+use HiPay\Payment\Core\Checkout\Payment\Capture\OrderCaptureCollection;
 use HiPay\Payment\Core\Checkout\Payment\Capture\OrderCaptureEntity;
+use HiPay\Payment\Core\Checkout\Payment\HipayOrder\HipayOrderCollection;
 use HiPay\Payment\Core\Checkout\Payment\HipayOrder\HipayOrderEntity;
+use HiPay\Payment\Core\Checkout\Payment\Refund\OrderRefundCollection;
 use HiPay\Payment\Core\Checkout\Payment\Refund\OrderRefundEntity;
 use HiPay\Payment\Formatter\Request\MaintenanceRequestFormatter;
 use HiPay\Payment\HiPayPaymentPlugin;
@@ -28,25 +31,17 @@ class AdminController extends AbstractController
 {
     protected LoggerInterface $logger;
 
-    private EntityRepository $hipayOrderRepo;
-
-    private EntityRepository $hipayOrderCaptureRepo;
-
-    private EntityRepository $hipayOrderRefundRepo;
-
     /**
-     * Constructor.
+     * @param EntityRepository<HipayOrderCollection> $hipayOrderRepository
+     * @param EntityRepository<OrderCaptureCollection> $hipayOrderCaptureRepository
+     * @param EntityRepository<OrderRefundCollection> $hipayOrderRefundRepository
      */
     public function __construct(
-        EntityRepository $hipayOrderRepository,
-        EntityRepository $hipayOrderCaptureRepository,
-        EntityRepository $hipayOrderRefundRepository,
+        private EntityRepository $hipayOrderRepository,
+        private EntityRepository $hipayOrderCaptureRepository,
+        private EntityRepository $hipayOrderRefundRepository,
         HipayLogger      $hipayLogger
-    )
-    {
-        $this->hipayOrderRepo = $hipayOrderRepository;
-        $this->hipayOrderCaptureRepo = $hipayOrderCaptureRepository;
-        $this->hipayOrderRefundRepo = $hipayOrderRefundRepository;
+    ) {
         $this->logger = $hipayLogger->setChannel(HipayLogger::API);
     }
 
@@ -99,7 +94,7 @@ class AdminController extends AbstractController
             $hipayOrderCriteria = new Criteria([$hipayOrderData->id]);
             $hipayOrderCriteria->addAssociations(['captures', 'transaction.paymentMethod']);
             /** @var HipayOrderEntity */
-            $hipayOrder = $this->hipayOrderRepo->search($hipayOrderCriteria, $context)->first();
+            $hipayOrder = $this->hipayOrderRepository->search($hipayOrderCriteria, $context)->first();
 
             $config = $hipayOrder->getTransaction()->getPaymentMethod()->getExtension('hipayConfig');
             $totalTransaction = $hipayOrder->getTransaction()->getAmount()->getTotalPrice();
@@ -147,7 +142,7 @@ class AdminController extends AbstractController
             );
 
             // Save HiPay capture to database
-            $this->hipayOrderCaptureRepo->create([$capture->toArray()], $context);
+            $this->hipayOrderCaptureRepository->create([$capture->toArray()], $context);
 
             return new JsonResponse(['success' => true]);
         } catch (\Exception $e) {
@@ -180,7 +175,7 @@ class AdminController extends AbstractController
             $hipayOrderCriteria = new Criteria([$hipayOrderData->id]);
             $hipayOrderCriteria->addAssociations(['refunds', 'transaction.paymentMethod']);
             /** @var HipayOrderEntity */
-            $hipayOrder = $this->hipayOrderRepo->search($hipayOrderCriteria, $context)->first();
+            $hipayOrder = $this->hipayOrderRepository->search($hipayOrderCriteria, $context)->first();
 
             $isApplePay = 'apple_pay' === $hipayOrder->getTransaction()->getPaymentMethod()->getShortName();
 
@@ -215,7 +210,7 @@ class AdminController extends AbstractController
             );
 
             // Save HiPay refund to database
-            $this->hipayOrderRefundRepo->create([$refund->toArray()], $context);
+            $this->hipayOrderRefundRepository->create([$refund->toArray()], $context);
 
             return new JsonResponse(['success' => true]);
         } catch (\Exception $e) {
@@ -247,7 +242,7 @@ class AdminController extends AbstractController
             $hipayOrderCriteria = new Criteria([$hipayOrderData->id]);
             $hipayOrderCriteria->addAssociation('transaction.paymentMethod');
             /** @var HipayOrderEntity */
-            $hipayOrder = $this->hipayOrderRepo->search($hipayOrderCriteria, $context)->first();
+            $hipayOrder = $this->hipayOrderRepository->search($hipayOrderCriteria, $context)->first();
 
             $isApplePay = 'apple_pay' === $hipayOrder->getTransaction()->getPaymentMethod()->getShortName();
 
@@ -294,15 +289,15 @@ class AdminController extends AbstractController
         $payload = [
             HiPayHttpClientService::API_USERNAME => $params->get(
                 $prefix
-                . $scope
-                . $login
-                . $environement
+                    . $scope
+                    . $login
+                    . $environement
             ),
             HiPayHttpClientService::API_PASSWORD => $params->get(
                 $prefix
-                . $scope
-                . $password
-                . $environement
+                    . $scope
+                    . $password
+                    . $environement
             ),
             HiPayHttpClientService::API_ENV => strtolower($environement),
         ];

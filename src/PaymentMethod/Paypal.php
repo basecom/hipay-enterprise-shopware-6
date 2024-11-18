@@ -30,8 +30,10 @@ class Paypal extends AbstractPaymentMethod
 
     protected static PaymentProduct $paymentConfig;
 
-    protected EntityRepository $transactionRepo;
-
+    /**
+     * @param EntityRepository<OrderCustomerCollection> $orderCustomerRepository
+     * @param EntityRepository<OrderTransactionCollection> $orderTransactionRepository
+     */
     public function __construct(
         OrderTransactionStateHandler $transactionStateHandler,
         ReadHipayConfigService $config,
@@ -40,7 +42,7 @@ class Paypal extends AbstractPaymentMethod
         LocaleProvider $localeProvider,
         EntityRepository $orderCustomerRepository,
         HipayLogger $hipayLogger,
-        EntityRepository $orderTransactionRepository
+        protected EntityRepository $orderTransactionRepository
     ) {
         parent::__construct(
             $transactionStateHandler,
@@ -51,8 +53,6 @@ class Paypal extends AbstractPaymentMethod
             $orderCustomerRepository,
             $hipayLogger,
         );
-
-        $this->transactionRepo = $orderTransactionRepository;
     }
 
     public static function getName(string $lang): ?string
