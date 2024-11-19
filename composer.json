@@ -6,7 +6,7 @@
         "basecom/sw6-custom-fields-plugin": "4.0.0",
         "basecom/sw6-fixtures-plugin": "3.0.0",
         "frosh/tools": "^2.1",
-        "hipay/hipay-enterprise-shopware-6": "dev-main-6-6",
+        "hipay/hipay-enterprise-shopware-6": "dev-develop-6-6",
         "shopware/administration": "6.6.8.2",
         "shopware/core": "6.6.8.2",
         "shopware/elasticsearch": "6.6.8.2",

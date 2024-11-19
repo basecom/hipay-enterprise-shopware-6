@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4b3a415192fa23900215b3445fe7ff36",
+    "content-hash": "65b6810b88094970db219e773fe28634",
     "packages": [
         {
             "name": "async-aws/core",
@@ -2526,17 +2526,17 @@
         },
         {
             "name": "hipay/hipay-enterprise-shopware-6",
-            "version": "dev-main-6-6",
+            "version": "dev-develop-6-6",
             "source": {
                 "type": "git",
                 "url": "git@github.com:basecom/hipay-enterprise-shopware-6.git",
-                "reference": "38a4bd96231f3aeaf4be390f761d6279b7cc2933"
+                "reference": "dee8e0d53765570e17154e56fa70d542ad0b3d48"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://papple.bsc.basecom.cloud/get/dist/hipay/hipay-enterprise-shopware-6/hipay-hipay-enterprise-shopware-6-dev-main-6-6-ab7cad.zip",
-                "reference": "38a4bd96231f3aeaf4be390f761d6279b7cc2933",
-                "shasum": "6b2fcb235f9462eab4b060603c2c3d2eb59f2549"
+                "url": "https://papple.bsc.basecom.cloud/get/dist/hipay/hipay-enterprise-shopware-6/hipay-hipay-enterprise-shopware-6-dev-develop-6-6-facfd7.zip",
+                "reference": "dee8e0d53765570e17154e56fa70d542ad0b3d48",
+                "shasum": "286348afd18c7ebaf27a30f697959274d64dc8b3"
             },
             "require": {
                 "giggsey/libphonenumber-for-php": "^8.13",
@@ -2544,13 +2544,13 @@
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "*",
-                "infection/infection": "^0.26.6",
+                "infection/infection": "^0.26.6 || ^0.27",
                 "phpstan/phpstan": "^1.8",
                 "phpunit/php-code-coverage": "~9.2.14",
                 "phpunit/phpunit": "~9.5.17",
-                "shopware/core": "6.5.*",
-                "shopware/storefront": "6.5.*",
-                "symfony/phpunit-bridge": "~4.4 || ~5.2.3 || ~5.3.0 || ~5.4.0"
+                "shopware/core": "6.6.*",
+                "shopware/storefront": "6.6.*",
+                "symfony/phpunit-bridge": "~4.4 || ~5.2.3 || ~5.3.0 || ~5.4.0 || ^6.0"
             },
             "type": "shopware-platform-plugin",
             "extra": {
@@ -2610,7 +2610,7 @@
                 "php",
                 "shopware"
             ],
-            "time": "2024-11-04T13:37:02+00:00"
+            "time": "2024-11-18T08:20:38+00:00"
         },
         {
             "name": "hipay/hipay-fullservice-sdk-php",
@@ -13544,6 +13544,6 @@
     "platform": {
         "composer-runtime-api": "^2.0"
     },
-    "platform-dev": {},
-    "plugin-api-version": "2.6.0"
+    "platform-dev": [],
+    "plugin-api-version": "2.2.0"
 }
