@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route(defaults: ['_routeScope' => 'storefront'])]
+#[Route(defaults: ['_routeScope' => ['storefront']])]
 class HipayStorefrontController extends StorefrontController
 {
     private EntityRepository $tokenRepo;
