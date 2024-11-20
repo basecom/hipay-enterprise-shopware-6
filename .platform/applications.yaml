@@ -239,3 +239,9 @@
         commands:
           start: |
             bin/console messenger:consume high_priority --memory-limit=$(cat /run/config.json | jq .info.limits.memory)M
+      task-scheduler:
+        disk: 128
+        size: S
+        commands:
+          start: |
+            bash scripts/psh/run_worker_command.sh scheduled-task:run
