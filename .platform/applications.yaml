@@ -215,6 +215,9 @@
       "/vendor":
         source: local
         source_path: "vendor"
+      "/public":
+        source: local
+        source_path: "public"
   # The configuration of app when it is exposed to the web.
     web:
       locations:
