@@ -228,12 +228,12 @@
             \.(css|js|gif|jpe?g|png|ttf|eot|woff2?|otf|cast|mp4|json|yaml|ico|svg?|cast|mp4|json|yaml|svg?|ttf)$:
               expires: 4w
 
-    task-scheduler:
+    workers:
+      task-scheduler:
         disk: 128
         commands:
-            start: |
-                bash scripts/psh/run_worker_command.sh scheduled-task:run
-    workers:
+          start: |
+            bash scripts/psh/run_worker_command.sh scheduled-task:run
       worker-0:
         disk: 128
         commands:
