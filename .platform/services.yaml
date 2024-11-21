@@ -5,9 +5,13 @@ db:
 redissession:
     type: redis-persistent:6.2
     disk: 512
+    configuration:
+        maxmemory_policy: volatile-lru
 
 rediscache:
     type: redis:6.2
+    configuration:
+        maxmemory_policy: volatile-lru
 
 elastic:
   type: opensearch:2
