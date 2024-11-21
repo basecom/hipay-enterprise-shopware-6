@@ -241,4 +241,11 @@
         commands:
           start: |
             bin/console cache:clear
-            bin/console messenger:consume scheduler_shopware high_priority --memory-limit=$(cat /run/config.json | jq .info.limits.memory)M
+            bin/console messenger:consume high_priority --memory-limit=$(cat /run/config.json | jq .info.limits.memory)M
+
+      shopware-scheduler:
+        disk: 128
+        commands:
+          start: |
+            bin/console cache:clear
+            bin/console messenger:consume scheduler_shopware --memory-limit=$(cat /run/config.json | jq .info.limits.memory)M
