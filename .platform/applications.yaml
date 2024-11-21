@@ -229,11 +229,6 @@
               expires: 4w
 
     workers:
-      task-scheduler:
-        disk: 128
-        commands:
-          start: |
-            bash scripts/psh/run_worker_command.sh scheduled-task:run
       worker-0:
         disk: 128
         commands:
