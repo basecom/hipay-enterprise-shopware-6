@@ -244,4 +244,4 @@
         size: S
         commands:
           start: |
-            bash scripts/psh/run_worker_command.sh messenger:consume scheduler_shopware
+            bin/console messenger:consume scheduler_shopware --memory-limit=$(cat /run/config.json | jq .info.limits.memory)M
