@@ -239,8 +239,9 @@
         commands:
           start: |
             bin/console messenger:consume high_priority --memory-limit=$(cat /run/config.json | jq .info.limits.memory)M
-      worker-2-shopware:
+      task-scheduler:
         disk: 128
+        size: S
         commands:
           start: |
-            bin/console messenger:consume scheduler_shopware --memory-limit=$(cat /run/config.json | jq .info.limits.memory)M
+            bash scripts/psh/run_worker_command.sh scheduled-task:run
