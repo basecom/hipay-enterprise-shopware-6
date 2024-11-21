@@ -19,4 +19,4 @@ framework:
         # Send mails over Message Queue
         routing:
             'Symfony\Component\Mailer\Messenger\SendEmailMessage': high_priority
-            'HiPay\Payment\ScheduledTask\UpdatePaymentStatus\UpdatePaymentStatusTask': async
+            'HiPay\Payment\ScheduledTask\UpdatePaymentStatus\UpdatePaymentStatusTask': high_priority
