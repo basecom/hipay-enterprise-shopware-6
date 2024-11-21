@@ -239,7 +239,7 @@
         commands:
           start: |
             bin/console messenger:consume high_priority --memory-limit=$(cat /run/config.json | jq .info.limits.memory)M
-      task-scheduler:
+      worker-2-shopware:
         disk: 128
         commands:
           start: |
