@@ -96,6 +96,8 @@
         export NVM_DIR="$PLATFORM_APP_DIR/.nvm"
         [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
+        composer install --no-interaction --optimize-autoloader
+
         # Initialize the Shopware site's data set if it's not already installed.
         # (This is only for demo/first install and can be removed once Shopware is initialized)
 
@@ -210,6 +212,9 @@
       "/custom/plugins":
         source: local
         source_path: "custom/plugins"
+      "/vendor":
+        source: local
+        source_path: "vendor"
   # The configuration of app when it is exposed to the web.
     web:
       locations:
@@ -240,3 +245,9 @@
         commands:
           start: |
             bin/console messenger:consume high_priority --memory-limit=$(cat /run/config.json | jq .info.limits.memory)M
+      task-scheduler:
+        disk: 128
+        size: S
+        commands:
+          start: |
+            bash scripts/psh/run_worker_command.sh scheduled-task:run
