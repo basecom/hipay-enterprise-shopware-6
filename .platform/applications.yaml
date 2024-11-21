@@ -235,10 +235,3 @@
           start: |
             bin/console cache:clear
             bin/console messenger:consume high_priority async low_priority --memory-limit=$(cat /run/config.json | jq .info.limits.memory)M
-
-      shopware-scheduler:
-        disk: 256
-        commands:
-          start: |
-            bin/console cache:clear
-            bin/console messenger:consume scheduler_shopware --memory-limit=$(cat /run/config.json | jq .info.limits.memory)M
