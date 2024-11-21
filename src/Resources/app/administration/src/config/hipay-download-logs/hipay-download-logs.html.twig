@@ -3,7 +3,7 @@
   :disabled="isLoading"
   :isLoading="isLoading"
   :processSuccess="success"
-  @process-finish="completeSucess"
+  @update:processSuccess="completeSucess"
   @click="downloadLogs">
   {{ $tc('hipay.config.logs.download') }}
 </sw-button-process>

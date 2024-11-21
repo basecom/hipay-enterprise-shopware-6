@@ -1,9 +1,7 @@
-import Plugin from 'src/plugin-system/plugin.class';
-
 /**
  * Plugin hipay for PayPal
  */
-export default class HandlerHipayPaypalPlugin extends Plugin {
+export default class HandlerHipayPaypalPlugin extends window.PluginBaseClass {
     static options = {
         username: null,
         password: null,

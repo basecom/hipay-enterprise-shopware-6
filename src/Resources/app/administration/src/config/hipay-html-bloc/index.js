@@ -8,7 +8,7 @@ Shopware.Component.register('hipay-html-bloc', {
     html() {
       const tag = this.$attrs.name.slice(this.$attrs.name.lastIndexOf('.') + 1);
       return (
-        '<' + tag + '>' + this.$tc(this.$parent.bind.value) + '</' + tag + '>'
+        '<' + tag + '>' + this.$tc(this.$parent.$parent.bind.value) + '</' + tag + '>'
       );
     }
   }

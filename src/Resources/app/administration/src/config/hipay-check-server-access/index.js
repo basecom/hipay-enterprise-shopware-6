@@ -58,7 +58,7 @@ Component.register('hipay-check-server-access', {
     },
     getConfig() {
       let systemConfigComponent = this.$parent;
-      while (!systemConfigComponent.hasOwnProperty('actualConfigData')) {
+      while (systemConfigComponent.actualConfigData === undefined) {
         systemConfigComponent = systemConfigComponent.$parent;
       }
 
@@ -67,8 +67,8 @@ Component.register('hipay-check-server-access', {
       const config = systemConfigComponent.actualConfigData;
 
       return Object.assign({}, config.null, config[selectedSalesChannelId], {
-        environment: this.$parent.bind.env,
-        isApplePay: this.$parent.bind.isApplePay === 'true'
+        environment: this.$parent.$parent.bind.env,
+        isApplePay: this.$parent.$parent.bind.isApplePay === 'true'
       });
     }
   }

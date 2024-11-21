@@ -41,7 +41,6 @@ use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStat
 use Shopware\Core\Checkout\Order\OrderEntity;
 use Shopware\Core\Checkout\Payment\Cart\AsyncPaymentTransactionStruct;
 use Shopware\Core\Checkout\Payment\Cart\PaymentHandler\AsynchronousPaymentHandlerInterface;
-use Shopware\Core\Checkout\Payment\Exception\AsyncPaymentFinalizeException;
 use Shopware\Core\Checkout\Payment\PaymentException;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
@@ -145,7 +144,7 @@ abstract class AbstractPaymentMethod implements AsynchronousPaymentHandlerInterf
         $transaction = $transaction->getOrderTransaction();
 
         if ($return = $request->query->getAlpha('return')) {
-            throw new AsyncPaymentFinalizeException($transaction->getId(), 'Payment '.$return);
+            throw PaymentException::asyncFinalizeInterrupted($transaction->getId(), 'Payment '.$return);
         }
 
         $this->transactionStateHandler->process($transaction->getId(), Context::createDefaultContext());
