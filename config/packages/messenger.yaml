@@ -4,18 +4,18 @@ framework:
         transports:
             async:
                 dsn: "%env(string:REDIS_SESSION_URL)%"
-                retry_strategy:
-                    delay: 0
+                options:
+                    stream: async
             low_priority:
                 dsn: "%env(string:REDIS_SESSION_URL)%"
-                retry_strategy:
-                    delay: 0
+                options:
+                    stream: low_priority
             high_priority:
                 dsn: "%env(string:REDIS_SESSION_URL)%"
-                retry_strategy:
-                    delay: 0
+                options:
+                    stream: high_priority
             failed: "doctrine://default?queue_name=failed"
 
     # Send mails over Message Queue
-    mailer:
-        message_bus: 'messenger.default_bus'
+    routing:
+        'Symfony\Component\Mailer\Messenger\SendEmailMessage': high_priority
