@@ -16,6 +16,6 @@ framework:
                     stream: high_priority
             failed: "doctrine://default?queue_name=failed"
 
-    # Send mails over Message Queue
-    routing:
-        'Symfony\Component\Mailer\Messenger\SendEmailMessage': high_priority
+        # Send mails over Message Queue
+        routing:
+            'Symfony\Component\Mailer\Messenger\SendEmailMessage': high_priority
