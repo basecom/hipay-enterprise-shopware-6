@@ -120,7 +120,7 @@
         <prototype namespace="HiPay\Payment\ScheduledTask\"
             resource="../../ScheduledTask/**/*TaskHandler.php">
             <argument type="service" id="scheduled_task.repository" />
-            <tag>name="messenger.message_handler</tag>
+            <tag>messenger.message_handler</tag>
         </prototype>
 
         <!-- Subscriber -->

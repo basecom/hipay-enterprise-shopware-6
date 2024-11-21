@@ -1,4 +1,3 @@
-import Plugin from 'src/plugin-system/plugin.class';
 import LoadingIndicatorUtil from 'src/utility/loading-indicator/loading-indicator.util';
 import HttpClient from 'src/service/http-client.service';
 
@@ -6,7 +5,7 @@ import HttpClient from 'src/service/http-client.service';
 /**
  * Plugin hipay for credit card
  */
-export default class HipayManageCreditcardPlugin extends Plugin {
+export default class HipayManageCreditcardPlugin extends window.PluginBaseClass {
 
   init() {
 
