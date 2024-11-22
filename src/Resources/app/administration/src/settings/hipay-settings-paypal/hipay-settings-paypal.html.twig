@@ -9,7 +9,7 @@
     <sw-select-field :label="$tc('hipay.settings.paypal.color.title')"
         :value="paymentMethod.customFields?.color || 'gold'"
         :disabled="!isPayPalV2"
-        @change="updateColor">
+        @update:value="updateColor">
             <option
                 v-for="color in colors"
                 :key="color.value"
@@ -22,7 +22,7 @@
     <sw-select-field :label="$tc('hipay.settings.paypal.shape.title')"
         :value="paymentMethod.customFields?.shape || 'pill'"
         :disabled="!isPayPalV2"
-        @change="updateShape">
+        @update:value="updateShape">
             <option
                 v-for="shape in shapes"
                 :key="shape.value"
@@ -35,7 +35,7 @@
     <sw-select-field :label="$tc('hipay.settings.paypal.label.title')"
         :value="paymentMethod.customFields?.label || 'paypal'"
         :disabled="!isPayPalV2"
-        @change="updateLabel">
+        @update:value="updateLabel">
             <option
                 v-for="label in labels"
                 :key="label.value"
@@ -55,7 +55,7 @@
         :digits="2"
         :fillDigits="false"
         :allowEmpty="true"
-        @change="updateHeight">
+        @update:value="updateHeight">
     </sw-number-field>
 
     <sw-alert>
@@ -66,6 +66,6 @@
         :value="paymentMethod.customFields?.bnpl"
         :disabled="!isPayPalV2"
         :label="$tc('hipay.settings.paypal.bnpl_label')"
-        @change="updateBnpl"
+        @update:value="updateBnpl"
     ></sw-switch-field>
 </sw-card>
