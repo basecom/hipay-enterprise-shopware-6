@@ -89,6 +89,7 @@ class ImageImportService
         $criteria->addFilter(new EqualsFilter('mediaFolderId', $this->getMediaDefaultFolderId($folder, $context)));
         $criteria->addFilter(new EqualsFilter('fileName', $fileName));
         $criteria->addFilter(new EqualsFilter('fileExtension', $fileExtension));
+        $criteria->setLimit(1);
 
         return $this->mediaRepository->searchIds($criteria, $context)->firstId();
     }

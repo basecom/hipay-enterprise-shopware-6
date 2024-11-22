@@ -127,14 +127,19 @@ class NotificationService
             throw new MissingMandatoryParametersException('transaction_reference is mandatory');
         }
 
-        $transactionCriteria = (new Criteria([$orderTransactionId]))->addAssociation('order');
+        $transactionCriteria = (new Criteria([$orderTransactionId]))
+            ->addAssociation('order')
+            ->setLimit(1);
+
         if (!$transaction = $this->transactionRepository->search($transactionCriteria, $context)->getEntities()->first()) {
             throw new NotFoundResourceException('Transaction ' . $orderTransactionId . ' is not found');
         }
         /** @var OrderTransactionEntity $transaction */
 
         // Create or update if exists a HiPay order related to this transaction to database
-        $orderCriteria = (new Criteria())->addFilter(new EqualsFilter('orderId', $transaction->getOrderId()));
+        $orderCriteria = (new Criteria())
+            ->addFilter(new EqualsFilter('orderId', $transaction->getOrderId()))
+            ->setLimit(1);
 
         /** @var ?HipayOrderEntity $hipayOrder */
         $hipayOrder = $this->getAssociatedHiPayOrder($orderCriteria, $context);
@@ -325,7 +330,8 @@ class NotificationService
         /** @var HipayOrderEntity */
         $hipayOrder = $this->getAssociatedHiPayOrder(
             (new Criteria([$notification->getHipayOrderId()]))
-                ->addAssociations(['transaction', 'captures', 'refunds', 'statusFlows', 'order.orderCustomer']),
+                ->addAssociations(['transaction', 'captures', 'refunds', 'statusFlows', 'order.orderCustomer'])
+                ->setLimit(1),
             $context
         );
 
@@ -431,10 +437,10 @@ class NotificationService
 
         $capture = $hipayOrder->getCaptures()->getCaptureByOperationId($operationId);
 
-        if ( $hipayStatus === TransactionStatus::CAPTURE_REQUESTED ) {
+        if ($hipayStatus === TransactionStatus::CAPTURE_REQUESTED) {
             $this->checkAllPreviousStatus($hipayStatus, [TransactionStatus::AUTHORIZED], $hipayOrder);
 
-            if ($capture && $capture->getStatus() === CaptureStatus::IN_PROGRESS ) {
+            if ($capture && $capture->getStatus() === CaptureStatus::IN_PROGRESS) {
                 $this->logger->info('Ignore notification ' . $notification->getId() . '. Capture ' . $capture->getOperationId() . ' already in progress');
             } else {
                 if (!$capture) {
@@ -450,10 +456,10 @@ class NotificationService
             return;
         }
 
-        if ( $hipayStatus === TransactionStatus::CAPTURE_REFUSED ) {
+        if ($hipayStatus === TransactionStatus::CAPTURE_REFUSED) {
             $this->checkAllPreviousStatus($hipayStatus, [TransactionStatus::AUTHORIZED, TransactionStatus::CAPTURE_REQUESTED], $hipayOrder);
 
-            if (!$capture || $capture->getStatus() !== CaptureStatus::IN_PROGRESS ) {
+            if (!$capture || $capture->getStatus() !== CaptureStatus::IN_PROGRESS) {
                 throw new SkipNotificationException('No IN_PROGRESS capture found with operation ID ' . $operationId . ' for the transaction ' . $hipayOrder->getTransactionId());
             }
 
@@ -467,12 +473,12 @@ class NotificationService
     private function handleSepaAuthorizedNotification(HipayNotificationEntity $notification, HipayOrderEntity $hipayOrder, Context $context): bool
     {
         $data = $notification->getData();
-        if (!empty($data['payment_product']) && $data['payment_product'] === 'sdd' ) {
+        if (!empty($data['payment_product']) && $data['payment_product'] === 'sdd') {
             $hipayStatus = intval($data['status']);
             $operationId = $this->getOperationId($data);
 
             $capture = $hipayOrder->getCaptures()->getCaptureByOperationId($operationId);
-            if ( $hipayStatus === TransactionStatus::AUTHORIZED) {
+            if ($hipayStatus === TransactionStatus::AUTHORIZED) {
                 $this->checkAllPreviousStatus($hipayStatus, [TransactionStatus::AUTHORIZATION_REQUESTED], $hipayOrder);
 
                 if ($capture && $capture->getStatus() === CaptureStatus::IN_PROGRESS) {
@@ -544,10 +550,10 @@ class NotificationService
 
         $refund = $hipayOrder->getRefunds()->getRefundByOperationId($operationId);
 
-        if ( $hipayStatus === TransactionStatus::REFUND_REQUESTED ) {
+        if ($hipayStatus === TransactionStatus::REFUND_REQUESTED) {
             $refundedAmount = $data['operation']['amount'] ?? $data['refunded_amount'];
 
-            if ($refund && $refund->getStatus() === RefundStatus::IN_PROGRESS ) {
+            if ($refund && $refund->getStatus() === RefundStatus::IN_PROGRESS) {
                 $this->logger->info('Ignore notification ' . $notification->getId() . '. Refund ' . $refund->getId() . ' already in progress');
             } else {
                 if (!$refund) {
@@ -561,10 +567,10 @@ class NotificationService
             return;
         }
 
-        if ( $hipayStatus === TransactionStatus::REFUND_REFUSED ) {
+        if ($hipayStatus === TransactionStatus::REFUND_REFUSED) {
             $this->checkAllPreviousStatus($hipayStatus, [TransactionStatus::CAPTURED, TransactionStatus::REFUND_REQUESTED], $hipayOrder);
 
-            if (!$refund || $refund->getStatus() !== RefundStatus::IN_PROGRESS ) {
+            if (!$refund || $refund->getStatus() !== RefundStatus::IN_PROGRESS) {
                 throw new SkipNotificationException('No IN_PROGRESS refund found with operation ID ' . $operationId . ' for the transaction ' . $hipayOrder->getTransactionId());
             }
 

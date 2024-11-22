@@ -300,9 +300,9 @@ class HiPayPaymentPlugin extends Plugin
         $paymentRepository = $this->container->get($this->paymentMethodRepoName);
 
         // Fetch ID for update
-        $paymentCriteria = (new Criteria())->addFilter(
-            new EqualsFilter('handlerIdentifier', $classname)
-        );
+        $paymentCriteria = (new Criteria())
+            ->addFilter(new EqualsFilter('handlerIdentifier', $classname))
+            ->setLimit(1);
 
         return $paymentRepository
             ->searchIds($paymentCriteria, $context)
@@ -407,7 +407,9 @@ class HiPayPaymentPlugin extends Plugin
     {
         /** @var EntityRepository */
         $ruleRepo = $this->container->get('rule.repository');
-        $ruleCriteria = (new Criteria())->addFilter(new ContainsFilter('customFields', $classname::getProductCode()));
+        $ruleCriteria = (new Criteria())
+            ->addFilter(new ContainsFilter('customFields', $classname::getProductCode()))
+            ->setLimit(1);
 
         // Existing rule
         if ($ruleId = $ruleRepo->searchIds($ruleCriteria, $context)->firstId()) {

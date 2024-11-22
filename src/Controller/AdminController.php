@@ -85,8 +85,10 @@ class AdminController extends AbstractController
             $context = $salesChannelContext->getContext();
 
             // Search HiPay order entity by ID
-            $hipayOrderCriteria = new Criteria([$hipayOrderData->id]);
-            $hipayOrderCriteria->addAssociations(['captures', 'transaction.paymentMethod']);
+            $hipayOrderCriteria = (new Criteria([$hipayOrderData->id]))
+                ->addAssociations(['captures', 'transaction.paymentMethod'])
+                ->setLimit(1);
+
             /** @var HipayOrderEntity */
             $hipayOrder = $this->hipayOrderRepository->search($hipayOrderCriteria, $context)->getEntities()->first();
 
@@ -165,8 +167,10 @@ class AdminController extends AbstractController
             $context = $salesChannelContext->getContext();
 
             // Search HiPay order entity by ID
-            $hipayOrderCriteria = new Criteria([$hipayOrderData->id]);
-            $hipayOrderCriteria->addAssociations(['refunds', 'transaction.paymentMethod']);
+            $hipayOrderCriteria = (new Criteria([$hipayOrderData->id]))
+                ->addAssociations(['refunds', 'transaction.paymentMethod'])
+                ->setLimit(1);
+
             /** @var HipayOrderEntity */
             $hipayOrder = $this->hipayOrderRepository->search($hipayOrderCriteria, $context)->getEntities()->first();
 
@@ -223,8 +227,10 @@ class AdminController extends AbstractController
             $context = $salesChannelContext->getContext();
 
             // Search HiPay order entity by ID
-            $hipayOrderCriteria = new Criteria([$hipayOrderData->id]);
-            $hipayOrderCriteria->addAssociation('transaction.paymentMethod');
+            $hipayOrderCriteria = (new Criteria([$hipayOrderData->id]))
+                ->addAssociation('transaction.paymentMethod')
+                ->setLimit(1);
+
             /** @var HipayOrderEntity */
             $hipayOrder = $this->hipayOrderRepository->search($hipayOrderCriteria, $context)->getEntities()->first();
 
