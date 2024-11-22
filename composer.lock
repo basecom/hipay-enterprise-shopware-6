@@ -2530,13 +2530,13 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:basecom/hipay-enterprise-shopware-6.git",
-                "reference": "92c59dce660b9ee88c9413069a34530f7e2a4bcf"
+                "reference": "01cf4c235bae4ac80d2553f4c4ae86c0b9d0016a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://papple.bsc.basecom.cloud/get/dist/hipay/hipay-enterprise-shopware-6/hipay-hipay-enterprise-shopware-6-dev-develop-6-6-3d1510.zip",
-                "reference": "92c59dce660b9ee88c9413069a34530f7e2a4bcf",
-                "shasum": "a2e34c8540bb9a11623aafb5e87ec0b1a025e484"
+                "url": "https://papple.bsc.basecom.cloud/get/dist/hipay/hipay-enterprise-shopware-6/hipay-hipay-enterprise-shopware-6-dev-develop-6-6-67bbc7.zip",
+                "reference": "01cf4c235bae4ac80d2553f4c4ae86c0b9d0016a",
+                "shasum": "dc50d351dbd192a391c7f29f859343938b6b53ba"
             },
             "require": {
                 "giggsey/libphonenumber-for-php": "^8.13",
@@ -2610,7 +2610,7 @@
                 "php",
                 "shopware"
             ],
-            "time": "2024-11-21T11:50:20+00:00"
+            "time": "2024-11-22T13:54:07+00:00"
         },
         {
             "name": "hipay/hipay-fullservice-sdk-php",
