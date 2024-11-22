@@ -188,6 +188,9 @@
       "/public/bundles":
         source: local
         source_path: "public/bundles"
+      "/public/sitemap":
+        source: local
+        source_path: "public/sitemap"
       "/config/secrets":
         source: local
         source_path: "config/secrets"
