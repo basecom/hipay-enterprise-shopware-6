@@ -230,14 +230,13 @@
           rules:
             \.(css|js|gif|jpe?g|png|ttf|eot|woff2?|otf|cast|mp4|json|yaml|ico|svg?|cast|mp4|json|yaml|svg?|ttf)$:
               expires: 4w
-
-    workers:
-        scheduler:
-            disk: 128
+    crons:
+        run-scheduled-tasks:
+            spec: "*/5 * * * *"
             commands:
                 start: |
-                    bin/console cache:clear
-                    bin/console scheduled-task:run --memory-limit=$(cat /run/config.json | jq .info.limits.memory)M
+                    bin/console scheduled-task:run --no-wait
+    workers:
         worker-0:
             disk: 128
             commands:
