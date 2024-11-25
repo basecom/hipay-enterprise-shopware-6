@@ -1,9 +1,9 @@
 when@prod: &prod
-framework:
-    session:
-        handler_id: "%env(REDIS_SESSION_URL)%/%env(int:REDIS_SESSION_DATABASE)%"
-    cache:
-        app: cache.adapter.redis_tag_aware
-        system: cache.adapter.redis_tag_aware
-        default_redis_provider: "%env(REDIS_CACHE_URL)%/%env(int:REDIS_CACHE_DATABASE)%"
+    framework:
+        session:
+            handler_id: "%env(REDIS_SESSION_URL)%/%env(int:REDIS_SESSION_DATABASE)%"
+        cache:
+            app: cache.adapter.redis_tag_aware
+            system: cache.adapter.redis_tag_aware
+            default_redis_provider: "%env(REDIS_CACHE_URL)%/%env(int:REDIS_CACHE_DATABASE)%"
 when@dev: *prod

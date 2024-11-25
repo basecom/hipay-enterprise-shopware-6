@@ -18,8 +18,8 @@
         NVM_VERSION: v0.39.0
         NODE_VERSION: v18
         # Use different redis dbs for cache and sessions
-        REDIS_CACHE_DATABASE: 0
-        REDIS_SESSION_DATABASE: 1
+        REDIS_CACHE_DATABASE: 1
+        REDIS_SESSION_DATABASE: 0
         # Cache and Session URL have to be defined here for the build hook to succeed
         REDIS_SESSION_URL: "redis://redissession.internal:6379"
         REDIS_CACHE_URL: "redis://rediscache.internal:6379"
