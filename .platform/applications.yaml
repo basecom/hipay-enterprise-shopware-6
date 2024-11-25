@@ -241,14 +241,14 @@
             disk: 128
             commands:
                 start: |
-                    MESSENGER_CONSUMER_NAME=low_prio_worker bash scripts/psh/run_worker_command.sh messenger:consume low_priority
+                    bash scripts/psh/run_worker_command.sh messenger:consume low_priority
         worker-1-prio:
             disk: 128
             commands:
                 start: |
-                    MESSENGER_CONSUMER_NAME=high_prio_worker bash scripts/psh/run_worker_command.sh messenger:consume high_priority
+                    bash scripts/psh/run_worker_command.sh messenger:consume high_priority
         worker-3-async:
             disk: 128
             commands:
                 start: |
-                    MESSENGER_CONSUMER_NAME=async_worker bash scripts/psh/run_worker_command.sh messenger:consume async
+                    bash scripts/psh/run_worker_command.sh messenger:consume async
