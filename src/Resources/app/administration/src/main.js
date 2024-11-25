@@ -14,6 +14,7 @@ import './settings/hipay-settings-paypal';
 import './override/sw-data-grid';
 import './override/sw-order-detail-details';
 import './override/sw-order-detail';
+import './override/sw-order-state-change-modal-attach-documents';
 import './override/sw-settings-payment-detail';
 import './override/sw-order-state-history-card';
 
