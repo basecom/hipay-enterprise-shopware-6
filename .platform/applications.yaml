@@ -241,17 +241,14 @@
             disk: 128
             commands:
                 start: |
-                    bin/console cache:clear
-                    bin/console messenger:consume low_priority --memory-limit=$(cat /run/config.json | jq .info.limits.memory)M
+                    MESSENGER_CONSUMER_NAME=low_prio_worker bash scripts/psh/run_worker_command.sh messenger:consume low_priority
         worker-1-prio:
             disk: 128
             commands:
                 start: |
-                    bin/console cache:clear
-                    bin/console messenger:consume high_priority --memory-limit=$(cat /run/config.json | jq .info.limits.memory)M
+                    MESSENGER_CONSUMER_NAME=high_prio_worker bash scripts/psh/run_worker_command.sh messenger:consume high_priority
         worker-3-async:
             disk: 128
             commands:
                 start: |
-                    bin/console cache:clear
-                    bin/console messenger:consume async --memory-limit=$(cat /run/config.json | jq .info.limits.memory)M
+                    MESSENGER_CONSUMER_NAME=async_worker bash scripts/psh/run_worker_command.sh messenger:consume async
