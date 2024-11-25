@@ -110,18 +110,16 @@
             <tag>shopware.payment.method.async</tag>
         </service>
 
-        <!-- Scheduled task -->
-        <prototype namespace="HiPay\Payment\ScheduledTask\"
-            resource="../../ScheduledTask/**/*Task.php">
-            <tag>shopware.scheduled.task</tag>
-        </prototype>
-
-        <!-- Scheduled task handler -->
-        <prototype namespace="HiPay\Payment\ScheduledTask\"
-            resource="../../ScheduledTask/**/*TaskHandler.php">
+        <service id="HiPay\Payment\ScheduledTask\UpdatePaymentStatus\UpdatePaymentStatusTask">
+            <tag name="shopware.scheduled.task" />
+        </service>
+        <service id="HiPay\Payment\ScheduledTask\UpdatePaymentStatus\UpdatePaymentStatusTaskHandler">
             <argument type="service" id="scheduled_task.repository" />
-            <tag>messenger.message_handler</tag>
-        </prototype>
+            <argument type="service" id="HiPay\Payment\Service\NotificationService" />
+            <argument type="service" id="logger"/>
+
+            <tag name="messenger.message_handler" />
+        </service>
 
         <!-- Subscriber -->
         <prototype namespace="HiPay\Payment\Subscriber\" resource="../../Subscriber/*Subscriber.php">

@@ -4,5 +4,5 @@
   <sw-multi-select :label="$tc('hipay.settings.creditcard.choice')"
     :options="availableCards"
     :value="paymentMethod.customFields?.cards || []"
-    @change="updateCardsValue"></sw-multi-select>
+    @update:value="updateCardsValue"></sw-multi-select>
 </sw-card>
