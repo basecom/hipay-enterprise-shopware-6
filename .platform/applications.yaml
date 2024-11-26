@@ -215,9 +215,6 @@
       "/custom/plugins":
         source: local
         source_path: "custom/plugins"
-      "/vendor":
-        source: local
-        source_path: "vendor"
   # The configuration of app when it is exposed to the web.
     web:
       locations:
