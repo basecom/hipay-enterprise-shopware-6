@@ -356,6 +356,8 @@ get-jira-tickets:
             }
           });
 
+          tickets = [...new Set(tickets)];
+
           console.log("tickets", tickets);
 
           const payload = {
