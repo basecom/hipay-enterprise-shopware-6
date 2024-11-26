@@ -6,6 +6,7 @@ The **HiPay Enterprise module for Shopware 6** is a PHP plugin which allows you 
 
 ## Getting started
 
+
 Read the **[project documentation][doc-home]** for comprehensive information about the requirements, general workflow and installation procedure.
 
 **Quick feature list**:

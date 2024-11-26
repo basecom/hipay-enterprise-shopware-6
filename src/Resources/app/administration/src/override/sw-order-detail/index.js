@@ -297,6 +297,12 @@ Shopware.Component.override('sw-order-detail', {
     makeCancel() {
       this.isLoadingRequest = true;
 
+      // Close modals
+      this.showOrderStateForCancel = false;
+      this.createNotificationInfo({
+        title: this.$tc('hipay.notification.cancel.title'),
+        message: this.$tc('hipay.notification.cancel.info')
+      });
       // Call HiPay API endpoint
       this.hipayService
         .cancelTransaction(this.hipayOrderData)
@@ -310,8 +316,6 @@ Shopware.Component.override('sw-order-detail', {
             message: this.$tc('hipay.notification.cancel.success')
           });
 
-          // Close modals
-          this.showOrderStateForCancel = false;
         })
         .catch(() => {
           this.createNotificationError({
@@ -324,6 +328,13 @@ Shopware.Component.override('sw-order-detail', {
     makeCapture() {
       this.isLoadingRequest = true;
 
+      // Close modals
+      this.showOrderStateForCapture = false;
+      this.showOrderCapture = false;
+      this.createNotificationInfo({
+        title: this.$tc('hipay.notification.capture.title'),
+        message: this.$tc('hipay.notification.capture.info')
+      });
       // Call HiPay API endpoint
       this.hipayService
         .captureTransaction(
@@ -331,7 +342,7 @@ Shopware.Component.override('sw-order-detail', {
           this.fullCapture
             ? this.remainingCaptureAmount
             : this.$refs.captureAmount.currentValue ??
-                this.captureAmountPlaceholder
+            this.captureAmountPlaceholder
         )
         .then(response => {
           if (!response.success) {
@@ -345,12 +356,6 @@ Shopware.Component.override('sw-order-detail', {
             message: this.$tc('hipay.notification.capture.success')
           });
 
-          // Close modals
-          this.showOrderStateForCapture = false;
-          this.$nextTick(() => {
-            // Wait until previous modal finish rendering
-            this.showOrderCapture = false;
-          });
         })
         .catch(() => {
           this.createNotificationError({
@@ -362,7 +367,13 @@ Shopware.Component.override('sw-order-detail', {
     },
     makeRefund() {
       this.isLoadingRequest = true;
-
+      // Close modals
+      this.showOrderStateForRefund = false;
+      this.showOrderRefund = false;
+      this.createNotificationInfo({
+        title: this.$tc('hipay.notification.refund.title'),
+        message: this.$tc('hipay.notification.refund.info')
+      });
       // Call HiPay API endpoint
       this.hipayService
         .refundTransaction(
@@ -370,7 +381,7 @@ Shopware.Component.override('sw-order-detail', {
           this.fullRefund
             ? this.remainingRefundAmount
             : this.$refs.refundAmount.currentValue ??
-                this.refundAmountPlaceholder
+            this.refundAmountPlaceholder
         )
         .then(response => {
           if (!response.success) {
@@ -384,12 +395,7 @@ Shopware.Component.override('sw-order-detail', {
             message: this.$tc('hipay.notification.refund.success')
           });
 
-          // Close modals
-          this.showOrderStateForRefund = false;
-          this.$nextTick(() => {
-            // Wait until previous modal finish rendering
-            this.showOrderRefund = false;
-          });
+
         })
         .catch(() => {
           this.createNotificationError({

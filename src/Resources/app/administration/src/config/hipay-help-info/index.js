@@ -8,7 +8,7 @@ Shopware.Component.register('hipay-help-info', {
   template,
   data() {
     return {
-      text: this.$parent.bind.value
+      text: this.$parent.$parent.bind.value
     };
   }
 });
