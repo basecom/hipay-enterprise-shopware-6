@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * Controller use to receive notifications from Hipay.
  */
-#[Route(defaults: ['_routeScope' => 'api', 'auth_required' => false])]
+#[Route(defaults: ['_routeScope' => ['api'], 'auth_required' => false])]
 class NotificationController
 {
     private HipayLogger $logger;

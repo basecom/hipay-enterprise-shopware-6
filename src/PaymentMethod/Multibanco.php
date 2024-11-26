@@ -129,7 +129,7 @@ class Multibanco extends AbstractPaymentMethod
                 'id' => $transaction->getOrderTransaction()->getId(),
                 'customFields' => array_merge(
                     $transaction->getOrderTransaction()->getCustomFields() ?? [],
-                    ['reference_to_pay' => $response->getReferenceToPay()]
+                    ['reference_to_pay' => json_decode($response->getReferenceToPay())]
                 ),
             ]],
             $context

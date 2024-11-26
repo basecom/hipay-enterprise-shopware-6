@@ -6,6 +6,7 @@ The **HiPay Enterprise module for Shopware 6** is a PHP plugin which allows you 
 
 ## Getting started
 
+
 Read the **[project documentation][doc-home]** for comprehensive information about the requirements, general workflow and installation procedure.
 
 **Quick feature list**:
@@ -69,6 +70,7 @@ Go to your Shopware root directory of your project and use the folowing command:
 | --- | --- | --- |
 | 6.4 | 1.x | `composer require hipay/hipay-enterprise-shopware-6 "^1"` |
 | 6.5 | 2.x | `composer require hipay/hipay-enterprise-shopware-6 "^2"` |
+| 6.6 | 3.x | `composer require hipay/hipay-enterprise-shopware-6 "^3"` |
 
 Afterward, you can easily activate this plugin via the console and start working with it:
 

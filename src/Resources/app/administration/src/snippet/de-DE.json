@@ -59,17 +59,20 @@
       "capture": {
         "title": "Transaktionserfassung",
         "success": "Transaktion erfolgreich erfasst",
-        "failure": "Fehler bei der Transaktionserfassung"
+        "failure": "Fehler bei der Transaktionserfassung",
+        "info": "Die Transaktion wird erfasst."
       },
       "refund": {
         "title": "Transaktionsrückerstattung",
         "success": "Transaktion erfolgreich zurückerstattet",
-        "failure": "Fehler bei der Transaktionsrückerstattung"
+        "failure": "Fehler bei der Transaktionsrückerstattung",
+        "info": "Die Transaktion wird zurückerstattet."
       },
       "cancel": {
         "title": "Transaktion abbrechen",
         "success": "Transaktion erfolgreich abgebrochen",
-        "failure": "Fehler beim Abbrechen der Transaktion"
+        "failure": "Fehler beim Abbrechen der Transaktion",
+        "info": "Die Transaktion wird abgebrochen."
       }
     },
     "transaction": {

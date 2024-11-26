@@ -10,7 +10,7 @@ use Shopware\Core\Framework\Plugin\Exception\DecorationPatternException;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route(defaults: ['_routeScope' => 'store-api'])]
+#[Route(defaults: ['_routeScope' => ['store-api']])]
 class HipayCardTokenRoute extends AbstactHipayCardTokenRoute
 {
     /**

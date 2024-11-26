@@ -3,6 +3,7 @@
 namespace HiPay\Payment\ScheduledTask\UpdatePaymentStatus;
 
 use HiPay\Payment\Service\NotificationService;
+use Psr\Log\LoggerInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\MessageQueue\ScheduledTask\ScheduledTaskCollection;
 use Shopware\Core\Framework\MessageQueue\ScheduledTask\ScheduledTaskHandler;
@@ -16,9 +17,10 @@ class UpdatePaymentStatusTaskHandler extends ScheduledTaskHandler
      */
     public function __construct(
         protected EntityRepository $scheduledTaskRepository,
-        private NotificationService $notificationService
+        private NotificationService $notificationService,
+        LoggerInterface $logger
     ) {
-        parent::__construct($scheduledTaskRepository);
+        parent::__construct($scheduledTaskRepository, $logger);
     }
 
     public function run(): void

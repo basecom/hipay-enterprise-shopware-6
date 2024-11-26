@@ -59,17 +59,20 @@
       "capture": {
         "title": "Transaction capture",
         "success": "Transaction successfully captured",
-        "failure": "Error during transaction capture"
+        "failure": "Error during transaction capture",
+        "info": "The transaction will be captured."
       },
       "refund": {
         "title": "Transaction refund",
         "success": "Transaction successfully refunded",
-        "failure": "Error during transaction refund"
+        "failure": "Error during transaction refund",
+        "info": "The transaction will be refunded."
       },
       "cancel": {
         "title": "Cancel transaction",
         "success": "Transaction canceled successfully",
-        "failure": "Error cancelling transaction"
+        "failure": "Error cancelling transaction",
+        "info": "The transaction will be canceled."
       }
     },
     "transaction": {
