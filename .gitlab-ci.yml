@@ -347,7 +347,7 @@ get-jira-tickets:
           }
 
           const mergeRequests = await gitlabResponse.json();
-          const tickets = [];
+          let tickets = [];
 
           mergeRequests.forEach((mr) => {
             const matches = mr.source_branch.match(/EC-\d+/);
