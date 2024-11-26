@@ -1,9 +1,7 @@
-import Plugin from 'src/plugin-system/plugin.class';
-
 /**
  * Plugin hipay for Apple Pay
  */
-export default class HandlerHipayApplePayPlugin extends Plugin {
+export default class HandlerHipayApplePayPlugin extends window.PluginBaseClass {
 
   static options = {
     username: null,

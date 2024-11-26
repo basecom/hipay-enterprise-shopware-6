@@ -334,7 +334,7 @@ class NotificationService
         /** @var HipayOrderEntity */
         $hipayOrder = $this->getAssociatedHiPayOrder(
             (new Criteria([$notification->getHipayOrderId()]))
-                ->addAssociations(['transaction', 'captures', 'refunds', 'statusFlows', 'order.orderCustomer'])
+                ->addAssociations(['transaction', 'transaction.stateMachineState', 'captures', 'refunds', 'statusFlows', 'order.orderCustomer'])
         );
 
         $this->logger->debug('Dispatching notification '.$notification->getId().' for the transaction '.$hipayOrder->getTransactionId());

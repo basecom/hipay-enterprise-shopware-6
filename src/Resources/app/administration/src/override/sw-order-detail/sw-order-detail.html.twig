@@ -57,7 +57,7 @@
           :required="true"
           :disabled="!canPartialCapture"
           :isInvalid="isInvalidCaptureAmount"
-          @change="onManualCaptureAmount"
+          @update:value="onManualCaptureAmount"
           :placeholder="captureAmountPlaceholder ? formatCurrency(captureAmountPlaceholder) : null"></sw-number-field>
       </div>
       <template slot="modal-footer">
@@ -119,7 +119,7 @@
           :required="true"
           :isInvalid="isInvalidRefundAmount"
           :disabled="!canPartialRefund"
-          @change="onManualRefundAmount"
+          @update:value="onManualRefundAmount"
           :placeholder="refundAmountPlaceholder ? formatCurrency(refundAmountPlaceholder) : null"></sw-number-field>
       </div>
       <template slot="modal-footer">

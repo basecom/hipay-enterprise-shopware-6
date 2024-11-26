@@ -1,9 +1,9 @@
-import Plugin from 'src/plugin-system/plugin.class';
-
 /**
  * Plugin hipay for hosted fields
  */
-export default class HipayHostedFieldsPlugin extends Plugin {
+export default class HipayHostedFieldsPlugin extends window.PluginBaseClass {
+
+
   static options = {
     username: null,
     password: null,

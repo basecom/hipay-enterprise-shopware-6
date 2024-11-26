@@ -4,7 +4,7 @@
    <sw-field
         type="select"
         :value="paymentMethod.customFields?.expiration_limit || '3'"
-        @change="updateLimitValue"
+        @update:value="updateLimitValue"
     >
       <option
           v-for="limit in availableLimits"

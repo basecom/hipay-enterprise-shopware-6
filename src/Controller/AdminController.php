@@ -20,14 +20,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Exception\JsonException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Exception\InvalidParameterException;
 
-/**
- * @Route(defaults={"_routeScope"={"administration"}})
- *
- * Class AdminController
- */
+#[Route(defaults: ['_routeScope' => ['administration']])]
 class AdminController extends AbstractController
 {
     protected LoggerInterface $logger;
@@ -45,17 +41,17 @@ class AdminController extends AbstractController
         EntityRepository $hipayOrderRepository,
         EntityRepository $hipayOrderCaptureRepository,
         EntityRepository $hipayOrderRefundRepository,
-        HipayLogger $hipayLogger
-    ) {
+        HipayLogger      $hipayLogger
+    )
+    {
         $this->hipayOrderRepo = $hipayOrderRepository;
         $this->hipayOrderCaptureRepo = $hipayOrderCaptureRepository;
         $this->hipayOrderRefundRepo = $hipayOrderRefundRepository;
         $this->logger = $hipayLogger->setChannel(HipayLogger::API);
     }
 
-    /**
-     * @Route(path="/api/_action/hipay/checkAccess")
-     */
+
+    #[Route(path: "/api/_action/hipay/checkAccess")]
     public function checkAccess(RequestDataBag $params, HiPayHttpClientService $clientService): JsonResponse
     {
         foreach (['public', 'private'] as $scope) {
@@ -67,7 +63,7 @@ class AdminController extends AbstractController
 
                 $clientService->getClient($conf)->requestSecuritySettings();
             } catch (\Exception $e) {
-                $message = "Error on $scope key : ".$e->getMessage();
+                $message = "Error on $scope key : " . $e->getMessage();
 
                 /* @infection-ignore-all */
                 $this->logger->error($message);
@@ -85,9 +81,8 @@ class AdminController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route(path="/api/_action/hipay/capture")
-     */
+
+    #[Route(path: "/api/_action/hipay/capture")]
     public function capture(RequestDataBag $params, HiPayHttpClientService $clientService): JsonResponse
     {
         try {
@@ -131,7 +126,7 @@ class AdminController extends AbstractController
             /* @infection-ignore-all */
             $this->logger->info(
                 'Payload for Maintenance capture request',
-                (array) $maintenanceRequest
+                (array)$maintenanceRequest
             );
 
             // Make HiPay Maintenance request to capture transaction
@@ -148,7 +143,7 @@ class AdminController extends AbstractController
             /* @infection-ignore-all */
             $this->logger->info(
                 'Response of Maintenance capture request',
-                (array) $maintenanceResponse
+                (array)$maintenanceResponse
             );
 
             // Save HiPay capture to database
@@ -157,15 +152,13 @@ class AdminController extends AbstractController
             return new JsonResponse(['success' => true]);
         } catch (\Exception $e) {
             /* @infection-ignore-all */
-            $this->logger->error($e->getCode().' : '.$e->getMessage());
+            $this->logger->error($e->getCode() . ' : ' . $e->getMessage());
 
             return new JsonResponse(['success' => false]);
         }
     }
 
-    /**
-     * @Route(path="/api/_action/hipay/refund")
-     */
+    #[Route(path: "/api/_action/hipay/refund")]
     public function refund(RequestDataBag $params, HiPayHttpClientService $clientService): JsonResponse
     {
         try {
@@ -201,7 +194,7 @@ class AdminController extends AbstractController
             /* @infection-ignore-all */
             $this->logger->info(
                 'Payload for Maintenance refund request',
-                (array) $maintenanceRequest
+                (array)$maintenanceRequest
             );
 
             // Make HiPay Maintenance request to refund transaction
@@ -218,7 +211,7 @@ class AdminController extends AbstractController
             /* @infection-ignore-all */
             $this->logger->info(
                 'Response of Maintenance refund request',
-                (array) $maintenanceResponse
+                (array)$maintenanceResponse
             );
 
             // Save HiPay refund to database
@@ -227,15 +220,13 @@ class AdminController extends AbstractController
             return new JsonResponse(['success' => true]);
         } catch (\Exception $e) {
             /* @infection-ignore-all */
-            $this->logger->error($e->getCode().' : '.$e->getMessage());
+            $this->logger->error($e->getCode() . ' : ' . $e->getMessage());
 
             return new JsonResponse(['success' => false]);
         }
     }
 
-    /**
-     * @Route(path="/api/_action/hipay/cancel")
-     */
+    #[Route(path: "/api/_action/hipay/cancel")]
     public function cancel(RequestDataBag $params, HiPayHttpClientService $clientService): JsonResponse
     {
         try {
@@ -263,7 +254,7 @@ class AdminController extends AbstractController
             /* @infection-ignore-all */
             $this->logger->info(
                 'Payload for Maintenance cancel request',
-                (array) $maintenanceRequest
+                (array)$maintenanceRequest
             );
 
             // Make HiPay Maintenance request to refund transaction
@@ -277,13 +268,13 @@ class AdminController extends AbstractController
             /* @infection-ignore-all */
             $this->logger->info(
                 'Response of Maintenance cancel request',
-                (array) $maintenanceResponse
+                (array)$maintenanceResponse
             );
 
             return new JsonResponse(['success' => true]);
         } catch (\Exception $e) {
             /* @infection-ignore-all */
-            $this->logger->error($e->getCode().' : '.$e->getMessage());
+            $this->logger->error($e->getCode() . ' : ' . $e->getMessage());
 
             return new JsonResponse(['success' => false]);
         }
@@ -294,7 +285,7 @@ class AdminController extends AbstractController
      */
     private function extractConfigurationFromPluginConfig(RequestDataBag $params, string $scope): Configuration
     {
-        $prefix = HiPayPaymentPlugin::getModuleName().'.config.';
+        $prefix = HiPayPaymentPlugin::getModuleName() . '.config.';
         $environement = ucfirst($params->getAlpha('environment'));
         $isApplePay = $params->get('isApplePay');
 
@@ -303,15 +294,15 @@ class AdminController extends AbstractController
         $payload = [
             HiPayHttpClientService::API_USERNAME => $params->get(
                 $prefix
-                .$scope
-                .$login
-                .$environement
+                . $scope
+                . $login
+                . $environement
             ),
             HiPayHttpClientService::API_PASSWORD => $params->get(
                 $prefix
-                .$scope
-                .$password
-                .$environement
+                . $scope
+                . $password
+                . $environement
             ),
             HiPayHttpClientService::API_ENV => strtolower($environement),
         ];
@@ -322,16 +313,15 @@ class AdminController extends AbstractController
         return new Configuration($payload);
     }
 
-    /**
-     * @Route(path="/api/_action/hipay/get-logs")
-     */
+
+    #[Route(path: "/api/_action/hipay/get-logs")]
     public function getHipayLogs(): Response
     {
         try {
-            $path = $this->container->get('parameter_bag')->get('kernel.logs_dir').DIRECTORY_SEPARATOR.'hipay';
+            $path = $this->container->get('parameter_bag')->get('kernel.logs_dir') . DIRECTORY_SEPARATOR . 'hipay';
 
             $zip = new \ZipArchive();
-            $zipName = 'hipay-log-'.(new \DateTime())->format('Y-m-d\TH-i-s\Z').'.zip';
+            $zipName = 'hipay-log-' . (new \DateTime())->format('Y-m-d\TH-i-s\Z') . '.zip';
 
             $zip->open($zipName, \ZipArchive::CREATE);
 
@@ -354,8 +344,8 @@ class AdminController extends AbstractController
                 200,
                 [
                     'Content-Type' => 'application/zip',
-                    'Content-Disposition' => 'attachment;filename="'.$zipName.'"',
-                    'Content-length' => filesize($zipName).PHP_EOL,
+                    'Content-Disposition' => 'attachment;filename="' . $zipName . '"',
+                    'Content-length' => filesize($zipName) . PHP_EOL,
                 ]
             );
 
