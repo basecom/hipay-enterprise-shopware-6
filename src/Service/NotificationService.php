@@ -18,10 +18,12 @@ use HiPay\Payment\Core\Checkout\Payment\HipayStatusFlow\HipayStatusFlowEntity;
 use HiPay\Payment\Core\Checkout\Payment\Refund\OrderRefundCollection;
 use HiPay\Payment\Core\Checkout\Payment\Refund\OrderRefundEntity;
 use HiPay\Payment\Enum\CaptureStatus;
+use HiPay\Payment\Enum\HipayLoggerChannel;
 use HiPay\Payment\Enum\RefundStatus;
 use HiPay\Payment\Exception\ExpiredNotificationException;
 use HiPay\Payment\Exception\SkipNotificationException;
-use HiPay\Payment\Logger\HipayLogger;
+use Monolog\Attribute\WithMonologChannel;
+use Psr\Log\LoggerInterface;
 use Ramsey\Uuid\Uuid;
 use Shopware\Core\Checkout\Cart\Transaction\Struct\TransactionCollection;
 use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionEntity;
@@ -43,10 +45,9 @@ use Symfony\Component\Routing\Exception\MissingMandatoryParametersException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Translation\Exception\NotFoundResourceException;
 
+#[WithMonologChannel(HipayLoggerChannel::NOTIFICATION)]
 class NotificationService
 {
-    private HipayLogger $logger;
-
     /**
      * Hipay notification Status
      * Order is important.
@@ -99,9 +100,8 @@ class NotificationService
         private EntityRepository $hipayCardTokenRepository,
         private ReadHipayConfigService $config,
         private OrderTransactionStateHandler $orderTransactionStateHandler,
-        HipayLogger $hipayLogger
+        private LoggerInterface $logger
     ) {
-        $this->logger = $hipayLogger->setChannel(HipayLogger::NOTIFICATION);
     }
 
     /**

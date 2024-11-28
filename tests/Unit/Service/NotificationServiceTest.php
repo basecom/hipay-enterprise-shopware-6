@@ -16,7 +16,6 @@ use HiPay\Payment\Core\Checkout\Payment\Refund\OrderRefundCollection;
 use HiPay\Payment\Core\Checkout\Payment\Refund\OrderRefundEntity;
 use HiPay\Payment\Enum\CaptureStatus;
 use HiPay\Payment\Enum\RefundStatus;
-use HiPay\Payment\Logger\HipayLogger;
 use HiPay\Payment\Service\NotificationService;
 use HiPay\Payment\Tests\Tools\ReadHipayConfigServiceMockTrait;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -176,7 +175,7 @@ class NotificationServiceTest extends TestCase
             $this->createMock(EntityRepository::class),
             $config,
             $this->createMock(OrderTransactionStateHandler::class),
-            $this->createMock(HipayLogger::class)
+            $this->createMock(LoggerInterface::class)
         );
 
         $content = [
@@ -263,7 +262,7 @@ class NotificationServiceTest extends TestCase
             $this->createMock(EntityRepository::class),
             $config,
             $this->createMock(OrderTransactionStateHandler::class),
-            $this->createMock(HipayLogger::class)
+            $this->createMock(LoggerInterface::class)
         );
 
         $content = [
@@ -307,7 +306,7 @@ class NotificationServiceTest extends TestCase
             $this->createMock(EntityRepository::class),
             $config,
             $this->createMock(OrderTransactionStateHandler::class),
-            $this->createMock(HipayLogger::class)
+            $this->createMock(LoggerInterface::class)
         );
 
         $this->expectException(ApiErrorException::class);
@@ -335,7 +334,7 @@ class NotificationServiceTest extends TestCase
             $this->createMock(EntityRepository::class),
             $config,
             $this->createMock(OrderTransactionStateHandler::class),
-            $this->createMock(HipayLogger::class)
+            $this->createMock(LoggerInterface::class)
         );
 
         $this->expectException(UnauthorizedHttpException::class);
@@ -364,7 +363,7 @@ class NotificationServiceTest extends TestCase
             $this->createMock(EntityRepository::class),
             $config,
             $this->createMock(OrderTransactionStateHandler::class),
-            $this->createMock(HipayLogger::class)
+            $this->createMock(LoggerInterface::class)
         );
 
         $request = new Request();
@@ -398,7 +397,7 @@ class NotificationServiceTest extends TestCase
             $this->createMock(EntityRepository::class),
             $config,
             $this->createMock(OrderTransactionStateHandler::class),
-            $this->createMock(HipayLogger::class)
+            $this->createMock(LoggerInterface::class)
         );
 
         $request = new Request([], ['foo' => 'bar']);
@@ -431,7 +430,7 @@ class NotificationServiceTest extends TestCase
             $this->createMock(EntityRepository::class),
             $config,
             $this->createMock(OrderTransactionStateHandler::class),
-            $this->createMock(HipayLogger::class)
+            $this->createMock(LoggerInterface::class)
         );
 
         $content = [
@@ -467,7 +466,7 @@ class NotificationServiceTest extends TestCase
             $this->createMock(EntityRepository::class),
             $config,
             $this->createMock(OrderTransactionStateHandler::class),
-            $this->createMock(HipayLogger::class)
+            $this->createMock(LoggerInterface::class)
         );
 
         $content = [
@@ -507,7 +506,7 @@ class NotificationServiceTest extends TestCase
             $this->createMock(EntityRepository::class),
             $config,
             $this->createMock(OrderTransactionStateHandler::class),
-            $this->createMock(HipayLogger::class)
+            $this->createMock(LoggerInterface::class)
         );
 
         $content = [
@@ -555,7 +554,7 @@ class NotificationServiceTest extends TestCase
             $this->createMock(EntityRepository::class),
             $config,
             $this->createMock(OrderTransactionStateHandler::class),
-            $this->createMock(HipayLogger::class)
+            $this->createMock(LoggerInterface::class)
         );
 
         $content = [
@@ -696,8 +695,8 @@ class NotificationServiceTest extends TestCase
         $transactionStateHandler->expects($this->never())->method($methodExpected);
 
         // Logger
-        /** @var HipayLogger&MockObject $logger */
-        $logger = $this->createMock(HipayLogger::class);
+        /** @var LoggerInterface&MockObject $logger */
+        $logger = $this->createMock(LoggerInterface::class);
         $logger->method('setChannel')->willReturnSelf();
 
         $logs = [];
@@ -837,8 +836,8 @@ class NotificationServiceTest extends TestCase
         $transactionStateHandler->expects($this->once())->method($methodExpected);
 
         // Logger
-        /** @var HipayLogger&MockObject $logger */
-        $logger = $this->createMock(HipayLogger::class);
+        /** @var LoggerInterface&MockObject $logger */
+        $logger = $this->createMock(LoggerInterface::class);
         $logger->method('setChannel')->willReturnSelf();
 
         $logs = [];
@@ -974,8 +973,8 @@ class NotificationServiceTest extends TestCase
         $transactionStateHandler->expects($this->once())->method($methodExpected);
 
         // Logger
-        /** @var HipayLogger&MockObject $logger */
-        $logger = $this->createMock(HipayLogger::class);
+        /** @var LoggerInterface&MockObject $logger */
+        $logger = $this->createMock(LoggerInterface::class);
         $logger->method('setChannel')->willReturnSelf();
 
         $logs = [];
@@ -1121,8 +1120,8 @@ class NotificationServiceTest extends TestCase
         $transactionStateHandler->expects($this->once())->method($methodExpected);
 
         // Logger
-        /** @var HipayLogger&MockObject $logger */
-        $logger = $this->createMock(HipayLogger::class);
+        /** @var LoggerInterface&MockObject $logger */
+        $logger = $this->createMock(LoggerInterface::class);
         $logger->method('setChannel')->willReturnSelf();
 
         $logs = [];
@@ -1306,8 +1305,8 @@ class NotificationServiceTest extends TestCase
         $transactionStateHandler->expects($this->once())->method($methodExpected);
 
         // Logger
-        /** @var HipayLogger&MockObject $logger */
-        $logger = $this->createMock(HipayLogger::class);
+        /** @var LoggerInterface&MockObject $logger */
+        $logger = $this->createMock(LoggerInterface::class);
         $logger->method('setChannel')->willReturnSelf();
         $logs = [];
         foreach (get_class_methods(LoggerInterface::class) as $method) {
@@ -1447,8 +1446,8 @@ class NotificationServiceTest extends TestCase
         $transactionStateHandler->expects($this->once())->method($methodExpected);
 
         // Logger
-        /** @var HipayLogger&MockObject $logger */
-        $logger = $this->createMock(HipayLogger::class);
+        /** @var LoggerInterface&MockObject $logger */
+        $logger = $this->createMock(LoggerInterface::class);
         $logger->method('setChannel')->willReturnSelf();
         $logs = [];
         foreach (get_class_methods(LoggerInterface::class) as $method) {
@@ -1581,8 +1580,8 @@ class NotificationServiceTest extends TestCase
         $transactionStateHandler = $this->createMock(OrderTransactionStateHandler::class);
 
         // Logger
-        /** @var HipayLogger&MockObject $logger */
-        $logger = $this->createMock(HipayLogger::class);
+        /** @var LoggerInterface&MockObject $logger */
+        $logger = $this->createMock(LoggerInterface::class);
         $logger->method('setChannel')->willReturnSelf();
         $logs = [];
         foreach (get_class_methods(LoggerInterface::class) as $method) {
@@ -1710,8 +1709,8 @@ class NotificationServiceTest extends TestCase
         $transactionStateHandler = $this->createMock(OrderTransactionStateHandler::class);
 
         // Logger
-        /** @var HipayLogger&MockObject $logger */
-        $logger = $this->createMock(HipayLogger::class);
+        /** @var LoggerInterface&MockObject $logger */
+        $logger = $this->createMock(LoggerInterface::class);
         $logger->method('setChannel')->willReturnSelf();
         $logs = [];
         foreach (get_class_methods(LoggerInterface::class) as $method) {
@@ -1851,8 +1850,8 @@ class NotificationServiceTest extends TestCase
         $transactionStateHandler = $this->createMock(OrderTransactionStateHandler::class);
 
         // Logger
-        /** @var HipayLogger&MockObject $logger */
-        $logger = $this->createMock(HipayLogger::class);
+        /** @var LoggerInterface&MockObject $logger */
+        $logger = $this->createMock(LoggerInterface::class);
         $logger->method('setChannel')->willReturnSelf();
         $logs = [];
         foreach (get_class_methods(LoggerInterface::class) as $method) {
@@ -1990,8 +1989,8 @@ class NotificationServiceTest extends TestCase
         $transactionStateHandler = $this->createMock(OrderTransactionStateHandler::class);
 
         // Logger
-        /** @var HipayLogger&MockObject $logger */
-        $logger = $this->createMock(HipayLogger::class);
+        /** @var LoggerInterface&MockObject $logger */
+        $logger = $this->createMock(LoggerInterface::class);
         $logger->method('setChannel')->willReturnSelf();
         $logs = [];
         foreach (get_class_methods(LoggerInterface::class) as $method) {
@@ -2136,8 +2135,8 @@ class NotificationServiceTest extends TestCase
         $transactionStateHandler->expects($this->once())->method($methodExpected);
 
         // Logger
-        /** @var HipayLogger&MockObject $logger */
-        $logger = $this->createMock(HipayLogger::class);
+        /** @var LoggerInterface&MockObject $logger */
+        $logger = $this->createMock(LoggerInterface::class);
         $logger->method('setChannel')->willReturnSelf();
         $logs = [];
         foreach (get_class_methods(LoggerInterface::class) as $method) {
@@ -2277,8 +2276,8 @@ class NotificationServiceTest extends TestCase
         $transactionStateHandler->expects($this->never())->method($methodExpected);
 
         // Logger
-        /** @var HipayLogger&MockObject $logger */
-        $logger = $this->createMock(HipayLogger::class);
+        /** @var LoggerInterface&MockObject $logger */
+        $logger = $this->createMock(LoggerInterface::class);
         $logger->method('setChannel')->willReturnSelf();
         $logs = [];
         foreach (get_class_methods(LoggerInterface::class) as $method) {
@@ -2406,8 +2405,8 @@ class NotificationServiceTest extends TestCase
         $transactionStateHandler->expects($this->once())->method($methodExpected);
 
         // Logger
-        /** @var HipayLogger&MockObject $logger */
-        $logger = $this->createMock(HipayLogger::class);
+        /** @var LoggerInterface&MockObject $logger */
+        $logger = $this->createMock(LoggerInterface::class);
         $logger->method('setChannel')->willReturnSelf();
         $logs = [];
         foreach (get_class_methods(LoggerInterface::class) as $method) {
@@ -2537,8 +2536,8 @@ class NotificationServiceTest extends TestCase
         $transactionStateHandler = $this->createMock(OrderTransactionStateHandler::class);
 
         // Logger
-        /** @var HipayLogger&MockObject $logger */
-        $logger = $this->createMock(HipayLogger::class);
+        /** @var LoggerInterface&MockObject $logger */
+        $logger = $this->createMock(LoggerInterface::class);
         $logger->method('setChannel')->willReturnSelf();
         $logs = [];
         foreach (get_class_methods(LoggerInterface::class) as $method) {
@@ -2668,8 +2667,8 @@ class NotificationServiceTest extends TestCase
         $transactionStateHandler->expects($this->never())->method('fail');
 
         // Logger
-        /** @var HipayLogger&MockObject $logger */
-        $logger = $this->createMock(HipayLogger::class);
+        /** @var LoggerInterface&MockObject $logger */
+        $logger = $this->createMock(LoggerInterface::class);
         $logger->method('setChannel')->willReturnSelf();
         $logs = [];
         foreach (get_class_methods(LoggerInterface::class) as $method) {
@@ -2800,8 +2799,8 @@ class NotificationServiceTest extends TestCase
         $transactionStateHandler->expects($this->never())->method('fail');
 
         // Logger
-        /** @var HipayLogger&MockObject $logger */
-        $logger = $this->createMock(HipayLogger::class);
+        /** @var LoggerInterface&MockObject $logger */
+        $logger = $this->createMock(LoggerInterface::class);
         $logger->method('setChannel')->willReturnSelf();
         $logs = [];
         foreach (get_class_methods(LoggerInterface::class) as $method) {
@@ -2940,8 +2939,8 @@ class NotificationServiceTest extends TestCase
         $transactionStateHandler->expects($this->never())->method('fail');
 
         // Logger
-        /** @var HipayLogger&MockObject $logger */
-        $logger = $this->createMock(HipayLogger::class);
+        /** @var LoggerInterface&MockObject $logger */
+        $logger = $this->createMock(LoggerInterface::class);
         $logger->method('setChannel')->willReturnSelf();
         $logs = [];
         foreach (get_class_methods(LoggerInterface::class) as $method) {
@@ -3075,8 +3074,8 @@ class NotificationServiceTest extends TestCase
         $transactionStateHandler->expects($this->never())->method('fail');
 
         // Logger
-        /** @var HipayLogger&MockObject $logger */
-        $logger = $this->createMock(HipayLogger::class);
+        /** @var LoggerInterface&MockObject $logger */
+        $logger = $this->createMock(LoggerInterface::class);
         $logger->method('setChannel')->willReturnSelf();
         $logs = [];
         foreach (get_class_methods(LoggerInterface::class) as $method) {
@@ -3218,8 +3217,8 @@ class NotificationServiceTest extends TestCase
         $transactionStateHandler->expects($this->never())->method('fail');
 
         // Logger
-        /** @var HipayLogger&MockObject $logger */
-        $logger = $this->createMock(HipayLogger::class);
+        /** @var LoggerInterface&MockObject $logger */
+        $logger = $this->createMock(LoggerInterface::class);
         $logger->method('setChannel')->willReturnSelf();
         $logs = [];
         foreach (get_class_methods(LoggerInterface::class) as $method) {
@@ -3351,8 +3350,8 @@ class NotificationServiceTest extends TestCase
         $transactionStateHandler->expects($this->never())->method('fail');
 
         // Logger
-        /** @var HipayLogger&MockObject $logger */
-        $logger = $this->createMock(HipayLogger::class);
+        /** @var LoggerInterface&MockObject $logger */
+        $logger = $this->createMock(LoggerInterface::class);
         $logger->method('setChannel')->willReturnSelf();
         $logs = [];
         foreach (get_class_methods(LoggerInterface::class) as $method) {
@@ -3490,8 +3489,8 @@ class NotificationServiceTest extends TestCase
         $transactionStateHandler->expects($this->never())->method('fail');
 
         // Logger
-        /** @var HipayLogger&MockObject $logger */
-        $logger = $this->createMock(HipayLogger::class);
+        /** @var LoggerInterface&MockObject $logger */
+        $logger = $this->createMock(LoggerInterface::class);
         $logger->method('setChannel')->willReturnSelf();
         $logs = [];
         foreach (get_class_methods(LoggerInterface::class) as $method) {
@@ -3638,8 +3637,8 @@ class NotificationServiceTest extends TestCase
         $transactionStateHandler->expects($this->never())->method($methodUnexpected);
 
         // Logger
-        /** @var HipayLogger&MockObject $logger */
-        $logger = $this->createMock(HipayLogger::class);
+        /** @var LoggerInterface&MockObject $logger */
+        $logger = $this->createMock(LoggerInterface::class);
         $logger->method('setChannel')->willReturnSelf();
 
         $logs = [];
@@ -3748,8 +3747,8 @@ class NotificationServiceTest extends TestCase
             'environment' => 'Stage',
         ]);
 
-        /** @var HipayLogger&MockObject $logger */
-        $logger = $this->createMock(HipayLogger::class);
+        /** @var LoggerInterface&MockObject $logger */
+        $logger = $this->createMock(LoggerInterface::class);
         $logger->method('setChannel')->willReturnSelf();
 
         $logs = [];
@@ -3819,8 +3818,8 @@ class NotificationServiceTest extends TestCase
             'environment' => 'Stage',
         ]);
 
-        /** @var HipayLogger&MockObject $logger */
-        $logger = $this->createMock(HipayLogger::class);
+        /** @var LoggerInterface&MockObject $logger */
+        $logger = $this->createMock(LoggerInterface::class);
         $logger->method('setChannel')->willReturnSelf();
 
         $logs = [];

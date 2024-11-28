@@ -25,12 +25,14 @@ use HiPay\Fullservice\Gateway\Request\Info\CustomerBillingInfoRequest;
 use HiPay\Fullservice\Gateway\Request\Info\CustomerShippingInfoRequest;
 use HiPay\Fullservice\Gateway\Request\Order\HostedPaymentPageRequest;
 use HiPay\Fullservice\Gateway\Request\Order\OrderRequest;
+use HiPay\Payment\Enum\HipayLoggerChannel;
 use HiPay\Payment\Helper\Source;
-use HiPay\Payment\Logger\HipayLogger;
 use HiPay\Payment\Service\HiPayHttpClientService;
 use HiPay\Payment\Service\ReadHipayConfigService;
 use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
+use Monolog\Attribute\WithMonologChannel;
+use Psr\Log\LoggerInterface;
 use Shopware\Core\Checkout\Order\Aggregate\OrderAddress\OrderAddressEntity;
 use Shopware\Core\Checkout\Order\Aggregate\OrderCustomer\OrderCustomerCollection;
 use Shopware\Core\Checkout\Order\Aggregate\OrderCustomer\OrderCustomerEntity;
@@ -60,11 +62,11 @@ use Symfony\Component\HttpFoundation\RequestStack;
 /**
  * Abstract class for HiPay payment mathods.
  */
+
+#[WithMonologChannel(HipayLoggerChannel::API)]
 abstract class AbstractPaymentMethod implements AsynchronousPaymentHandlerInterface, PaymentMethodInterface
 {
     protected ?Request $request;
-
-    protected HipayLogger $logger;
 
     /** @var int Initial payment position */
     protected const PAYMENT_POSITION = -1;
@@ -94,10 +96,9 @@ abstract class AbstractPaymentMethod implements AsynchronousPaymentHandlerInterf
         RequestStack $requestStack,
         protected LocaleProvider $localeProvider,
         private EntityRepository $orderCustomerRepository,
-        HipayLogger $hipayLogger
+        LoggerInterface $logger
     ) {
         $this->request = $requestStack->getCurrentRequest();
-        $this->logger = $hipayLogger->setChannel(HipayLogger::API);
 
         if ( static::PAYMENT_POSITION === -1 ) {
             throw new UnexpectedValueException('Constant ' . __CLASS__ . '::PAYMENT_POSITION must be defined');

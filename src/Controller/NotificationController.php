@@ -2,8 +2,10 @@
 
 namespace HiPay\Payment\Controller;
 
-use HiPay\Payment\Logger\HipayLogger;
+use HiPay\Payment\Enum\HipayLoggerChannel;
 use HiPay\Payment\Service\NotificationService;
+use Monolog\Attribute\WithMonologChannel;
+use Psr\Log\LoggerInterface;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,17 +17,15 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * Controller use to receive notifications from Hipay.
  */
+#[WithMonologChannel(HipayLoggerChannel::API)]
 #[Route(defaults: ['_routeScope' => ['api'], 'auth_required' => false])]
 class NotificationController
 {
-    private HipayLogger $logger;
 
     public function __construct(
-        HipayLogger $hipayLogger,
+        private LoggerInterface $logger,
         private NotificationService $notificationService
-    ) {
-        $this->logger = $hipayLogger->setChannel(HipayLogger::API);
-    }
+    ) {}
 
     #[Route('/api/hipay/notify', name: 'store-api.action.hipay.notification', methods: ['POST', 'GET'])]
     public function receiveNotification(Request $request, SalesChannelContext $context): JsonResponse

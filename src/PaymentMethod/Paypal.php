@@ -5,9 +5,9 @@ namespace HiPay\Payment\PaymentMethod;
 use HiPay\Fullservice\Data\PaymentProduct;
 use HiPay\Fullservice\Gateway\Request\Order\HostedPaymentPageRequest;
 use HiPay\Fullservice\Gateway\Request\Order\OrderRequest;
-use HiPay\Payment\Logger\HipayLogger;
 use HiPay\Payment\Service\HiPayHttpClientService;
 use HiPay\Payment\Service\ReadHipayConfigService;
+use Psr\Log\LoggerInterface;
 use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStateHandler;
 use Shopware\Core\Checkout\Payment\Cart\AsyncPaymentTransactionStruct;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
@@ -36,14 +36,15 @@ class Paypal extends AbstractPaymentMethod
      */
     public function __construct(
         OrderTransactionStateHandler $transactionStateHandler,
-        ReadHipayConfigService $config,
-        HiPayHttpClientService $clientService,
-        RequestStack $requestStack,
-        LocaleProvider $localeProvider,
-        EntityRepository $orderCustomerRepository,
-        HipayLogger $hipayLogger,
-        protected EntityRepository $orderTransactionRepository
-    ) {
+        ReadHipayConfigService       $config,
+        HiPayHttpClientService       $clientService,
+        RequestStack                 $requestStack,
+        LocaleProvider               $localeProvider,
+        EntityRepository             $orderCustomerRepository,
+        LoggerInterface              $logger,
+        protected EntityRepository   $orderTransactionRepository
+    )
+    {
         parent::__construct(
             $transactionStateHandler,
             $config,
@@ -51,7 +52,7 @@ class Paypal extends AbstractPaymentMethod
             $requestStack,
             $localeProvider,
             $orderCustomerRepository,
-            $hipayLogger,
+            $logger,
         );
     }
 
@@ -97,9 +98,10 @@ class Paypal extends AbstractPaymentMethod
     }
 
     protected function hydrateHostedPage(
-        HostedPaymentPageRequest $orderRequest,
+        HostedPaymentPageRequest      $orderRequest,
         AsyncPaymentTransactionStruct $transaction
-    ): HostedPaymentPageRequest {
+    ): HostedPaymentPageRequest
+    {
         $customFields = $transaction->getOrderTransaction()->getPaymentMethod()->getCustomFields();
 
         $orderRequest->paypal_v2_label = $customFields['label'] ?? null;

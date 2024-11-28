@@ -8,9 +8,9 @@ use HiPay\Fullservice\Gateway\Model\Transaction;
 use HiPay\Fullservice\Gateway\Request\Order\HostedPaymentPageRequest;
 use HiPay\Fullservice\Gateway\Request\Order\OrderRequest;
 use HiPay\Fullservice\Gateway\Request\PaymentMethod\ExpirationLimitPaymentMethod;
-use HiPay\Payment\Logger\HipayLogger;
 use HiPay\Payment\Service\HiPayHttpClientService;
 use HiPay\Payment\Service\ReadHipayConfigService;
+use Psr\Log\LoggerInterface;
 use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionCollection;
 use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStateHandler;
 use Shopware\Core\Checkout\Payment\Cart\AsyncPaymentTransactionStruct;
@@ -41,13 +41,13 @@ class Multibanco extends AbstractPaymentMethod
      */
     public function __construct(
         OrderTransactionStateHandler $transactionStateHandler,
-        ReadHipayConfigService $config,
-        HiPayHttpClientService $clientService,
-        RequestStack $requestStack,
-        LocaleProvider $localeProvider,
-        EntityRepository $orderCustomerRepository,
-        HipayLogger $hipayLogger,
-        protected EntityRepository $orderTransactionRepository
+        ReadHipayConfigService       $config,
+        HiPayHttpClientService       $clientService,
+        RequestStack                 $requestStack,
+        LocaleProvider               $localeProvider,
+        EntityRepository             $orderCustomerRepository,
+        LoggerInterface              $logger,
+        protected EntityRepository   $orderTransactionRepository
     ) {
         parent::__construct(
             $transactionStateHandler,
@@ -56,7 +56,7 @@ class Multibanco extends AbstractPaymentMethod
             $requestStack,
             $localeProvider,
             $orderCustomerRepository,
-            $hipayLogger
+            $logger
         );
     }
 

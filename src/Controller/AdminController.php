@@ -10,10 +10,11 @@ use HiPay\Payment\Core\Checkout\Payment\HipayOrder\HipayOrderCollection;
 use HiPay\Payment\Core\Checkout\Payment\HipayOrder\HipayOrderEntity;
 use HiPay\Payment\Core\Checkout\Payment\Refund\OrderRefundCollection;
 use HiPay\Payment\Core\Checkout\Payment\Refund\OrderRefundEntity;
+use HiPay\Payment\Enum\HipayLoggerChannel;
 use HiPay\Payment\Formatter\Request\MaintenanceRequestFormatter;
 use HiPay\Payment\HiPayPaymentPlugin;
-use HiPay\Payment\Logger\HipayLogger;
 use HiPay\Payment\Service\HiPayHttpClientService;
+use Monolog\Attribute\WithMonologChannel;
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
@@ -24,10 +25,11 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
+
+#[WithMonologChannel(HipayLoggerChannel::API)]
 #[Route(defaults: ['_routeScope' => ['administration']])]
 class AdminController extends AbstractController
 {
-    protected LoggerInterface $logger;
 
     /**
      * @param EntityRepository<HipayOrderCollection> $hipayOrderRepository
@@ -35,12 +37,12 @@ class AdminController extends AbstractController
      * @param EntityRepository<OrderRefundCollection> $hipayOrderRefundRepository
      */
     public function __construct(
-        private EntityRepository $hipayOrderRepository,
-        private EntityRepository $hipayOrderCaptureRepository,
-        private EntityRepository $hipayOrderRefundRepository,
-        HipayLogger      $hipayLogger
-    ) {
-        $this->logger = $hipayLogger->setChannel(HipayLogger::API);
+        private EntityRepository  $hipayOrderRepository,
+        private EntityRepository  $hipayOrderCaptureRepository,
+        private EntityRepository  $hipayOrderRefundRepository,
+        protected LoggerInterface $logger
+    )
+    {
     }
 
 
@@ -278,15 +280,15 @@ class AdminController extends AbstractController
         $payload = [
             HiPayHttpClientService::API_USERNAME => $params->get(
                 $prefix
-                    . $scope
-                    . $login
-                    . $environement
+                . $scope
+                . $login
+                . $environement
             ),
             HiPayHttpClientService::API_PASSWORD => $params->get(
                 $prefix
-                    . $scope
-                    . $password
-                    . $environement
+                . $scope
+                . $password
+                . $environement
             ),
             HiPayHttpClientService::API_ENV => strtolower($environement),
         ];

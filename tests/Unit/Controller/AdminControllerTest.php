@@ -13,10 +13,10 @@ use HiPay\Payment\Enum\CaptureStatus;
 use HiPay\Payment\Enum\RefundStatus;
 use HiPay\Payment\Formatter\Request\MaintenanceRequestFormatter;
 use HiPay\Payment\HiPayPaymentPlugin;
-use HiPay\Payment\Logger\HipayLogger;
 use HiPay\Payment\Service\HiPayHttpClientService;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
 use Shopware\Core\Checkout\Cart\Price\Struct\CalculatedPrice;
 use Shopware\Core\Checkout\Cart\Tax\Struct\CalculatedTaxCollection;
 use Shopware\Core\Checkout\Cart\Tax\Struct\TaxRuleCollection;
@@ -93,7 +93,7 @@ class AdminControllerTest extends TestCase
             $this->createMock(EntityRepository::class),
             $this->createMock(EntityRepository::class),
             $this->createMock(EntityRepository::class),
-            $this->createMock(HipayLogger::class)
+            $this->createMock(LoggerInterface::class)
         );
 
         $jsonResponse = json_decode(
@@ -121,7 +121,7 @@ class AdminControllerTest extends TestCase
             $this->createMock(EntityRepository::class),
             $this->createMock(EntityRepository::class),
             $this->createMock(EntityRepository::class),
-            $this->createMock(HipayLogger::class)
+            $this->createMock(LoggerInterface::class)
         );
 
         $jsonResponse = json_decode(
@@ -149,7 +149,7 @@ class AdminControllerTest extends TestCase
             $this->createMock(EntityRepository::class),
             $this->createMock(EntityRepository::class),
             $this->createMock(EntityRepository::class),
-            $this->createMock(HipayLogger::class)
+            $this->createMock(LoggerInterface::class)
         );
 
         $jsonResponse = json_decode(
@@ -174,7 +174,7 @@ class AdminControllerTest extends TestCase
             $this->createMock(EntityRepository::class),
             $this->createMock(EntityRepository::class),
             $this->createMock(EntityRepository::class),
-            $this->createMock(HipayLogger::class)
+            $this->createMock(LoggerInterface::class)
         );
 
         $jsonResponse = json_decode(
@@ -318,7 +318,7 @@ class AdminControllerTest extends TestCase
             $hipayOrderRepo,
             $hipayOrderCaptureRepo,
             $this->createMock(EntityRepository::class),
-            $this->createMock(HipayLogger::class)
+            $this->createMock(LoggerInterface::class)
         );
 
         $jsonResponse = json_decode(
@@ -348,7 +348,7 @@ class AdminControllerTest extends TestCase
             $this->createMock(EntityRepository::class),
             $this->createMock(EntityRepository::class),
             $this->createMock(EntityRepository::class),
-            $this->createMock(HipayLogger::class)
+            $this->createMock(LoggerInterface::class)
         );
 
         $jsonResponse = json_decode(
@@ -428,7 +428,7 @@ class AdminControllerTest extends TestCase
             $hipayOrderRepo,
             $this->createMock(EntityRepository::class),
             $hipayOrderRefundRepo,
-            $this->createMock(HipayLogger::class)
+            $this->createMock(LoggerInterface::class)
         );
 
         $jsonResponse = json_decode(
@@ -458,7 +458,7 @@ class AdminControllerTest extends TestCase
             $this->createMock(EntityRepository::class),
             $this->createMock(EntityRepository::class),
             $this->createMock(EntityRepository::class),
-            $this->createMock(HipayLogger::class)
+            $this->createMock(LoggerInterface::class)
         );
 
         $jsonResponse = json_decode(
@@ -497,7 +497,7 @@ class AdminControllerTest extends TestCase
             $orderRepo,
             $this->createMock(EntityRepository::class),
             $this->createMock(EntityRepository::class),
-            $this->createMock(HipayLogger::class)
+            $this->createMock(LoggerInterface::class)
         );
 
         /** @var RequestDataBag&MockObject */
@@ -520,7 +520,7 @@ class AdminControllerTest extends TestCase
             $this->createMock(EntityRepository::class),
             $this->createMock(EntityRepository::class),
             $this->createMock(EntityRepository::class),
-            $this->createMock(HipayLogger::class)
+            $this->createMock(LoggerInterface::class)
         );
 
         /** @var RequestDataBag&MockObject */
