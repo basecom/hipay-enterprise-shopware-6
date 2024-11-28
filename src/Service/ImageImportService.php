@@ -4,10 +4,10 @@ namespace HiPay\Payment\Service;
 
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Content\Media\Aggregate\MediaFolder\MediaFolderCollection;
-use Shopware\Core\Content\Media\Exception\DuplicatedMediaFileNameException;
 use Shopware\Core\Content\Media\File\FileSaver;
 use Shopware\Core\Content\Media\File\MediaFile;
 use Shopware\Core\Content\Media\MediaCollection;
+use Shopware\Core\Content\Media\MediaException;
 use Shopware\Core\Content\Media\MediaService;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
@@ -69,7 +69,7 @@ class ImageImportService
                 $mediaFile = new MediaFile($filePath, $mimeType, $fileExtension, $fileSize);
                 $mediaId = $this->mediaService->saveMediaFile($mediaFile, $fileName, $context, $folder, null, false);
             }
-        } catch (DuplicatedMediaFileNameException $e) {
+        } catch (MediaException $e) {
             $this->logger->error($e->getCode() . ' : ' . $e->getMessage());
             $mediaId = $this->mediaCleanup($mediaId, $context);
         } catch (FileException $e) {

@@ -8,7 +8,6 @@ use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Shopware\Storefront\Controller\StorefrontController;
-use Shopware\Storefront\Framework\Routing\Attribute\NoStore;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -31,7 +30,6 @@ class HipayStorefrontController extends StorefrontController
         methods: ["DELETE"],
         defaults: ["XmlHttpRequest" => true, "_loginRequired" => true, "_loginRequiredAllowGuest" => true]
     )]
-    #[NoStore]
     public function deleteCreditcard(string $idToken, SalesChannelContext $context): JsonResponse
     {
         try {
