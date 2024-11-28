@@ -96,7 +96,7 @@ abstract class AbstractPaymentMethod implements AsynchronousPaymentHandlerInterf
         RequestStack $requestStack,
         protected LocaleProvider $localeProvider,
         private EntityRepository $orderCustomerRepository,
-        LoggerInterface $logger
+        protected LoggerInterface $logger
     ) {
         $this->request = $requestStack->getCurrentRequest();
 
