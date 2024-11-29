@@ -537,7 +537,7 @@ class AdminControllerTest extends TestCase
             $this->createMock(SalesChannelContext::class) );
 
         $this->assertSame(
-            ['success' => false],
+            ['success' => false,  'message' => 'HiPay Order parameter is mandatory'],
             json_decode($response->getContent(), true)
         );
     }
