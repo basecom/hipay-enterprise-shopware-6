@@ -22,6 +22,8 @@ use Shopware\Core\Checkout\Cart\Tax\Struct\CalculatedTaxCollection;
 use Shopware\Core\Checkout\Cart\Tax\Struct\TaxRuleCollection;
 use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionEntity;
 use Shopware\Core\Checkout\Payment\PaymentMethodEntity;
+use Shopware\Core\Framework\Context;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityCollection;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\Event\EntityWrittenContainerEvent;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
@@ -322,11 +324,12 @@ class AdminControllerTest extends TestCase
             $this->createMock(LoggerInterface::class)
         );
 
+        $context = $this->createMock(SalesChannelContext::class);
         $jsonResponse = json_decode(
             $service->capture(
                 $this->generateCaptureDataBag(),
                 $this->generateOperationClientService($response),
-                $this->createMock(SalesChannelContext::class) // Pass the third argument here
+                $context
             )
                 ->getContent()
         );
@@ -353,11 +356,12 @@ class AdminControllerTest extends TestCase
             $this->createMock(LoggerInterface::class)
         );
 
+        $context = $this->createMock(SalesChannelContext::class);
         $jsonResponse = json_decode(
             $service->capture(
                 $this->generateCaptureDataBag(['ok' => 'ok']),
                 $this->generateOperationClientService($response),
-                $this->createMock(SalesChannelContext::class)
+                $context
             )
                 ->getContent()
         );
@@ -434,11 +438,12 @@ class AdminControllerTest extends TestCase
             $this->createMock(LoggerInterface::class)
         );
 
+        $context = $this->createMock(SalesChannelContext::class);
         $jsonResponse = json_decode(
             $service->refund(
                 $this->generateRefundDataBag(),
                 $this->generateOperationClientService($response),
-                $this->createMock(SalesChannelContext::class)
+                $context
             )
                 ->getContent()
         );
@@ -465,11 +470,12 @@ class AdminControllerTest extends TestCase
             $this->createMock(LoggerInterface::class)
         );
 
+        $context = $this->createMock(SalesChannelContext::class);
         $jsonResponse = json_decode(
             $service->refund(
                 $this->generateRefundDataBag(['ok' => 'ok']),
                 $this->generateOperationClientService($response),
-                $this->createMock(SalesChannelContext::class)
+                $context
             )
                 ->getContent()
         );
@@ -479,6 +485,10 @@ class AdminControllerTest extends TestCase
 
     public function testValidCancel()
     {
+        /** @var SalesChannelContext&MockObject */
+        $context = $this->createMock(SalesChannelContext::class);
+        $context->method('getContext')->willReturn(Context::createDefaultContext());
+
         /** @var PaymentMethodEntity&MockObject */
         $paymentMethod = $this->createMock(PaymentMethodEntity::class);
         $paymentMethod->method('getExtension')->willReturn(new ArrayEntity(['allowPartialCapture' => true]));
@@ -492,7 +502,9 @@ class AdminControllerTest extends TestCase
 
         /** @var EntitySearchResult&MockObject */
         $search = $this->createMock(EntitySearchResult::class);
-        $search->method('first')->willReturn($hipayOrderEntity);
+        $entityCollection = $this->createMock(EntityCollection::class);
+        $search->method('getEntities')->willReturn($entityCollection);
+        $entityCollection->method('first')->willReturn($hipayOrderEntity);
 
         /** @var EntityRepository&MockObject */
         $orderRepo = $this->createMock(EntityRepository::class);
@@ -510,9 +522,7 @@ class AdminControllerTest extends TestCase
         $params->method('get')->willReturn(json_encode(['id' => 'FOO_ORDER_ID']));
 
         $client = $this->createMock(HiPayHttpClientService::class);
-
-        $response = $service->cancel($params, $client,
-            $this->createMock(SalesChannelContext::class) );
+        $response = $service->cancel($params, $client, $context);
 
         $this->assertSame(
             ['success' => true],
@@ -533,11 +543,10 @@ class AdminControllerTest extends TestCase
         $params = $this->createMock(RequestDataBag::class);
         $params->method('get')->willReturn(null);
 
-        $response = $service->cancel($params, $this->createMock(HiPayHttpClientService::class),
-            $this->createMock(SalesChannelContext::class) );
+        $response = $service->cancel($params, $this->createMock(HiPayHttpClientService::class), $this->createMock(SalesChannelContext::class));
 
         $this->assertSame(
-            ['success' => false,  'message' => 'HiPay Order parameter is mandatory'],
+            ['success' => false, 'message' => 'HiPay Order parameter is mandatory'],
             json_decode($response->getContent(), true)
         );
     }
