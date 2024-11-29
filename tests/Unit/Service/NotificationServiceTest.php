@@ -28,6 +28,7 @@ use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionEnti
 use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStateHandler;
 use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStates;
 use Shopware\Core\Checkout\Order\OrderEntity;
+use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\Event\EntityWrittenContainerEvent;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
@@ -47,7 +48,7 @@ class NotificationServiceTest extends TestCase
     private function addSignature(Request $request, string $algo, string $passphrase)
     {
         $request->headers->add([
-            'x-allopass-signature' => hash($algo, $request->getContent().$passphrase),
+            'x-allopass-signature' => hash($algo, $request->getContent() . $passphrase),
         ]);
 
         return $request;
@@ -130,7 +131,7 @@ class NotificationServiceTest extends TestCase
             ];
 
             if (!array_key_exists($i, $return)) {
-                throw new \AssertionError('Expected '.count($return).' calls. Actual is '.$i);
+                throw new \AssertionError('Expected ' . count($return) . ' calls. Actual is ' . $i);
             }
 
             return $return[$i++];
@@ -190,7 +191,8 @@ class NotificationServiceTest extends TestCase
         $request = new Request([], $content);
 
         $service->saveNotificationRequest(
-            $this->addSignature($request, $config->getHash(), $config->getPassphrase())
+            $this->addSignature($request, $config->getHash(), $config->getPassphrase()),
+            $this->createMock(Context::class)
         );
 
         $this->assertEquals($codeEntity, $hipayNotification[0]['status'], 'bad status');
@@ -277,7 +279,8 @@ class NotificationServiceTest extends TestCase
         $request = new Request([], $content);
 
         $service->saveNotificationRequest(
-            $this->addSignature($request, $config->getHash(), $config->getPassphrase())
+            $this->addSignature($request, $config->getHash(), $config->getPassphrase()),
+            $this->createMock(Context::class)
         );
 
         $this->assertEquals($codeEntity, $hipayNotification[0]['status'], 'bad status');
@@ -312,7 +315,8 @@ class NotificationServiceTest extends TestCase
         $this->expectException(ApiErrorException::class);
         $this->expectExceptionMessage('Bad configuration unknown algorythm "TEST"');
 
-        $service->saveNotificationRequest(new Request());
+        $service->saveNotificationRequest(new Request(),
+            $this->createMock(Context::class));
     }
 
     public function testSaveNotificationRequestSignatureNotFound()
@@ -340,7 +344,8 @@ class NotificationServiceTest extends TestCase
         $this->expectException(UnauthorizedHttpException::class);
         $this->expectExceptionMessage('Missing signature header');
 
-        $service->saveNotificationRequest(new Request());
+        $service->saveNotificationRequest(new Request(),
+            $this->createMock(Context::class));
     }
 
     public function testSaveNotificationRequestSignatureInvalid()
@@ -374,7 +379,8 @@ class NotificationServiceTest extends TestCase
         $this->expectException(AccessDeniedException::class);
         $this->expectExceptionMessage('Signature does not match');
 
-        $service->saveNotificationRequest($request);
+        $service->saveNotificationRequest($request,
+            $this->createMock(Context::class));
     }
 
     public function testSaveNotificationRequestDateUpdatedMissing()
@@ -406,7 +412,8 @@ class NotificationServiceTest extends TestCase
         $this->expectExceptionMessage('date_updated is mandatory');
 
         $service->saveNotificationRequest(
-            $this->addSignature($request, $config->getHash(), $config->getPassphrase())
+            $this->addSignature($request, $config->getHash(), $config->getPassphrase()),
+            $this->createMock(Context::class)
         );
     }
 
@@ -442,7 +449,8 @@ class NotificationServiceTest extends TestCase
         $this->expectExceptionMessage('custom_data.transaction_id is mandatory');
 
         $service->saveNotificationRequest(
-            $this->addSignature($request, $config->getHash(), $config->getPassphrase())
+            $this->addSignature($request, $config->getHash(), $config->getPassphrase()),
+            $this->createMock(Context::class)
         );
     }
 
@@ -478,11 +486,12 @@ class NotificationServiceTest extends TestCase
         ];
         $request = new Request([], $content);
 
-        $this->expectExceptionMessage('Transaction '.$content['custom_data']['transaction_id'].' is not found');
+        $this->expectExceptionMessage('Transaction ' . $content['custom_data']['transaction_id'] . ' is not found');
         $this->expectException(NotFoundResourceException::class);
 
         $service->saveNotificationRequest(
-            $this->addSignature($request, $config->getHash(), $config->getPassphrase())
+            $this->addSignature($request, $config->getHash(), $config->getPassphrase()),
+            $this->createMock(Context::class)
         );
     }
 
@@ -520,7 +529,8 @@ class NotificationServiceTest extends TestCase
         $this->expectException(MissingMandatoryParametersException::class);
 
         $service->saveNotificationRequest(
-            $this->addSignature($request, $config->getHash(), $config->getPassphrase())
+            $this->addSignature($request, $config->getHash(), $config->getPassphrase()),
+            $this->createMock(Context::class)
         );
     }
 
@@ -570,7 +580,8 @@ class NotificationServiceTest extends TestCase
         $this->expectExceptionMessage('Status code "0" invalid');
 
         $service->saveNotificationRequest(
-            $this->addSignature($request, $config->getHash(), $config->getPassphrase())
+            $this->addSignature($request, $config->getHash(), $config->getPassphrase()),
+            $this->createMock(Context::class)
         );
     }
 
@@ -697,7 +708,6 @@ class NotificationServiceTest extends TestCase
         // Logger
         /** @var LoggerInterface&MockObject $logger */
         $logger = $this->createMock(LoggerInterface::class);
-        $logger->method('setChannel')->willReturnSelf();
 
         $logs = [];
         foreach (get_class_methods(LoggerInterface::class) as $method) {
@@ -736,11 +746,11 @@ class NotificationServiceTest extends TestCase
         $this->assertSame(
             [
                 'notice' => [
-                    'Start dispatching '.$notificationCollection->count().' hipay notifications',
-                    'End dispatching Hipay notifications : '.count($deletedIds).' done',
+                    'Start dispatching ' . $notificationCollection->count() . ' hipay notifications',
+                    'End dispatching Hipay notifications : ' . count($deletedIds) . ' done',
                 ],
                 'warning' => [
-                    'Notification '.$entity->getId().' expired after 1 day',
+                    'Notification ' . $entity->getId() . ' expired after 1 day',
                 ],
             ],
             $logs
@@ -767,8 +777,8 @@ class NotificationServiceTest extends TestCase
                         'order' => 'ASC',
                     ],
                 ],
-              ],
-            json_decode((string) $notificationCriteria, true)
+            ],
+            json_decode((string)$notificationCriteria, true)
         );
     }
 
@@ -838,7 +848,7 @@ class NotificationServiceTest extends TestCase
         // Logger
         /** @var LoggerInterface&MockObject $logger */
         $logger = $this->createMock(LoggerInterface::class);
-        $logger->method('setChannel')->willReturnSelf();
+
 
         $logs = [];
         foreach (get_class_methods(LoggerInterface::class) as $method) {
@@ -882,14 +892,14 @@ class NotificationServiceTest extends TestCase
         $this->assertSame(
             [
                 'notice' => [
-                    'Start dispatching '.$notificationCollection->count().' hipay notifications',
-                    'End dispatching Hipay notifications : '.count($deletedIds).' done',
+                    'Start dispatching ' . $notificationCollection->count() . ' hipay notifications',
+                    'End dispatching Hipay notifications : ' . count($deletedIds) . ' done',
                 ],
                 'debug' => [
-                    'Dispatching notification '.$entity->getId().' for the transaction '.$hipayOrder->getTransactionId(),
+                    'Dispatching notification ' . $entity->getId() . ' for the transaction ' . $hipayOrder->getTransactionId(),
                 ],
                 'info' => [
-                    'Change order transaction '.$hipayOrder->getTransactionId().' to status '.$expectedState.' (previously '.$initialState.')',
+                    'Change order transaction ' . $hipayOrder->getTransactionId() . ' to status ' . $expectedState . ' (previously ' . $initialState . ')',
                 ],
             ],
             $logs
@@ -916,8 +926,8 @@ class NotificationServiceTest extends TestCase
                         'order' => 'ASC',
                     ],
                 ],
-              ],
-            json_decode((string) $notificationCriteria, true)
+            ],
+            json_decode((string)$notificationCriteria, true)
         );
     }
 
@@ -975,7 +985,7 @@ class NotificationServiceTest extends TestCase
         // Logger
         /** @var LoggerInterface&MockObject $logger */
         $logger = $this->createMock(LoggerInterface::class);
-        $logger->method('setChannel')->willReturnSelf();
+
 
         $logs = [];
         foreach (get_class_methods(LoggerInterface::class) as $method) {
@@ -1019,14 +1029,14 @@ class NotificationServiceTest extends TestCase
         $this->assertSame(
             [
                 'notice' => [
-                    'Start dispatching '.$notificationCollection->count().' hipay notifications',
-                    'End dispatching Hipay notifications : '.count($deletedIds).' done',
+                    'Start dispatching ' . $notificationCollection->count() . ' hipay notifications',
+                    'End dispatching Hipay notifications : ' . count($deletedIds) . ' done',
                 ],
                 'debug' => [
-                    'Dispatching notification '.$entity->getId().' for the transaction '.$hipayOrder->getTransactionId(),
+                    'Dispatching notification ' . $entity->getId() . ' for the transaction ' . $hipayOrder->getTransactionId(),
                 ],
                 'info' => [
-                    'Change order transaction '.$hipayOrder->getTransactionId().' to status '.$expectedState.' (previously '.$initialState.')',
+                    'Change order transaction ' . $hipayOrder->getTransactionId() . ' to status ' . $expectedState . ' (previously ' . $initialState . ')',
                 ],
             ],
             $logs
@@ -1122,7 +1132,7 @@ class NotificationServiceTest extends TestCase
         // Logger
         /** @var LoggerInterface&MockObject $logger */
         $logger = $this->createMock(LoggerInterface::class);
-        $logger->method('setChannel')->willReturnSelf();
+
 
         $logs = [];
         foreach (get_class_methods(LoggerInterface::class) as $method) {
@@ -1175,14 +1185,14 @@ class NotificationServiceTest extends TestCase
         $this->assertSame(
             [
                 'notice' => [
-                    'Start dispatching '.$notificationCollection->count().' hipay notifications',
-                    'End dispatching Hipay notifications : '.count($deletedIds).' done',
+                    'Start dispatching ' . $notificationCollection->count() . ' hipay notifications',
+                    'End dispatching Hipay notifications : ' . count($deletedIds) . ' done',
                 ],
                 'debug' => [
-                    'Dispatching notification '.$entity->getId().' for the transaction '.$hipayOrder->getTransactionId(),
+                    'Dispatching notification ' . $entity->getId() . ' for the transaction ' . $hipayOrder->getTransactionId(),
                 ],
                 'info' => [
-                    'Change order transaction '.$hipayOrder->getTransactionId().' to status '.$expectedState.' (previously '.$initialState.')',
+                    'Change order transaction ' . $hipayOrder->getTransactionId() . ' to status ' . $expectedState . ' (previously ' . $initialState . ')',
                 ],
             ],
             $logs
@@ -1225,8 +1235,8 @@ class NotificationServiceTest extends TestCase
                         'order' => 'ASC',
                     ],
                 ],
-              ],
-            json_decode((string) $notificationCriteria, true)
+            ],
+            json_decode((string)$notificationCriteria, true)
         );
     }
 
@@ -1307,7 +1317,7 @@ class NotificationServiceTest extends TestCase
         // Logger
         /** @var LoggerInterface&MockObject $logger */
         $logger = $this->createMock(LoggerInterface::class);
-        $logger->method('setChannel')->willReturnSelf();
+
         $logs = [];
         foreach (get_class_methods(LoggerInterface::class) as $method) {
             $logger->method($method)->willReturnCallback(function ($message) use (&$logs, $method) {
@@ -1356,14 +1366,14 @@ class NotificationServiceTest extends TestCase
         $this->assertSame(
             [
                 'notice' => [
-                    'Start dispatching '.$notificationCollection->count().' hipay notifications',
-                    'End dispatching Hipay notifications : '.count($deletedIds).' done',
+                    'Start dispatching ' . $notificationCollection->count() . ' hipay notifications',
+                    'End dispatching Hipay notifications : ' . count($deletedIds) . ' done',
                 ],
                 'debug' => [
-                    'Dispatching notification '.$entity->getId().' for the transaction '.$hipayOrder->getTransactionId(),
+                    'Dispatching notification ' . $entity->getId() . ' for the transaction ' . $hipayOrder->getTransactionId(),
                 ],
                 'info' => [
-                    'Change order transaction '.$hipayOrder->getTransactionId().' to status '.$expectedState.' (previously '.$initialState.')',
+                    'Change order transaction ' . $hipayOrder->getTransactionId() . ' to status ' . $expectedState . ' (previously ' . $initialState . ')',
                 ],
             ],
             $logs
@@ -1448,7 +1458,7 @@ class NotificationServiceTest extends TestCase
         // Logger
         /** @var LoggerInterface&MockObject $logger */
         $logger = $this->createMock(LoggerInterface::class);
-        $logger->method('setChannel')->willReturnSelf();
+
         $logs = [];
         foreach (get_class_methods(LoggerInterface::class) as $method) {
             $logger->method($method)->willReturnCallback(function ($message) use (&$logs, $method) {
@@ -1499,14 +1509,14 @@ class NotificationServiceTest extends TestCase
         $this->assertSame(
             [
                 'notice' => [
-                    'Start dispatching '.$notificationCollection->count().' hipay notifications',
-                    'End dispatching Hipay notifications : '.count($deletedIds).' done',
+                    'Start dispatching ' . $notificationCollection->count() . ' hipay notifications',
+                    'End dispatching Hipay notifications : ' . count($deletedIds) . ' done',
                 ],
                 'debug' => [
-                    'Dispatching notification '.$entity->getId().' for the transaction '.$hipayOrder->getTransactionId(),
+                    'Dispatching notification ' . $entity->getId() . ' for the transaction ' . $hipayOrder->getTransactionId(),
                 ],
                 'info' => [
-                    'Change order transaction '.$hipayOrder->getTransactionId().' to status '.$expectedState.' (previously '.$initialState.')',
+                    'Change order transaction ' . $hipayOrder->getTransactionId() . ' to status ' . $expectedState . ' (previously ' . $initialState . ')',
                 ],
             ],
             $logs
@@ -1582,7 +1592,7 @@ class NotificationServiceTest extends TestCase
         // Logger
         /** @var LoggerInterface&MockObject $logger */
         $logger = $this->createMock(LoggerInterface::class);
-        $logger->method('setChannel')->willReturnSelf();
+
         $logs = [];
         foreach (get_class_methods(LoggerInterface::class) as $method) {
             $logger->method($method)->willReturnCallback(function ($message) use (&$logs, $method) {
@@ -1633,14 +1643,14 @@ class NotificationServiceTest extends TestCase
         $this->assertSame(
             [
                 'notice' => [
-                    'Start dispatching '.$notificationCollection->count().' hipay notifications',
-                    'End dispatching Hipay notifications : '.count($deletedIds).' done',
+                    'Start dispatching ' . $notificationCollection->count() . ' hipay notifications',
+                    'End dispatching Hipay notifications : ' . count($deletedIds) . ' done',
                 ],
                 'debug' => [
-                    'Dispatching notification '.$entity->getId().' for the transaction '.$hipayOrder->getTransactionId(),
+                    'Dispatching notification ' . $entity->getId() . ' for the transaction ' . $hipayOrder->getTransactionId(),
                 ],
                 'info' => [
-                    'Skipped notification : No capture found with operation ID '.$operationId.' for the transaction '.$hipayOrder->getTransactionId(),
+                    'Skipped notification : No capture found with operation ID ' . $operationId . ' for the transaction ' . $hipayOrder->getTransactionId(),
                 ],
             ],
             $logs
@@ -1711,7 +1721,7 @@ class NotificationServiceTest extends TestCase
         // Logger
         /** @var LoggerInterface&MockObject $logger */
         $logger = $this->createMock(LoggerInterface::class);
-        $logger->method('setChannel')->willReturnSelf();
+
         $logs = [];
         foreach (get_class_methods(LoggerInterface::class) as $method) {
             $logger->method($method)->willReturnCallback(function ($message) use (&$logs, $method) {
@@ -1762,14 +1772,14 @@ class NotificationServiceTest extends TestCase
         $this->assertSame(
             [
                 'notice' => [
-                    'Start dispatching '.$notificationCollection->count().' hipay notifications',
-                    'End dispatching Hipay notifications : '.count($deletedIds).' done',
+                    'Start dispatching ' . $notificationCollection->count() . ' hipay notifications',
+                    'End dispatching Hipay notifications : ' . count($deletedIds) . ' done',
                 ],
                 'debug' => [
-                    'Dispatching notification '.$entity->getId().' for the transaction '.$hipayOrder->getTransactionId(),
+                    'Dispatching notification ' . $entity->getId() . ' for the transaction ' . $hipayOrder->getTransactionId(),
                 ],
                 'info' => [
-                    'Notification '.$entity->getId().' create IN_PROGRESS capture for the transaction '.$hipayOrder->getTransactionId(),
+                    'Notification ' . $entity->getId() . ' create IN_PROGRESS capture for the transaction ' . $hipayOrder->getTransactionId(),
                 ],
             ],
             $logs
@@ -1852,7 +1862,7 @@ class NotificationServiceTest extends TestCase
         // Logger
         /** @var LoggerInterface&MockObject $logger */
         $logger = $this->createMock(LoggerInterface::class);
-        $logger->method('setChannel')->willReturnSelf();
+
         $logs = [];
         foreach (get_class_methods(LoggerInterface::class) as $method) {
             $logger->method($method)->willReturnCallback(function ($message) use (&$logs, $method) {
@@ -1903,14 +1913,14 @@ class NotificationServiceTest extends TestCase
         $this->assertSame(
             [
                 'notice' => [
-                    'Start dispatching '.$notificationCollection->count().' hipay notifications',
-                    'End dispatching Hipay notifications : '.count($deletedIds).' done',
+                    'Start dispatching ' . $notificationCollection->count() . ' hipay notifications',
+                    'End dispatching Hipay notifications : ' . count($deletedIds) . ' done',
                 ],
                 'debug' => [
-                    'Dispatching notification '.$entity->getId().' for the transaction '.$hipayOrder->getTransactionId(),
+                    'Dispatching notification ' . $entity->getId() . ' for the transaction ' . $hipayOrder->getTransactionId(),
                 ],
                 'info' => [
-                    'Notification '.$entity->getId().' update capture '.$operationId.' to IN_PROGRESS status for the transaction '.$hipayOrder->getTransactionId(),
+                    'Notification ' . $entity->getId() . ' update capture ' . $operationId . ' to IN_PROGRESS status for the transaction ' . $hipayOrder->getTransactionId(),
                 ],
             ],
             $logs
@@ -1991,7 +2001,7 @@ class NotificationServiceTest extends TestCase
         // Logger
         /** @var LoggerInterface&MockObject $logger */
         $logger = $this->createMock(LoggerInterface::class);
-        $logger->method('setChannel')->willReturnSelf();
+
         $logs = [];
         foreach (get_class_methods(LoggerInterface::class) as $method) {
             $logger->method($method)->willReturnCallback(function ($message) use (&$logs, $method) {
@@ -2042,14 +2052,14 @@ class NotificationServiceTest extends TestCase
         $this->assertSame(
             [
                 'notice' => [
-                    'Start dispatching '.$notificationCollection->count().' hipay notifications',
-                    'End dispatching Hipay notifications : '.count($deletedIds).' done',
+                    'Start dispatching ' . $notificationCollection->count() . ' hipay notifications',
+                    'End dispatching Hipay notifications : ' . count($deletedIds) . ' done',
                 ],
                 'debug' => [
-                    'Dispatching notification '.$entity->getId().' for the transaction '.$hipayOrder->getTransactionId(),
+                    'Dispatching notification ' . $entity->getId() . ' for the transaction ' . $hipayOrder->getTransactionId(),
                 ],
                 'info' => [
-                    'Ignore notification '.$entity->getId().'. Capture '.$operationId.' already in progress',
+                    'Ignore notification ' . $entity->getId() . '. Capture ' . $operationId . ' already in progress',
                 ],
             ],
             $logs
@@ -2067,7 +2077,7 @@ class NotificationServiceTest extends TestCase
         return [
             [NotificationService::REFUNDED_PARTIALLY, TransactionStatus::PARTIALLY_REFUNDED, [TransactionStatus::CAPTURED], OrderTransactionStates::STATE_PAID, 'refundPartially', OrderTransactionStates::STATE_PARTIALLY_REFUNDED],
             [NotificationService::REFUNDED, TransactionStatus::REFUNDED, [TransactionStatus::CAPTURED], OrderTransactionStates::STATE_PAID, 'refund', OrderTransactionStates::STATE_REFUNDED],
-           ];
+        ];
     }
 
     /**
@@ -2137,7 +2147,7 @@ class NotificationServiceTest extends TestCase
         // Logger
         /** @var LoggerInterface&MockObject $logger */
         $logger = $this->createMock(LoggerInterface::class);
-        $logger->method('setChannel')->willReturnSelf();
+
         $logs = [];
         foreach (get_class_methods(LoggerInterface::class) as $method) {
             $logger->method($method)->willReturnCallback(function ($message) use (&$logs, $method) {
@@ -2187,14 +2197,14 @@ class NotificationServiceTest extends TestCase
         $this->assertSame(
             [
                 'notice' => [
-                    'Start dispatching '.$notificationCollection->count().' hipay notifications',
-                    'End dispatching Hipay notifications : '.count($deletedIds).' done',
+                    'Start dispatching ' . $notificationCollection->count() . ' hipay notifications',
+                    'End dispatching Hipay notifications : ' . count($deletedIds) . ' done',
                 ],
                 'debug' => [
-                    'Dispatching notification '.$entity->getId().' for the transaction '.$hipayOrder->getTransactionId(),
+                    'Dispatching notification ' . $entity->getId() . ' for the transaction ' . $hipayOrder->getTransactionId(),
                 ],
                 'info' => [
-                    'Change order transaction '.$hipayOrder->getTransactionId().' to status '.$expectedState.' (previously '.$initialState.')',
+                    'Change order transaction ' . $hipayOrder->getTransactionId() . ' to status ' . $expectedState . ' (previously ' . $initialState . ')',
                 ],
             ],
             $logs
@@ -2278,7 +2288,7 @@ class NotificationServiceTest extends TestCase
         // Logger
         /** @var LoggerInterface&MockObject $logger */
         $logger = $this->createMock(LoggerInterface::class);
-        $logger->method('setChannel')->willReturnSelf();
+
         $logs = [];
         foreach (get_class_methods(LoggerInterface::class) as $method) {
             $logger->method($method)->willReturnCallback(function ($message) use (&$logs, $method) {
@@ -2322,14 +2332,14 @@ class NotificationServiceTest extends TestCase
         $this->assertSame(
             [
                 'notice' => [
-                    'Start dispatching '.$notificationCollection->count().' hipay notifications',
-                    'End dispatching Hipay notifications : '.count($deletedIds).' done',
+                    'Start dispatching ' . $notificationCollection->count() . ' hipay notifications',
+                    'End dispatching Hipay notifications : ' . count($deletedIds) . ' done',
                 ],
                 'debug' => [
-                    'Dispatching notification '.$entity->getId().' for the transaction '.$hipayOrder->getTransactionId(),
+                    'Dispatching notification ' . $entity->getId() . ' for the transaction ' . $hipayOrder->getTransactionId(),
                 ],
                 'info' => [
-                    'Skipped notification : No refund found with operation ID '.$operationId.' for the transaction '.$hipayOrder->getTransactionId(),
+                    'Skipped notification : No refund found with operation ID ' . $operationId . ' for the transaction ' . $hipayOrder->getTransactionId(),
                 ],
             ],
             $logs
@@ -2407,7 +2417,7 @@ class NotificationServiceTest extends TestCase
         // Logger
         /** @var LoggerInterface&MockObject $logger */
         $logger = $this->createMock(LoggerInterface::class);
-        $logger->method('setChannel')->willReturnSelf();
+
         $logs = [];
         foreach (get_class_methods(LoggerInterface::class) as $method) {
             $logger->method($method)->willReturnCallback(function ($message) use (&$logs, $method) {
@@ -2450,14 +2460,14 @@ class NotificationServiceTest extends TestCase
         $this->assertSame(
             [
                 'notice' => [
-                    'Start dispatching '.$notificationCollection->count().' hipay notifications',
-                    'End dispatching Hipay notifications : '.count($deletedIds).' done',
+                    'Start dispatching ' . $notificationCollection->count() . ' hipay notifications',
+                    'End dispatching Hipay notifications : ' . count($deletedIds) . ' done',
                 ],
                 'debug' => [
-                    'Dispatching notification '.$entity->getId().' for the transaction '.$hipayOrder->getTransactionId(),
+                    'Dispatching notification ' . $entity->getId() . ' for the transaction ' . $hipayOrder->getTransactionId(),
                 ],
                 'info' => [
-                    'Change order transaction '.$hipayOrder->getTransactionId().' to status '.$expectedState.' (previously '.$initialState.')',
+                    'Change order transaction ' . $hipayOrder->getTransactionId() . ' to status ' . $expectedState . ' (previously ' . $initialState . ')',
                 ],
             ],
             $logs
@@ -2538,7 +2548,7 @@ class NotificationServiceTest extends TestCase
         // Logger
         /** @var LoggerInterface&MockObject $logger */
         $logger = $this->createMock(LoggerInterface::class);
-        $logger->method('setChannel')->willReturnSelf();
+
         $logs = [];
         foreach (get_class_methods(LoggerInterface::class) as $method) {
             $logger->method($method)->willReturnCallback(function ($message) use (&$logs, $method) {
@@ -2582,11 +2592,11 @@ class NotificationServiceTest extends TestCase
         $this->assertSame(
             [
                 'notice' => [
-                    'Start dispatching '.$notificationCollection->count().' hipay notifications',
-                    'End dispatching Hipay notifications : '.count($deletedIds).' done',
+                    'Start dispatching ' . $notificationCollection->count() . ' hipay notifications',
+                    'End dispatching Hipay notifications : ' . count($deletedIds) . ' done',
                 ],
                 'debug' => [
-                    'Dispatching notification '.$entity->getId().' for the transaction '.$hipayOrder->getTransactionId(),
+                    'Dispatching notification ' . $entity->getId() . ' for the transaction ' . $hipayOrder->getTransactionId(),
                 ],
             ],
             $logs
@@ -2669,7 +2679,7 @@ class NotificationServiceTest extends TestCase
         // Logger
         /** @var LoggerInterface&MockObject $logger */
         $logger = $this->createMock(LoggerInterface::class);
-        $logger->method('setChannel')->willReturnSelf();
+
         $logs = [];
         foreach (get_class_methods(LoggerInterface::class) as $method) {
             $logger->method($method)->willReturnCallback(function ($message) use (&$logs, $method) {
@@ -2712,15 +2722,15 @@ class NotificationServiceTest extends TestCase
         $this->assertSame(
             [
                 'notice' => [
-                    'Start dispatching '.$notificationCollection->count().' hipay notifications',
-                    'End dispatching Hipay notifications : '.count($deletedIds).' done',
+                    'Start dispatching ' . $notificationCollection->count() . ' hipay notifications',
+                    'End dispatching Hipay notifications : ' . count($deletedIds) . ' done',
                 ],
                 'debug' => [
-                    'Dispatching notification '.$entity->getId().' for the transaction '.$hipayOrder->getTransactionId(),
+                    'Dispatching notification ' . $entity->getId() . ' for the transaction ' . $hipayOrder->getTransactionId(),
                 ],
                 'info' => [
-                    'Skipped notification : No '.$missingStatus.' notification received for the transaction '.$hipayOrder->getTransactionId().', skip status 173',
-                    ],
+                    'Skipped notification : No ' . $missingStatus . ' notification received for the transaction ' . $hipayOrder->getTransactionId() . ', skip status 173',
+                ],
             ],
             $logs
         );
@@ -2801,7 +2811,7 @@ class NotificationServiceTest extends TestCase
         // Logger
         /** @var LoggerInterface&MockObject $logger */
         $logger = $this->createMock(LoggerInterface::class);
-        $logger->method('setChannel')->willReturnSelf();
+
         $logs = [];
         foreach (get_class_methods(LoggerInterface::class) as $method) {
             $logger->method($method)->willReturnCallback(function ($message) use (&$logs, $method) {
@@ -2852,15 +2862,15 @@ class NotificationServiceTest extends TestCase
         $this->assertSame(
             [
                 'notice' => [
-                    'Start dispatching '.$notificationCollection->count().' hipay notifications',
-                    'End dispatching Hipay notifications : '.count($deletedIds).' done',
+                    'Start dispatching ' . $notificationCollection->count() . ' hipay notifications',
+                    'End dispatching Hipay notifications : ' . count($deletedIds) . ' done',
                 ],
                 'debug' => [
-                    'Dispatching notification '.$entity->getId().' for the transaction '.$hipayOrder->getTransactionId(),
+                    'Dispatching notification ' . $entity->getId() . ' for the transaction ' . $hipayOrder->getTransactionId(),
                 ],
                 'info' => [
-                    'Skipped notification : No IN_PROGRESS capture found with operation ID '.$operationId.' for the transaction '.$hipayOrder->getTransactionId(),
-                    ],
+                    'Skipped notification : No IN_PROGRESS capture found with operation ID ' . $operationId . ' for the transaction ' . $hipayOrder->getTransactionId(),
+                ],
             ],
             $logs
         );
@@ -2941,7 +2951,7 @@ class NotificationServiceTest extends TestCase
         // Logger
         /** @var LoggerInterface&MockObject $logger */
         $logger = $this->createMock(LoggerInterface::class);
-        $logger->method('setChannel')->willReturnSelf();
+
         $logs = [];
         foreach (get_class_methods(LoggerInterface::class) as $method) {
             $logger->method($method)->willReturnCallback(function ($message) use (&$logs, $method) {
@@ -2992,14 +3002,14 @@ class NotificationServiceTest extends TestCase
         $this->assertSame(
             [
                 'notice' => [
-                    'Start dispatching '.$notificationCollection->count().' hipay notifications',
-                    'End dispatching Hipay notifications : '.count($deletedIds).' done',
+                    'Start dispatching ' . $notificationCollection->count() . ' hipay notifications',
+                    'End dispatching Hipay notifications : ' . count($deletedIds) . ' done',
                 ],
                 'debug' => [
-                    'Dispatching notification '.$entity->getId().' for the transaction '.$hipayOrder->getTransactionId(),
+                    'Dispatching notification ' . $entity->getId() . ' for the transaction ' . $hipayOrder->getTransactionId(),
                 ],
                 'info' => [
-                    'Notification '.$entity->getId().' update refund '.$refunds[0]['id'].' to IN_PROGRESS status for the transaction TRX_ID',
+                    'Notification ' . $entity->getId() . ' update refund ' . $refunds[0]['id'] . ' to IN_PROGRESS status for the transaction TRX_ID',
                 ],
             ],
             $logs
@@ -3076,7 +3086,7 @@ class NotificationServiceTest extends TestCase
         // Logger
         /** @var LoggerInterface&MockObject $logger */
         $logger = $this->createMock(LoggerInterface::class);
-        $logger->method('setChannel')->willReturnSelf();
+
         $logs = [];
         foreach (get_class_methods(LoggerInterface::class) as $method) {
             $logger->method($method)->willReturnCallback(function ($message) use (&$logs, $method) {
@@ -3126,14 +3136,14 @@ class NotificationServiceTest extends TestCase
         $this->assertSame(
             [
                 'notice' => [
-                    'Start dispatching '.$notificationCollection->count().' hipay notifications',
-                    'End dispatching Hipay notifications : '.count($deletedIds).' done',
+                    'Start dispatching ' . $notificationCollection->count() . ' hipay notifications',
+                    'End dispatching Hipay notifications : ' . count($deletedIds) . ' done',
                 ],
                 'debug' => [
-                    'Dispatching notification '.$entity->getId().' for the transaction '.$hipayOrder->getTransactionId(),
+                    'Dispatching notification ' . $entity->getId() . ' for the transaction ' . $hipayOrder->getTransactionId(),
                 ],
                 'info' => [
-                    'Notification '.$entity->getId().' create IN_PROGRESS refund for the transaction TRX_ID',
+                    'Notification ' . $entity->getId() . ' create IN_PROGRESS refund for the transaction TRX_ID',
                 ],
             ],
             $logs
@@ -3219,7 +3229,7 @@ class NotificationServiceTest extends TestCase
         // Logger
         /** @var LoggerInterface&MockObject $logger */
         $logger = $this->createMock(LoggerInterface::class);
-        $logger->method('setChannel')->willReturnSelf();
+
         $logs = [];
         foreach (get_class_methods(LoggerInterface::class) as $method) {
             $logger->method($method)->willReturnCallback(function ($message) use (&$logs, $method) {
@@ -3263,14 +3273,14 @@ class NotificationServiceTest extends TestCase
         $this->assertSame(
             [
                 'notice' => [
-                    'Start dispatching '.$notificationCollection->count().' hipay notifications',
-                    'End dispatching Hipay notifications : '.count($deletedIds).' done',
+                    'Start dispatching ' . $notificationCollection->count() . ' hipay notifications',
+                    'End dispatching Hipay notifications : ' . count($deletedIds) . ' done',
                 ],
                 'debug' => [
-                    'Dispatching notification '.$entity->getId().' for the transaction '.$hipayOrder->getTransactionId(),
+                    'Dispatching notification ' . $entity->getId() . ' for the transaction ' . $hipayOrder->getTransactionId(),
                 ],
                 'info' => [
-                    'Ignore notification '.$entity->getId().'. Refund '.$refund->getId().' already in progress',
+                    'Ignore notification ' . $entity->getId() . '. Refund ' . $refund->getId() . ' already in progress',
                 ],
             ],
             $logs
@@ -3352,7 +3362,7 @@ class NotificationServiceTest extends TestCase
         // Logger
         /** @var LoggerInterface&MockObject $logger */
         $logger = $this->createMock(LoggerInterface::class);
-        $logger->method('setChannel')->willReturnSelf();
+
         $logs = [];
         foreach (get_class_methods(LoggerInterface::class) as $method) {
             $logger->method($method)->willReturnCallback(function ($message) use (&$logs, $method) {
@@ -3403,11 +3413,11 @@ class NotificationServiceTest extends TestCase
         $this->assertSame(
             [
                 'notice' => [
-                    'Start dispatching '.$notificationCollection->count().' hipay notifications',
-                    'End dispatching Hipay notifications : '.count($deletedIds).' done',
+                    'Start dispatching ' . $notificationCollection->count() . ' hipay notifications',
+                    'End dispatching Hipay notifications : ' . count($deletedIds) . ' done',
                 ],
                 'debug' => [
-                    'Dispatching notification '.$entity->getId().' for the transaction '.$hipayOrder->getTransactionId(),
+                    'Dispatching notification ' . $entity->getId() . ' for the transaction ' . $hipayOrder->getTransactionId(),
                 ],
             ],
             $logs
@@ -3491,7 +3501,7 @@ class NotificationServiceTest extends TestCase
         // Logger
         /** @var LoggerInterface&MockObject $logger */
         $logger = $this->createMock(LoggerInterface::class);
-        $logger->method('setChannel')->willReturnSelf();
+
         $logs = [];
         foreach (get_class_methods(LoggerInterface::class) as $method) {
             $logger->method($method)->willReturnCallback(function ($message) use (&$logs, $method) {
@@ -3534,14 +3544,14 @@ class NotificationServiceTest extends TestCase
         $this->assertSame(
             [
                 'notice' => [
-                    'Start dispatching '.$notificationCollection->count().' hipay notifications',
-                    'End dispatching Hipay notifications : '.count($deletedIds).' done',
+                    'Start dispatching ' . $notificationCollection->count() . ' hipay notifications',
+                    'End dispatching Hipay notifications : ' . count($deletedIds) . ' done',
                 ],
                 'debug' => [
-                    'Dispatching notification '.$entity->getId().' for the transaction '.$hipayOrder->getTransactionId(),
+                    'Dispatching notification ' . $entity->getId() . ' for the transaction ' . $hipayOrder->getTransactionId(),
                 ],
                 'info' => [
-                    'Skipped notification : No IN_PROGRESS refund found with operation ID '.$operationId.' for the transaction '.$hipayOrder->getTransactionId(),
+                    'Skipped notification : No IN_PROGRESS refund found with operation ID ' . $operationId . ' for the transaction ' . $hipayOrder->getTransactionId(),
                 ],
             ],
             $logs
@@ -3639,7 +3649,7 @@ class NotificationServiceTest extends TestCase
         // Logger
         /** @var LoggerInterface&MockObject $logger */
         $logger = $this->createMock(LoggerInterface::class);
-        $logger->method('setChannel')->willReturnSelf();
+
 
         $logs = [];
         foreach (get_class_methods(LoggerInterface::class) as $method) {
@@ -3675,14 +3685,14 @@ class NotificationServiceTest extends TestCase
         $this->assertSame(
             [
                 'notice' => [
-                    'Start dispatching '.$notificationCollection->count().' hipay notifications',
-                    'End dispatching Hipay notifications : '.count($deletedIds).' done',
+                    'Start dispatching ' . $notificationCollection->count() . ' hipay notifications',
+                    'End dispatching Hipay notifications : ' . count($deletedIds) . ' done',
                 ],
                 'debug' => [
-                    'Dispatching notification '.$entity->getId().' for the transaction '.$hipayOrder->getTransactionId(),
+                    'Dispatching notification ' . $entity->getId() . ' for the transaction ' . $hipayOrder->getTransactionId(),
                 ],
                 'info' => [
-                    'Skipped notification : No '.$message.' notification received for the transaction '.$transaction->getId().', skip status '.$hipayStatus,
+                    'Skipped notification : No ' . $message . ' notification received for the transaction ' . $transaction->getId() . ', skip status ' . $hipayStatus,
                 ],
             ],
             $logs
@@ -3749,7 +3759,7 @@ class NotificationServiceTest extends TestCase
 
         /** @var LoggerInterface&MockObject $logger */
         $logger = $this->createMock(LoggerInterface::class);
-        $logger->method('setChannel')->willReturnSelf();
+
 
         $logs = [];
         foreach (get_class_methods(LoggerInterface::class) as $method) {
@@ -3791,14 +3801,14 @@ class NotificationServiceTest extends TestCase
         $this->assertSame(
             [
                 'notice' => [
-                    'Start dispatching '.$collection->count().' hipay notifications',
+                    'Start dispatching ' . $collection->count() . ' hipay notifications',
                     'End dispatching Hipay notifications : 0 done',
                 ],
                 'debug' => [
-                    'Dispatching notification '.$entity->getId().' for the transaction '.$hipayOrder->getTransactionId(),
+                    'Dispatching notification ' . $entity->getId() . ' for the transaction ' . $hipayOrder->getTransactionId(),
                 ],
                 'error' => [
-                    'Error during an Hipay notification '.$entity->getId().' dispatching : Bad status code for Hipay notification '.$entity->getId(),
+                    'Error during an Hipay notification ' . $entity->getId() . ' dispatching : Bad status code for Hipay notification ' . $entity->getId(),
                 ],
             ],
             $logs
@@ -3820,7 +3830,7 @@ class NotificationServiceTest extends TestCase
 
         /** @var LoggerInterface&MockObject $logger */
         $logger = $this->createMock(LoggerInterface::class);
-        $logger->method('setChannel')->willReturnSelf();
+
 
         $logs = [];
         foreach (get_class_methods(LoggerInterface::class) as $method) {

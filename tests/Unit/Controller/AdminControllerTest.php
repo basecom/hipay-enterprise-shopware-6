@@ -28,6 +28,7 @@ use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\EntitySearchResult;
 use Shopware\Core\Framework\Struct\ArrayEntity;
 use Shopware\Core\Framework\Validation\DataBag\RequestDataBag;
+use Shopware\Core\System\SalesChannel\SalesChannelContext;
 
 class AdminControllerTest extends TestCase
 {
@@ -324,7 +325,8 @@ class AdminControllerTest extends TestCase
         $jsonResponse = json_decode(
             $service->capture(
                 $this->generateCaptureDataBag(),
-                $this->generateOperationClientService($response)
+                $this->generateOperationClientService($response),
+                $this->createMock(SalesChannelContext::class) // Pass the third argument here
             )
                 ->getContent()
         );
@@ -354,7 +356,8 @@ class AdminControllerTest extends TestCase
         $jsonResponse = json_decode(
             $service->capture(
                 $this->generateCaptureDataBag(['ok' => 'ok']),
-                $this->generateOperationClientService($response)
+                $this->generateOperationClientService($response),
+                $this->createMock(SalesChannelContext::class)
             )
                 ->getContent()
         );
@@ -434,7 +437,8 @@ class AdminControllerTest extends TestCase
         $jsonResponse = json_decode(
             $service->refund(
                 $this->generateRefundDataBag(),
-                $this->generateOperationClientService($response)
+                $this->generateOperationClientService($response),
+                $this->createMock(SalesChannelContext::class)
             )
                 ->getContent()
         );
@@ -464,7 +468,8 @@ class AdminControllerTest extends TestCase
         $jsonResponse = json_decode(
             $service->refund(
                 $this->generateRefundDataBag(['ok' => 'ok']),
-                $this->generateOperationClientService($response)
+                $this->generateOperationClientService($response),
+                $this->createMock(SalesChannelContext::class)
             )
                 ->getContent()
         );
@@ -506,7 +511,8 @@ class AdminControllerTest extends TestCase
 
         $client = $this->createMock(HiPayHttpClientService::class);
 
-        $response = $service->cancel($params, $client);
+        $response = $service->cancel($params, $client,
+            $this->createMock(SalesChannelContext::class) );
 
         $this->assertSame(
             ['success' => true],
@@ -527,7 +533,8 @@ class AdminControllerTest extends TestCase
         $params = $this->createMock(RequestDataBag::class);
         $params->method('get')->willReturn(null);
 
-        $response = $service->cancel($params, $this->createMock(HiPayHttpClientService::class));
+        $response = $service->cancel($params, $this->createMock(HiPayHttpClientService::class),
+            $this->createMock(SalesChannelContext::class) );
 
         $this->assertSame(
             ['success' => false],
