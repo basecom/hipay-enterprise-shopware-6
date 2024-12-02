@@ -97,7 +97,7 @@ elif [ "$1" = 'test' ]; then
         docker exec $container bash -c "
             cd custom/plugins/HiPayPaymentPlugin
             vendor/bin/phpstan --version
-            vendor/bin/phpstan analyse src --level 1 --xdebug --no-progress -vvv
+            vendor/bin/phpstan analyse src --level 9 --xdebug --no-progress -vvv
         "
         find=true
     fi

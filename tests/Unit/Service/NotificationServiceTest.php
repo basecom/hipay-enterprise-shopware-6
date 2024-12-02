@@ -54,7 +54,7 @@ class NotificationServiceTest extends TestCase
         return $request;
     }
 
-    public function provideSaveNotificationRequest()
+    public static function provideSaveNotificationRequest()
     {
         return [
             // FAILED
@@ -633,7 +633,7 @@ class NotificationServiceTest extends TestCase
         return $hipayOrder;
     }
 
-    public function provideTestDispatchNotification()
+    public static function provideTestDispatchNotification()
     {
         return [
             [NotificationService::PROCESS, TransactionStatus::AUTHORIZED_AND_PENDING, OrderTransactionStates::STATE_IN_PROGRESS, 'process', OrderTransactionStates::STATE_IN_PROGRESS],
@@ -1240,7 +1240,7 @@ class NotificationServiceTest extends TestCase
         );
     }
 
-    public function provideDispatchNotificationWithAuthorize()
+    public static function provideDispatchNotificationWithAuthorize()
     {
         return [
             [NotificationService::PAY_PARTIALLY, TransactionStatus::PARTIALLY_CAPTURED, [TransactionStatus::AUTHORIZED], OrderTransactionStates::STATE_AUTHORIZED, 'payPartially', OrderTransactionStates::STATE_PARTIALLY_PAID],
@@ -2072,7 +2072,7 @@ class NotificationServiceTest extends TestCase
         );
     }
 
-    public function provideDispatchNotificationWithCapture()
+    public static function provideDispatchNotificationWithCapture()
     {
         return [
             [NotificationService::REFUNDED_PARTIALLY, TransactionStatus::PARTIALLY_REFUNDED, [TransactionStatus::CAPTURED], OrderTransactionStates::STATE_PAID, 'refundPartially', OrderTransactionStates::STATE_PARTIALLY_REFUNDED],
@@ -2352,7 +2352,7 @@ class NotificationServiceTest extends TestCase
         );
     }
 
-    public function provideDispatchFailedNotification()
+    public static function provideDispatchFailedNotification()
     {
         return [
             [NotificationService::FAILED, TransactionStatus::AUTHENTICATION_FAILED, [TransactionStatus::AUTHORIZED], OrderTransactionStates::STATE_AUTHORIZED, 'fail', OrderTransactionStates::STATE_FAILED],
@@ -2609,7 +2609,7 @@ class NotificationServiceTest extends TestCase
         );
     }
 
-    public function provideDispatchCaptureRefusedNotificationMissingStatus()
+    public static function provideDispatchCaptureRefusedNotificationMissingStatus()
     {
         return [
             [[TransactionStatus::CAPTURE_REQUESTED], 'AUTHORIZED'],
@@ -3564,7 +3564,7 @@ class NotificationServiceTest extends TestCase
         );
     }
 
-    public function provideDispatchNotificationWithoutAuthorize()
+    public static function provideDispatchNotificationWithoutAuthorize()
     {
         return [
             [NotificationService::PROCESS_AFTER_AUTHORIZE, TransactionStatus::CAPTURE_REQUESTED, [], OrderTransactionStates::STATE_OPEN, 'process', 'AUTHORIZED'],

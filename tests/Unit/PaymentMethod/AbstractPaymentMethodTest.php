@@ -321,7 +321,7 @@ class AbstractPaymentMethodTest extends TestCase
         );
     }
 
-    public function provideTestFailWithHostedFields()
+    public static function provideTestFailWithHostedFields()
     {
         return [
             [TransactionState::ERROR],
@@ -823,7 +823,7 @@ class AbstractPaymentMethodTest extends TestCase
         );
     }
 
-    public function provideTestDeliveryTimeFrame()
+    public static function provideTestDeliveryTimeFrame()
     {
         return [
             ['5 days', DeliveryTimeFrame::TWO_DAY_OR_MORE_SHIPPING],
@@ -891,7 +891,7 @@ class AbstractPaymentMethodTest extends TestCase
         );
     }
 
-    public function provideTestPurchaseIndicator()
+    public static function provideTestPurchaseIndicator()
     {
         return [
             [10, PurchaseIndicator::MERCHANDISE_AVAILABLE],
@@ -959,7 +959,7 @@ class AbstractPaymentMethodTest extends TestCase
         );
     }
 
-    public function provideTestReorderIndicator()
+    public static function provideTestReorderIndicator()
     {
         return [
             [true, ReorderIndicator::REORDERED],

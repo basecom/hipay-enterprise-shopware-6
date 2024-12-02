@@ -71,7 +71,7 @@ class ReadHipayConfigServiceTest extends TestCase
         );
     }
 
-    public function provideCredentials()
+    public static function provideCredentials()
     {
         return [
             [
@@ -289,7 +289,7 @@ class ReadHipayConfigServiceTest extends TestCase
         );
     }
 
-    public function provideTestGet3DSAuthenticator()
+    public static function provideTestGet3DSAuthenticator()
     {
         return [
             [null, 0],
