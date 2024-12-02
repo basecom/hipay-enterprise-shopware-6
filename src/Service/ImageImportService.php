@@ -118,7 +118,7 @@ class ImageImportService
         $defaultFolderId = null;
         if ($defaultFolder->count() === 1) {
             $folder = $defaultFolder->getEntities()->first();
-            if (method_exists($folder, 'getId')) {
+            if (!is_null($folder) && method_exists($folder, 'getId')) {
                 $defaultFolderId = $folder->getId();
             }
         }

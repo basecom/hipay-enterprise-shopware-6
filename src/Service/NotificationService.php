@@ -26,6 +26,7 @@ use Monolog\Attribute\WithMonologChannel;
 use Psr\Log\LoggerInterface;
 use Ramsey\Uuid\Uuid;
 use Shopware\Core\Checkout\Cart\Transaction\Struct\TransactionCollection;
+use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionCollection;
 use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionEntity;
 use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStateHandler;
 use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStates;
@@ -84,7 +85,7 @@ class NotificationService
     ];
 
     /**
-     * @param EntityRepository<TransactionCollection> $transactionRepository
+     * @param EntityRepository<OrderTransactionCollection> $transactionRepository
      * @param EntityRepository<HipayNotificationCollection> $hipayNotificationRepository
      * @param EntityRepository<HipayOrderCollection> $hipayOrderRepository
      * @param EntityRepository<OrderCaptureCollection> $hipayOrderCaptureRepository
