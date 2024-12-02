@@ -17,6 +17,7 @@ use HiPay\Payment\PaymentMethod\AbstractPaymentMethod;
 use HiPay\Payment\Service\HiPayHttpClientService;
 use HiPay\Payment\Service\ReadHipayConfigService;
 use HiPay\Payment\Tests\Tools\PaymentMethodMockTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
@@ -329,9 +330,7 @@ class AbstractPaymentMethodTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provideTestFailWithHostedFields
-     */
+    #[DataProvider('provideTestFailWithHostedFields')]
     public function testFailWithHostedFields($state)
     {
         $redirectUri = 'foo.bar';
@@ -833,9 +832,7 @@ class AbstractPaymentMethodTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provideTestDeliveryTimeFrame
-     */
+    #[DataProvider('provideTestDeliveryTimeFrame')]
     public function testDeliveryTimeFrame($delayFromToday, $expect)
     {
         $configTransaction = [
@@ -899,9 +896,7 @@ class AbstractPaymentMethodTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provideTestPurchaseIndicator
-     */
+    #[DataProvider('provideTestPurchaseIndicator')]
     public function testPurchaseIndicator($stock, $expect)
     {
         $configTransaction = [
@@ -967,9 +962,7 @@ class AbstractPaymentMethodTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provideTestReorderIndicator
-     */
+    #[DataProvider('provideTestReorderIndicator')]
     public function testReorderIndicator($reordered, $expect)
     {
         $configTransaction = [

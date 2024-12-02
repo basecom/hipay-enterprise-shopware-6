@@ -18,6 +18,7 @@ use HiPay\Payment\Enum\CaptureStatus;
 use HiPay\Payment\Enum\RefundStatus;
 use HiPay\Payment\Service\NotificationService;
 use HiPay\Payment\Tests\Tools\ReadHipayConfigServiceMockTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
@@ -101,9 +102,7 @@ class NotificationServiceTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provideSaveNotificationRequest
-     */
+    #[DataProvider('provideSaveNotificationRequest')]
     public function testSaveNotificationRequest($code, $codeEntity)
     {
         $hipayNotification = [];
@@ -202,9 +201,7 @@ class NotificationServiceTest extends TestCase
         $this->assertEquals(['id' => 'HIPAY_ID'], $hipayNotification[0]['hipayOrder'], 'bad hipayOrder data');
     }
 
-    /**
-     * @dataProvider provideSaveNotificationRequest
-     */
+    #[DataProvider('provideSaveNotificationRequest')]
     public function testSaveNotificationOnExistingHipayOrderRequest($code, $codeEntity)
     {
         $hipayNotification = [];
@@ -644,9 +641,7 @@ class NotificationServiceTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provideTestDispatchNotification
-     */
+    #[DataProvider('provideTestDispatchNotification')]
     public function testDispatchExpiredNotification($notificationStatus, $hipayStatus, $initialState, $methodExpected, $expectedState)
     {
         $transaction = $this->generateTransaction();
@@ -782,9 +777,7 @@ class NotificationServiceTest extends TestCase
         );
     }
 
-    /**
-     * @dataProvider provideTestDispatchNotification
-     */
+    #[DataProvider('provideTestDispatchNotification')]
     public function testDispatchNotification($notificationStatus, $hipayStatus, $initialState, $methodExpected, $expectedState)
     {
         // Transaction
@@ -931,9 +924,7 @@ class NotificationServiceTest extends TestCase
         );
     }
 
-    /**
-     * @dataProvider provideTestDispatchNotification
-     */
+    #[DataProvider('provideTestDispatchNotification')]
     public function testDispatchNotificationWithSameState($notificationStatus, $hipayStatus, $initialState, $methodExpected, $expectedState)
     {
         $transaction = $this->generateTransaction($initialState);
@@ -1248,9 +1239,7 @@ class NotificationServiceTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provideDispatchNotificationWithAuthorize
-     */
+    #[DataProvider('provideDispatchNotificationWithAuthorize')]
     public function testDispatchNotificationWithAuthorize($notificationStatus, $hipayStatus, $previousHipayStatus, $initialState, $methodExpected, $expectedState)
     {
         $operationId = Uuid::uuid4();
@@ -1390,9 +1379,7 @@ class NotificationServiceTest extends TestCase
         $this->assertEquals(CaptureStatus::COMPLETED, $captures[0]['status']);
     }
 
-    /**
-     * @dataProvider provideDispatchNotificationWithAuthorize
-     */
+    #[DataProvider('provideDispatchNotificationWithAuthorize')]
     public function testDispatchNotificationWithAuthorizeAndWithoutPending($notificationStatus, $hipayStatus, $previousHipayStatus, $initialState, $methodExpected, $expectedState)
     {
         $operationId = Uuid::uuid4();
@@ -2080,9 +2067,7 @@ class NotificationServiceTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provideDispatchNotificationWithCapture
-     */
+    #[DataProvider('provideDispatchNotificationWithCapture')]
     public function testDispatchNotificationWithCapture($notificationStatus, $hipayStatus, $previousHipayStatus, $initialState, $methodExpected, $expectedState)
     {
         $operationId = Uuid::uuid4();
@@ -2221,9 +2206,7 @@ class NotificationServiceTest extends TestCase
         $this->assertEquals(RefundStatus::COMPLETED, $refunds[0]['status']);
     }
 
-    /**
-     * @dataProvider provideDispatchNotificationWithCapture
-     */
+    #[DataProvider('provideDispatchNotificationWithCapture')]
     public function testDispatchNotificationWithCaptureNoCaptureFound($notificationStatus, $hipayStatus, $previousHipayStatus, $initialState, $methodExpected, $expectedState)
     {
         $operationId = Uuid::uuid4();
@@ -2359,9 +2342,7 @@ class NotificationServiceTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provideDispatchFailedNotification
-     */
+    #[DataProvider('provideDispatchFailedNotification')]
     public function testDispatchFailedNotification($notificationStatus, $hipayStatus, $previousHipayStatus, $initialState, $methodExpected, $expectedState)
     {
         // Transaction
@@ -2617,9 +2598,7 @@ class NotificationServiceTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provideDispatchCaptureRefusedNotificationMissingStatus
-     */
+    #[DataProvider('provideDispatchCaptureRefusedNotificationMissingStatus')]
     public function testDispatchCaptureRefusedNotificationMissingStatus($previousHipayStatus, $missingStatus)
     {
         $hipayStatus = TransactionStatus::CAPTURE_REFUSED;
@@ -3575,9 +3554,7 @@ class NotificationServiceTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provideDispatchNotificationWithoutAuthorize
-     */
+    #[DataProvider('provideDispatchNotificationWithoutAuthorize')]
     public function testDispatchNotificationWithoutAuthorize($notificationStatus, $hipayStatus, $previousHipayStatus, $initialState, $methodUnexpected, $message)
     {
         // Transaction
