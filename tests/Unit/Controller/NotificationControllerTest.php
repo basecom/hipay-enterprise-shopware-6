@@ -3,10 +3,10 @@
 namespace HiPay\Payment\Tests\Unit\Controller;
 
 use HiPay\Payment\Controller\NotificationController;
-use HiPay\Payment\Logger\HipayLogger;
 use HiPay\Payment\Service\NotificationService;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
@@ -19,7 +19,7 @@ class NotificationControllerTest extends TestCase
         $service = $this->createMock(NotificationService::class);
 
         $controller = new NotificationController(
-            $this->createMock(HipayLogger::class),
+            $this->createMock(LoggerInterface::class),
             $service
         );
 
@@ -39,7 +39,7 @@ class NotificationControllerTest extends TestCase
         $service->method('saveNotificationRequest')->willThrowException(new UnauthorizedHttpException('', 'FOO'));
 
         $controller = new NotificationController(
-            $this->createMock(HipayLogger::class),
+            $this->createMock(LoggerInterface::class),
             $service
         );
 
@@ -64,7 +64,7 @@ class NotificationControllerTest extends TestCase
         $service->method('saveNotificationRequest')->willThrowException(new AccessDeniedException('BAR'));
 
         $controller = new NotificationController(
-            $this->createMock(HipayLogger::class),
+            $this->createMock(LoggerInterface::class),
             $service
         );
 
@@ -89,7 +89,7 @@ class NotificationControllerTest extends TestCase
         $service->method('saveNotificationRequest')->willThrowException(new \Exception('QUZ'));
 
         $controller = new NotificationController(
-            $this->createMock(HipayLogger::class),
+            $this->createMock(LoggerInterface::class),
             $service
         );
 
