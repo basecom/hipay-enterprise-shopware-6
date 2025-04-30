@@ -241,6 +241,12 @@
             commands:
                 start: |
                     bin/console scheduled-task:run --no-wait
+        # run hipay:notification as cronjob because the worker currently do not work properly
+        run-hipay-notification:
+            spec: "* * * * *"
+            commands:
+                start: |
+                    bin/console hipay:notification
     workers:
         worker-0:
             disk: 128
