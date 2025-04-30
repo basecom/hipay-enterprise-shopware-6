@@ -84,6 +84,9 @@
         echo 'export NVM_DIR="$PLATFORM_APP_DIR/.nvm"' >> .bash_profile
         echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> .bash_profile
 
+        # Update HiPay plugin to latest commit of the branch (to enable redeployment for testing pushed commits, syncing with Papple needed)
+        composer update hipay/hipay-enterprise-shopware-6
+
         # Disable UI installer
         touch install.lock
 
@@ -129,6 +132,11 @@
             export FRONTEND_DOMAIN=`php -r 'echo parse_url($_SERVER["FRONTEND_URL"], PHP_URL_HOST);'`
             bin/console sales-channel:update:domain "$FRONTEND_DOMAIN"
         fi
+
+        # Update all plugins to the latest version
+        bin/console plugin:refresh
+        bin/console plugin:update:all
+        bin/console cache:clear
 
         # optional: run migration automatically with deploy
         bin/console database:migrate --all # Run Shopware core migrations
