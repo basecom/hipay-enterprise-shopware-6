@@ -133,9 +133,9 @@
             bin/console sales-channel:update:domain "$FRONTEND_DOMAIN"
         fi
 
-        # Update all plugins to the latest version
+        # Update plugin to the latest version
         bin/console plugin:refresh
-        bin/console plugin:update:all
+        bin/console plugin:update HiPayPaymentPlugin
         bin/console cache:clear
 
         # optional: run migration automatically with deploy
