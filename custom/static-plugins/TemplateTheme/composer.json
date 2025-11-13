@@ -42,9 +42,9 @@
         }
     },
     "require": {
-        "shopware/core": "6.6.6.0",
-        "shopware/administration": "6.6.6.0",
-        "shopware/storefront": "6.6.6.0",
+        "shopware/core": "6.6.10.5",
+        "shopware/administration": "6.6.10.5",
+        "shopware/storefront": "6.6.10.5",
         "basecom/sw6-fixtures-plugin": "^3.0"
     },
     "require-dev": {
