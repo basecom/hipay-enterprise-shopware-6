@@ -226,6 +226,9 @@
       "/vendor/composer":
         source: local
         source_path: "vendor/composer"
+      "/vendor/symfony":
+        source: local
+        source_path: "vendor/symfony"
   # The configuration of app when it is exposed to the web.
     web:
       locations:
