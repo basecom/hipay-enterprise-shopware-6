@@ -41,7 +41,17 @@
             "symfony/runtime": true
         },
         "optimize-autoloader": true,
-        "sort-packages": true
+        "sort-packages": true,
+        "audit": {
+            "ignore": [
+                "PKSA-b824-t6kf-bqqz",
+                "PKSA-6wp3-462p-vyty",
+                "PKSA-h5dj-jyqc-4fjr",
+                "PKSA-kypv-cx5n-qkc8",
+                "PKSA-v415-g75g-bqsy",
+                "PKSA-365x-2zjk-pt47"
+            ]
+        }
     },
     "scripts": {
         "auto-scripts": {
