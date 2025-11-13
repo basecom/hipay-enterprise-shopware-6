@@ -223,9 +223,6 @@
       "/custom/plugins":
         source: local
         source_path: "custom/plugins"
-      "/vendor/composer/LICENSE":
-        source: local
-        source_path: "vendor/composer/LICENSE"
   # The configuration of app when it is exposed to the web.
     web:
       locations:
