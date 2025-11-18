@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "13620366fa7c4ec930f73acfb6a1f12d",
+    "content-hash": "870a02f7079554882ef02d3dd6de57b5",
     "packages": [
         {
             "name": "async-aws/core",
@@ -2552,17 +2552,17 @@
         },
         {
             "name": "hipay/hipay-enterprise-shopware-6",
-            "version": "dev-bugfix/HIP-10",
+            "version": "dev-develop-6-6",
             "source": {
                 "type": "git",
                 "url": "git@github.com:basecom/hipay-enterprise-shopware-6.git",
-                "reference": "cd6bbcb76f814c0ba0f295a9a702d7f84c1f4328"
+                "reference": "b85da2589a3e7e97af097376e7b46e2ef72d9871"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://papple.bsc.basecom.cloud/get/dist/hipay/hipay-enterprise-shopware-6/hipay-hipay-enterprise-shopware-6-dev-bugfix-HIP-10-e80c45.zip",
-                "reference": "cd6bbcb76f814c0ba0f295a9a702d7f84c1f4328",
-                "shasum": "6d243cfb6ba13ca63d4cc1bade6603d6aad26b44"
+                "url": "https://papple.bsc.basecom.cloud/get/dist/hipay/hipay-enterprise-shopware-6/hipay-hipay-enterprise-shopware-6-dev-develop-6-6-6da869.zip",
+                "reference": "b85da2589a3e7e97af097376e7b46e2ef72d9871",
+                "shasum": "7d1285fe05f123f40f421fe93c82392fbd345e83"
             },
             "require": {
                 "giggsey/libphonenumber-for-php": "^9.0",
@@ -2636,7 +2636,7 @@
                 "php",
                 "shopware"
             ],
-            "time": "2025-11-18T09:47:22+00:00"
+            "time": "2025-11-18T10:31:20+00:00"
         },
         {
             "name": "hipay/hipay-fullservice-sdk-php",
