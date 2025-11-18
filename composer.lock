@@ -2556,13 +2556,13 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:basecom/hipay-enterprise-shopware-6.git",
-                "reference": "6fe2f2990b85edb6bb7f0fbdade8ae0ce4eafb1c"
+                "reference": "cd6bbcb76f814c0ba0f295a9a702d7f84c1f4328"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://papple.bsc.basecom.cloud/get/dist/hipay/hipay-enterprise-shopware-6/hipay-hipay-enterprise-shopware-6-dev-bugfix-HIP-10-22ee4a.zip",
-                "reference": "6fe2f2990b85edb6bb7f0fbdade8ae0ce4eafb1c",
-                "shasum": "edff93eeb541bde129a5fbd2e4a92d8d60a5cd77"
+                "url": "https://papple.bsc.basecom.cloud/get/dist/hipay/hipay-enterprise-shopware-6/hipay-hipay-enterprise-shopware-6-dev-bugfix-HIP-10-e80c45.zip",
+                "reference": "cd6bbcb76f814c0ba0f295a9a702d7f84c1f4328",
+                "shasum": "6d243cfb6ba13ca63d4cc1bade6603d6aad26b44"
             },
             "require": {
                 "giggsey/libphonenumber-for-php": "^9.0",
@@ -2636,7 +2636,7 @@
                 "php",
                 "shopware"
             ],
-            "time": "2025-11-17T08:42:45+00:00"
+            "time": "2025-11-18T09:47:22+00:00"
         },
         {
             "name": "hipay/hipay-fullservice-sdk-php",
@@ -2812,16 +2812,16 @@
         },
         {
             "name": "horstoeko/zugferd",
-            "version": "v1.0.116",
+            "version": "v1.0.117",
             "source": {
                 "type": "git",
                 "url": "https://github.com/horstoeko/zugferd.git",
-                "reference": "23fe5478a394ed96e15aaaff7451742f33d36f02"
+                "reference": "7c2fdb58e0910e199b1fd2162ae5d33a1e62e933"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/horstoeko/zugferd/zipball/23fe5478a394ed96e15aaaff7451742f33d36f02",
-                "reference": "23fe5478a394ed96e15aaaff7451742f33d36f02",
+                "url": "https://api.github.com/repos/horstoeko/zugferd/zipball/7c2fdb58e0910e199b1fd2162ae5d33a1e62e933",
+                "reference": "7c2fdb58e0910e199b1fd2162ae5d33a1e62e933",
                 "shasum": ""
             },
             "require": {
@@ -2880,9 +2880,9 @@
             ],
             "support": {
                 "issues": "https://github.com/horstoeko/zugferd/issues",
-                "source": "https://github.com/horstoeko/zugferd/tree/v1.0.116"
+                "source": "https://github.com/horstoeko/zugferd/tree/v1.0.117"
             },
-            "time": "2025-10-14T12:07:57+00:00"
+            "time": "2025-11-17T14:09:15+00:00"
         },
         {
             "name": "jms/metadata",
@@ -13977,16 +13977,16 @@
         },
         {
             "name": "theseer/tokenizer",
-            "version": "1.3.0",
+            "version": "1.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/theseer/tokenizer.git",
-                "reference": "d74205c497bfbca49f34d4bc4c19c17e22db4ebb"
+                "reference": "b7489ce515e168639d17feec34b8847c326b0b3c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/theseer/tokenizer/zipball/d74205c497bfbca49f34d4bc4c19c17e22db4ebb",
-                "reference": "d74205c497bfbca49f34d4bc4c19c17e22db4ebb",
+                "url": "https://api.github.com/repos/theseer/tokenizer/zipball/b7489ce515e168639d17feec34b8847c326b0b3c",
+                "reference": "b7489ce515e168639d17feec34b8847c326b0b3c",
                 "shasum": ""
             },
             "require": {
@@ -14015,7 +14015,7 @@
             "description": "A small library for converting tokenized PHP source code into XML and potentially other formats",
             "support": {
                 "issues": "https://github.com/theseer/tokenizer/issues",
-                "source": "https://github.com/theseer/tokenizer/tree/1.3.0"
+                "source": "https://github.com/theseer/tokenizer/tree/1.3.1"
             },
             "funding": [
                 {
@@ -14023,7 +14023,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-11-13T13:44:09+00:00"
+            "time": "2025-11-17T20:03:58+00:00"
         }
     ],
     "aliases": [],
