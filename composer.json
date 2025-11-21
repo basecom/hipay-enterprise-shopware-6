@@ -23,7 +23,8 @@
         },
         "papple": {
             "type": "composer",
-            "url": "https://papple.bsc.basecom.cloud/get"
+            "url": "https://papple.bsc.basecom.cloud/get",
+            "exclude": ["hipay/hipay-enterprise-shopware-6"]
         },
         "0": {
             "type": "path",
