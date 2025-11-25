@@ -6,7 +6,7 @@ include:
 
 variables:
   SAST_EXCLUDED_ANALYZERS: 'eslint,semgrep'
-  DOCKWARE_VERSION: '6.6.8.2'
+  DOCKWARE_VERSION: '6.6.10.5'
   GIT_DEPTH: 10
   RELEASE_NAME: ${DOCKER_STACK}-${DOCKER_SERVICE}-${CI_COMMIT_REF_SLUG}
 
@@ -95,19 +95,21 @@ build-test:
     name: gcr.io/kaniko-project/executor:v1.6.0-debug
   variables:
     TZ: Europe/Paris
-    NODE_VERSION: 18
+    NODE_VERSION: 20
     COMPOSER_HOME: /var/www/html/var/cache/composer
     APP_URL: http://web
   script:
     - /kaniko/executor
+      --force
       --cache=true
       --context "dir://${CI_PROJECT_DIR}"
       --dockerfile "./bin/docker/images/shopware/Dockerfile"
       --build-arg DOCKWARE_VERSION=$DOCKWARE_VERSION
       --destination "$REGISTRY_CI/test-jobs-${DOCKER_STACK}-${DOCKER_SERVICE}_web:${CI_COMMIT_REF_SLUG}"
-  except:
-    variables:
-      - $ONLY_DEPLOY
+  rules:
+    - if: $ONLY_DEPLOY
+      when: never
+    - when: on_success
   tags:
     - small
 
@@ -125,25 +127,12 @@ install-test:
     policy: push
   script:
     - composer install
-  except:
-    variables:
-      - $ONLY_DEPLOY
+  rules:
+    - if: $ONLY_DEPLOY
+      when: never
+    - when: on_success
   tags:
     - small
-
-#### TEST ####
-
-nodejs-scan-sast:
-  rules:
-    - if: $ONLY_DEPLOY || $CI_PIPELINE_SOURCE == "merge_request_event"
-      when: never
-    - when: on_success
-
-phpcs-security-audit-sast:
-  rules:
-    - if: $ONLY_DEPLOY || $CI_PIPELINE_SOURCE == "merge_request_event"
-      when: never
-    - when: on_success
 
 # Code style
 code-style:
@@ -158,9 +147,10 @@ code-style:
   script:
     - $PATH_VENDOR/bin/php-cs-fixer fix src --dry-run --rules=@Symfony
   allow_failure: true
-  except:
-    variables:
-      - $ONLY_DEPLOY
+  rules:
+    - if: $ONLY_DEPLOY
+      when: never
+    - when: on_success
 
 # Smoke test
 smoke-test:
@@ -169,7 +159,7 @@ smoke-test:
     - build-test
   variables:
     TZ: Europe/Paris
-    NODE_VERSION: 18
+    NODE_VERSION: 20
     COMPOSER_HOME: /var/www/html/var/cache/composer
     APP_URL: http://web
   services:
@@ -178,9 +168,10 @@ smoke-test:
   script:
     - curl --retry 20 --retry-delay 10 --retry-connrefused --output /dev/null http://web
   allow_failure: true
-  except:
-    variables:
-      - $ONLY_DEPLOY
+  rules:
+    - if: $ONLY_DEPLOY
+      when: never
+    - when: on_success
   tags:
     - small
 
@@ -200,9 +191,10 @@ phpunit:
     - php -d xdebug.mode=coverage $PATH_VENDOR/bin/phpunit
       --coverage-clover $PATH_REPORTS_PHPUNIT/coverage-clover.xml
       --log-junit $PATH_REPORTS_PHPUNIT/phpunit-junit.xml
-  except:
-    variables:
-      - $ONLY_DEPLOY
+  rules:
+    - if: $ONLY_DEPLOY
+      when: never
+    - when: on_success
   artifacts:
     paths:
       - $PATH_REPORTS_PHPUNIT
@@ -229,9 +221,10 @@ phpstan:
       -vvv
       --error-format=json > $PATH_REPORTS_PHPSTAN/phpstan-junit.xml
   allow_failure: true
-  except:
-    variables:
-      - $ONLY_DEPLOY
+  rules:
+    - if: $ONLY_DEPLOY
+      when: never
+    - when: on_success
   artifacts:
     paths:
       - $PATH_REPORTS_PHPSTAN
@@ -258,9 +251,10 @@ infection:
       - $PATH_REPORTS/infection.html
   cache:
     policy: pull
-  except:
-    variables:
-      - $ONLY_DEPLOY
+  rules:
+    - if: $ONLY_DEPLOY
+      when: never
+    - when: on_success
 
 # Sonar
 sonarqube:
@@ -280,9 +274,10 @@ sonarqube:
   cache:
     policy: pull
   allow_failure: true
-  except:
-    variables:
-      - $ONLY_DEPLOY
+  rules:
+    - if: $ONLY_DEPLOY
+      when: never
+    - when: on_success
   script:
     - sonar-scanner
       -Dsonar.host.url=$SONAR_URL
@@ -311,23 +306,23 @@ package:
       - ./package-ready-for-shopware
   tags:
     - small
-  when: manual
-  except:
-    variables:
-      - $ONLY_DEPLOY
+  rules:
+    - if: $ONLY_DEPLOY
+      when: never
+    - when: manual
 
 # Job to get JIRA tickets of the release
 get-jira-tickets:
   stage: release
   image: node:latest
   needs:
-    - nodejs-scan-sast
-    - phpcs-security-audit-sast
     - code-style
     - phpstan
     - phpunit
     - smoke-test
   rules:
+    - if: $ONLY_DEPLOY
+      when: never
     - if: $CI_COMMIT_TAG
   script:
     - |
@@ -347,14 +342,20 @@ get-jira-tickets:
           }
 
           const mergeRequests = await gitlabResponse.json();
-          const tickets = [];
+          let tickets = [];
 
           mergeRequests.forEach((mr) => {
-            const matches = mr.source_branch.match(/EC-\d+/);
+            const matches = mr.source_branch.match(/EC-\d+/i);
+            const matchesTitle = mr.title.match(/(EC-\d+)/ig);
             if(matches?.length) {
               tickets.push(matches[0].toUpperCase());
             }
+            matchesTitle?.forEach((match) => {
+                tickets.push(match.toUpperCase());
+            });
           });
+
+          tickets = [...new Set(tickets)];
 
           console.log("tickets", tickets);
 
@@ -396,6 +397,8 @@ release-job:
   variables:
     TEMP_CHANGELOG_FILE: 'release_changelog.txt'
   rules:
+    - if: $ONLY_DEPLOY
+      when: never
     - if: $CI_COMMIT_TAG
   script:
     - |
@@ -433,6 +436,7 @@ build:
   extends: .login_to_registry
   script:
     - /kaniko/executor
+      --force
       --cache=true
       --context "dir://${CI_PROJECT_DIR}"
       --dockerfile "./bin/docker/images/shopware/Dockerfile"
