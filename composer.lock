@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3d309bcc46834251dba1975b48bdb336",
+    "content-hash": "6eafac339a381365e8bc7eef52035561",
     "packages": [
         {
             "name": "async-aws/core",
@@ -2557,17 +2557,17 @@
         },
         {
             "name": "hipay/hipay-enterprise-shopware-6",
-            "version": "dev-bugfix/HIP-13-error-checkout-hipay-credentials",
+            "version": "dev-develop-6-7",
             "source": {
                 "type": "git",
-                "url": "git@github.com:basecom/hipay-enterprise-shopware-6.git",
-                "reference": "392973da49c10a381035d1cbc9e62953773d4dc2"
+                "url": "https://github.com/hipay/hipay-enterprise-shopware-6.git",
+                "reference": "5eca3c84d641cfead94375102333fd2b03fa175d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://papple.bsc.basecom.cloud/get/dist/hipay/hipay-enterprise-shopware-6/hipay-hipay-enterprise-shopware-6-dev-bugfix-HIP-13-error-checkout-hipay-credentials-9653c7.zip",
-                "reference": "392973da49c10a381035d1cbc9e62953773d4dc2",
-                "shasum": "31a7f4f9631656002f2695e3b0b62dabda32b985"
+                "url": "https://api.github.com/repos/hipay/hipay-enterprise-shopware-6/zipball/5eca3c84d641cfead94375102333fd2b03fa175d",
+                "reference": "5eca3c84d641cfead94375102333fd2b03fa175d",
+                "shasum": ""
             },
             "require": {
                 "giggsey/libphonenumber-for-php": "^9.0",
@@ -2585,63 +2585,54 @@
             },
             "type": "shopware-platform-plugin",
             "extra": {
-                "shopware-plugin-class": "HiPay\\Payment\\HiPayPaymentPlugin",
-                "plugin-icon": "src/Resources/config/hipay.png",
-                "author": "HiPay",
                 "label": {
-                    "en-GB": "HiPay Payment",
-                    "de-DE": "HiPay Payment"
+                    "de-DE": "HiPay Payment",
+                    "en-GB": "HiPay Payment"
                 },
+                "author": "HiPay",
                 "description": {
-                    "en-GB": "Hipay enterprise module for Shopware",
-                    "de-DE": "Hipay Enterprise-Modul für Shopware"
+                    "de-DE": "Hipay Enterprise-Modul für Shopware",
+                    "en-GB": "Hipay enterprise module for Shopware"
+                },
+                "plugin-icon": "src/Resources/config/hipay.png",
+                "supportLink": {
+                    "de-DE": "#",
+                    "en-GB": "#"
                 },
                 "manufacturerLink": {
-                    "en-GB": "#",
-                    "de-DE": "#"
+                    "de-DE": "#",
+                    "en-GB": "#"
                 },
-                "supportLink": {
-                    "en-GB": "#",
-                    "de-DE": "#"
-                }
+                "shopware-plugin-class": "HiPay\\Payment\\HiPayPaymentPlugin"
             },
             "autoload": {
                 "psr-4": {
                     "HiPay\\Payment\\": "src/"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "HiPay\\Payment\\Tests\\": "tests/"
-                }
-            },
-            "notification-url": "https://papple.bsc.basecom.cloud/api/installations/02Y8GNwih2qMlNpsNEDJmtQNzexT7yygH8wLt3VubA0UD6ra",
-            "archive": {
-                "exclude": [
-                    "/bin",
-                    "./\\.*",
-                    "docker-compose.yaml",
-                    "shopware.sh"
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "Apache-2.0"
             ],
             "authors": [
                 {
+                    "name": "HiPay",
                     "email": "support.tpp@hipay.com",
-                    "homepage": "https://www.hipay.com",
-                    "name": "HiPay"
+                    "homepage": "https://www.hipay.com"
                 }
             ],
             "description": "HiPay enterprise plugin for Shopware 6",
             "keywords": [
-                "HiPay",
+                "hipay",
                 "payment",
                 "php",
                 "shopware"
             ],
-            "time": "2026-02-18T09:21:31+00:00"
+            "support": {
+                "issues": "https://github.com/hipay/hipay-enterprise-shopware-6/issues",
+                "source": "https://github.com/hipay/hipay-enterprise-shopware-6/tree/develop-6-7"
+            },
+            "time": "2026-02-19T08:39:57+00:00"
         },
         {
             "name": "hipay/hipay-fullservice-sdk-php",

@@ -6,7 +6,7 @@
         "basecom/sw6-custom-fields-plugin": "4.0.0",
         "basecom/sw6-fixtures-plugin": "3.0.0",
         "frosh/tools": "^2.1",
-        "hipay/hipay-enterprise-shopware-6": "dev-bugfix/HIP-13-error-checkout-hipay-credentials",
+        "hipay/hipay-enterprise-shopware-6": "dev-develop-6-7",
         "shopware/administration": "6.6.10.5",
         "shopware/core": "6.6.10.5",
         "shopware/elasticsearch": "6.6.10.5",
@@ -23,7 +23,8 @@
         },
         "papple": {
             "type": "composer",
-            "url": "https://papple.bsc.basecom.cloud/get"
+            "url": "https://papple.bsc.basecom.cloud/get",
+            "exclude": ["hipay/hipay-enterprise-shopware-6"]
         },
         "0": {
             "type": "path",
