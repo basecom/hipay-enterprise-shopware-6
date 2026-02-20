@@ -43,7 +43,7 @@ install:
 	rm -rf src
 
 	printf "${COLOR_CYAN}Starting temporary shopware instance${COLOR_RESET}\n"
-	$(eval CONTAINER_ID=$(shell sh -c 'docker run -d dockware/dev:6.6.10.5'))
+	$(eval CONTAINER_ID=$(shell sh -c 'docker run -d dockware/dev:6.7.0.0'))
 
 	printf "${COLOR_CYAN}Copying source code into src${COLOR_RESET}\n"
 	docker cp "${CONTAINER_ID}:/var/www/html/." ./src

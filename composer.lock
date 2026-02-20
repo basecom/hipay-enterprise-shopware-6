@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6eafac339a381365e8bc7eef52035561",
+    "content-hash": "056eba41ed844bd2ee4a185d0ab30761",
     "packages": [
         {
             "name": "async-aws/core",
@@ -77,141 +77,6 @@
                 }
             ],
             "time": "2026-02-16T10:24:54+00:00"
-        },
-        {
-            "name": "basecom/sw6-custom-fields-plugin",
-            "version": "4.0.0",
-            "source": {
-                "type": "git",
-                "url": "git@github.com:basecom/sw6-custom-fields-plugin.git",
-                "reference": "cc1dba25d344e50528c1f912f2b3a6898c023702"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://papple.bsc.basecom.cloud/get/dist/basecom/sw6-custom-fields-plugin/basecom-sw6-custom-fields-plugin-4.0.0-709abb.zip",
-                "reference": "cc1dba25d344e50528c1f912f2b3a6898c023702",
-                "shasum": "c68ab4b7485b8c105d5976e09c68a258accaa745"
-            },
-            "require": {
-                "shopware/administration": "^6.5",
-                "shopware/core": "^6.5",
-                "shopware/storefront": "^6.5"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.14",
-                "frosh/shopware-rector": "^0.1.1",
-                "phpstan/phpstan": "^1.10",
-                "rector/rector": "^0.17.1"
-            },
-            "type": "shopware-platform-plugin",
-            "extra": {
-                "shopware-plugin-class": "Basecom\\CustomFieldsPlugin\\CustomFieldsPlugin",
-                "label": {
-                    "de-DE": "basecom Custom Fields Plugin",
-                    "en-GB": "basecom Custom Fields Plugin"
-                },
-                "copyright": "(c) basecom GmbH & Co. KG",
-                "plugin-icon": "src/Resources/config/plugin.png",
-                "description": {
-                    "de-DE": "Beschreibung des Plugins",
-                    "en-GB": "Description of the plugin"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Basecom\\CustomFieldsPlugin\\": "src/"
-                }
-            },
-            "notification-url": "https://papple.bsc.basecom.cloud/api/installations/02Y8GNwih2qMlNpsNEDJmtQNzexT7yygH8wLt3VubA0UD6ra",
-            "license": [
-                "GPL-3.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "basecom GmbH & Co. KG",
-                    "email": "info@basecom.de",
-                    "homepage": "https://basecom.de",
-                    "role": "Manufacturer"
-                },
-                {
-                    "name": "Marc Michalowski",
-                    "email": "m.michalowski@basecom.de",
-                    "homepage": "https://basecom.de",
-                    "role": "Developer"
-                },
-                {
-                    "name": "Jordan Kniest",
-                    "email": "j.kniest@basecom.de",
-                    "homepage": "https://basecom.de",
-                    "role": "Developer"
-                }
-            ],
-            "description": "basecom CustomFields Plugin",
-            "time": "2023-10-16T11:54:06+00:00"
-        },
-        {
-            "name": "basecom/sw6-fixtures-plugin",
-            "version": "3.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/basecom/FixturesPlugin.git",
-                "reference": "c7ef644e1d45ff33b6088aedab0062dc8e3f315f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/basecom/FixturesPlugin/zipball/c7ef644e1d45ff33b6088aedab0062dc8e3f315f",
-                "reference": "c7ef644e1d45ff33b6088aedab0062dc8e3f315f",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^8.2 || ^8.3",
-                "shopware/administration": "6.5.*|6.6.*",
-                "shopware/core": "6.5.*|6.6.*",
-                "shopware/storefront": "6.5.*|6.6.*",
-                "spatie/once": "^3.1"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "3.58.1",
-                "phpstan/phpstan": "^1.10",
-                "vimeo/psalm": "^5.20"
-            },
-            "type": "shopware-platform-plugin",
-            "extra": {
-                "label": {
-                    "de-DE": "basecom Fixture Plugin",
-                    "en-GB": "basecom Fixture Plugin"
-                },
-                "copyright": "(c) basecom GmbH & Co. KG",
-                "description": {
-                    "de-DE": "Erlaubt das Generieren von Demo-Daten",
-                    "en-GB": "Allows the generation of demo data"
-                },
-                "plugin-icon": "src/Resources/config/plugin.png",
-                "shopware-plugin-class": "Basecom\\FixturePlugin\\BasecomFixturePlugin"
-            },
-            "autoload": {
-                "psr-4": {
-                    "Basecom\\FixturePlugin\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "proprietary"
-            ],
-            "authors": [
-                {
-                    "name": "basecom GmbH & Co. KG",
-                    "email": "info@basecom.de",
-                    "homepage": "https://basecom.de",
-                    "role": "Manufacturer"
-                }
-            ],
-            "description": "basecom Fixtures Plugin",
-            "support": {
-                "issues": "https://github.com/basecom/FixturesPlugin/issues",
-                "source": "https://github.com/basecom/FixturesPlugin/tree/3.0.0"
-            },
-            "time": "2024-06-17T15:04:05+00:00"
         },
         {
             "name": "brick/math",
@@ -1041,48 +906,40 @@
         },
         {
             "name": "doctrine/dbal",
-            "version": "3.10.4",
+            "version": "4.2.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "63a46cb5aa6f60991186cc98c1d1b50c09311868"
+                "reference": "acb68b388b2577bb211bb26dc22d20a8ad93d97d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/63a46cb5aa6f60991186cc98c1d1b50c09311868",
-                "reference": "63a46cb5aa6f60991186cc98c1d1b50c09311868",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/acb68b388b2577bb211bb26dc22d20a8ad93d97d",
+                "reference": "acb68b388b2577bb211bb26dc22d20a8ad93d97d",
                 "shasum": ""
             },
             "require": {
-                "composer-runtime-api": "^2",
                 "doctrine/deprecations": "^0.5.3|^1",
-                "doctrine/event-manager": "^1|^2",
-                "php": "^7.4 || ^8.0",
+                "php": "^8.1",
                 "psr/cache": "^1|^2|^3",
                 "psr/log": "^1|^2|^3"
             },
-            "conflict": {
-                "doctrine/cache": "< 1.11"
-            },
             "require-dev": {
-                "doctrine/cache": "^1.11|^2.0",
-                "doctrine/coding-standard": "14.0.0",
+                "doctrine/coding-standard": "13.0.0",
                 "fig/log-test": "^1",
-                "jetbrains/phpstorm-stubs": "2023.1",
-                "phpstan/phpstan": "2.1.30",
+                "jetbrains/phpstorm-stubs": "2023.2",
+                "phpstan/phpstan": "2.1.17",
+                "phpstan/phpstan-phpunit": "2.0.6",
                 "phpstan/phpstan-strict-rules": "^2",
-                "phpunit/phpunit": "9.6.29",
-                "slevomat/coding-standard": "8.24.0",
-                "squizlabs/php_codesniffer": "4.0.0",
-                "symfony/cache": "^5.4|^6.0|^7.0|^8.0",
-                "symfony/console": "^4.4|^5.4|^6.0|^7.0|^8.0"
+                "phpunit/phpunit": "10.5.46",
+                "slevomat/coding-standard": "8.16.2",
+                "squizlabs/php_codesniffer": "3.13.1",
+                "symfony/cache": "^6.3.8|^7.0",
+                "symfony/console": "^5.4|^6.3|^7.0"
             },
             "suggest": {
                 "symfony/console": "For helpful console commands such as SQL execution and import of files."
             },
-            "bin": [
-                "bin/doctrine-dbal"
-            ],
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -1135,7 +992,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/dbal/issues",
-                "source": "https://github.com/doctrine/dbal/tree/3.10.4"
+                "source": "https://github.com/doctrine/dbal/tree/4.2.5"
             },
             "funding": [
                 {
@@ -1151,7 +1008,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-11-29T10:46:08+00:00"
+            "time": "2025-06-26T22:51:46+00:00"
         },
         {
             "name": "doctrine/deprecations",
@@ -1200,97 +1057,6 @@
                 "source": "https://github.com/doctrine/deprecations/tree/1.1.6"
             },
             "time": "2026-02-07T07:09:04+00:00"
-        },
-        {
-            "name": "doctrine/event-manager",
-            "version": "2.1.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/doctrine/event-manager.git",
-                "reference": "dda33921b198841ca8dbad2eaa5d4d34769d18cf"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/event-manager/zipball/dda33921b198841ca8dbad2eaa5d4d34769d18cf",
-                "reference": "dda33921b198841ca8dbad2eaa5d4d34769d18cf",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^8.1"
-            },
-            "conflict": {
-                "doctrine/common": "<2.9"
-            },
-            "require-dev": {
-                "doctrine/coding-standard": "^14",
-                "phpdocumentor/guides-cli": "^1.4",
-                "phpstan/phpstan": "^2.1.32",
-                "phpunit/phpunit": "^10.5.58"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Doctrine\\Common\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Guilherme Blanco",
-                    "email": "guilhermeblanco@gmail.com"
-                },
-                {
-                    "name": "Roman Borschel",
-                    "email": "roman@code-factory.org"
-                },
-                {
-                    "name": "Benjamin Eberlei",
-                    "email": "kontakt@beberlei.de"
-                },
-                {
-                    "name": "Jonathan Wage",
-                    "email": "jonwage@gmail.com"
-                },
-                {
-                    "name": "Johannes Schmitt",
-                    "email": "schmittjoh@gmail.com"
-                },
-                {
-                    "name": "Marco Pivetta",
-                    "email": "ocramius@gmail.com"
-                }
-            ],
-            "description": "The Doctrine Event Manager is a simple PHP event system that was built to be used with the various Doctrine projects.",
-            "homepage": "https://www.doctrine-project.org/projects/event-manager.html",
-            "keywords": [
-                "event",
-                "event dispatcher",
-                "event manager",
-                "event system",
-                "events"
-            ],
-            "support": {
-                "issues": "https://github.com/doctrine/event-manager/issues",
-                "source": "https://github.com/doctrine/event-manager/tree/2.1.1"
-            },
-            "funding": [
-                {
-                    "url": "https://www.doctrine-project.org/sponsorship.html",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://www.patreon.com/phpdoctrine",
-                    "type": "patreon"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/doctrine%2Fevent-manager",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2026-01-29T07:11:08+00:00"
         },
         {
             "name": "doctrine/inflector",
@@ -1531,32 +1297,34 @@
         },
         {
             "name": "dompdf/dompdf",
-            "version": "v2.0.4",
+            "version": "v3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dompdf/dompdf.git",
-                "reference": "093f2d9739cec57428e39ddadedfd4f3ae862c0f"
+                "reference": "a51bd7a063a65499446919286fb18b518177155a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dompdf/dompdf/zipball/093f2d9739cec57428e39ddadedfd4f3ae862c0f",
-                "reference": "093f2d9739cec57428e39ddadedfd4f3ae862c0f",
+                "url": "https://api.github.com/repos/dompdf/dompdf/zipball/a51bd7a063a65499446919286fb18b518177155a",
+                "reference": "a51bd7a063a65499446919286fb18b518177155a",
                 "shasum": ""
             },
             "require": {
+                "dompdf/php-font-lib": "^1.0.0",
+                "dompdf/php-svg-lib": "^1.0.0",
                 "ext-dom": "*",
                 "ext-mbstring": "*",
                 "masterminds/html5": "^2.0",
-                "phenx/php-font-lib": ">=0.5.4 <1.0.0",
-                "phenx/php-svg-lib": ">=0.3.3 <1.0.0",
                 "php": "^7.1 || ^8.0"
             },
             "require-dev": {
+                "ext-gd": "*",
                 "ext-json": "*",
                 "ext-zip": "*",
                 "mockery/mockery": "^1.3",
-                "phpunit/phpunit": "^7.5 || ^8 || ^9",
-                "squizlabs/php_codesniffer": "^3.5"
+                "phpunit/phpunit": "^7.5 || ^8 || ^9 || ^10 || ^11",
+                "squizlabs/php_codesniffer": "^3.5",
+                "symfony/process": "^4.4 || ^5.4 || ^6.2 || ^7.0"
             },
             "suggest": {
                 "ext-gd": "Needed to process images",
@@ -1587,9 +1355,100 @@
             "homepage": "https://github.com/dompdf/dompdf",
             "support": {
                 "issues": "https://github.com/dompdf/dompdf/issues",
-                "source": "https://github.com/dompdf/dompdf/tree/v2.0.4"
+                "source": "https://github.com/dompdf/dompdf/tree/v3.1.0"
             },
-            "time": "2023-12-12T20:19:39+00:00"
+            "time": "2025-01-15T14:09:04+00:00"
+        },
+        {
+            "name": "dompdf/php-font-lib",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dompdf/php-font-lib.git",
+                "reference": "a6e9a688a2a80016ac080b97be73d3e10c444c9a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dompdf/php-font-lib/zipball/a6e9a688a2a80016ac080b97be73d3e10c444c9a",
+                "reference": "a6e9a688a2a80016ac080b97be73d3e10c444c9a",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "php": "^7.1 || ^8.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^7.5 || ^8 || ^9 || ^10 || ^11 || ^12"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "FontLib\\": "src/FontLib"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-2.1-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "The FontLib Community",
+                    "homepage": "https://github.com/dompdf/php-font-lib/blob/master/AUTHORS.md"
+                }
+            ],
+            "description": "A library to read, parse, export and make subsets of different types of font files.",
+            "homepage": "https://github.com/dompdf/php-font-lib",
+            "support": {
+                "issues": "https://github.com/dompdf/php-font-lib/issues",
+                "source": "https://github.com/dompdf/php-font-lib/tree/1.0.2"
+            },
+            "time": "2026-01-20T14:10:26+00:00"
+        },
+        {
+            "name": "dompdf/php-svg-lib",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dompdf/php-svg-lib.git",
+                "reference": "8259ffb930817e72b1ff1caef5d226501f3dfeb1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dompdf/php-svg-lib/zipball/8259ffb930817e72b1ff1caef5d226501f3dfeb1",
+                "reference": "8259ffb930817e72b1ff1caef5d226501f3dfeb1",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "php": "^7.1 || ^8.0",
+                "sabberworm/php-css-parser": "^8.4 || ^9.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^7.5 || ^8 || ^9 || ^10 || ^11"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Svg\\": "src/Svg"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "The SvgLib Community",
+                    "homepage": "https://github.com/dompdf/php-svg-lib/blob/master/AUTHORS.md"
+                }
+            ],
+            "description": "A library to read, parse and export to PDF SVG files.",
+            "homepage": "https://github.com/dompdf/php-svg-lib",
+            "support": {
+                "issues": "https://github.com/dompdf/php-svg-lib/issues",
+                "source": "https://github.com/dompdf/php-svg-lib/tree/1.0.2"
+            },
+            "time": "2026-01-02T16:01:13+00:00"
         },
         {
             "name": "dragonmantank/cron-expression",
@@ -1978,23 +1837,23 @@
         },
         {
             "name": "frosh/tools",
-            "version": "2.6.2",
+            "version": "3.4.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfShopware/FroshTools.git",
-                "reference": "43adf44648b61f321209c430ba42da6494c9ed08"
+                "reference": "1d65f8e59a2368a3d39bb11c87658b6adc4a780f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfShopware/FroshTools/zipball/43adf44648b61f321209c430ba42da6494c9ed08",
-                "reference": "43adf44648b61f321209c430ba42da6494c9ed08",
+                "url": "https://api.github.com/repos/FriendsOfShopware/FroshTools/zipball/1d65f8e59a2368a3d39bb11c87658b6adc4a780f",
+                "reference": "1d65f8e59a2368a3d39bb11c87658b6adc4a780f",
                 "shasum": ""
             },
             "require": {
-                "shopware/core": "~6.6.0"
+                "shopware/core": "~6.6.0 || ~6.7.0"
             },
             "require-dev": {
-                "shopware/elasticsearch": "~6.6.0"
+                "shopware/elasticsearch": "~6.6.0 || ~6.7.0"
             },
             "type": "shopware-platform-plugin",
             "extra": {
@@ -2034,9 +1893,9 @@
             "description": "Provides some basic things for managing the Shopware Installation",
             "support": {
                 "issues": "https://github.com/FriendsOfShopware/FroshTools/issues",
-                "source": "https://github.com/FriendsOfShopware/FroshTools/tree/2.6.2"
+                "source": "https://github.com/FriendsOfShopware/FroshTools/tree/3.4.4"
             },
-            "time": "2025-03-24T14:49:55+00:00"
+            "time": "2026-02-11T08:51:53+00:00"
         },
         {
             "name": "giggsey/libphonenumber-for-php",
@@ -3322,29 +3181,34 @@
         },
         {
             "name": "league/event",
-            "version": "2.3.0",
+            "version": "3.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/event.git",
-                "reference": "062ebb450efbe9a09bc2478e89b7c933875b0935"
+                "reference": "ec38ff7ea10cad7d99a79ac937fbcffb9334c210"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/event/zipball/062ebb450efbe9a09bc2478e89b7c933875b0935",
-                "reference": "062ebb450efbe9a09bc2478e89b7c933875b0935",
+                "url": "https://api.github.com/repos/thephpleague/event/zipball/ec38ff7ea10cad7d99a79ac937fbcffb9334c210",
+                "reference": "ec38ff7ea10cad7d99a79ac937fbcffb9334c210",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.1.0"
+                "php": ">=7.2.0",
+                "psr/event-dispatcher": "^1.0"
+            },
+            "provide": {
+                "psr/event-dispatcher-implementation": "1.0"
             },
             "require-dev": {
-                "henrikbjorn/phpspec-code-coverage": "~1.0.1",
-                "phpspec/phpspec": "^2.2"
+                "friendsofphp/php-cs-fixer": "^2.16",
+                "phpstan/phpstan": "^0.12.45",
+                "phpunit/phpunit": "^8.5"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.2-dev"
+                    "dev-master": "3.0-dev"
                 }
             },
             "autoload": {
@@ -3370,9 +3234,9 @@
             ],
             "support": {
                 "issues": "https://github.com/thephpleague/event/issues",
-                "source": "https://github.com/thephpleague/event/tree/2.3.0"
+                "source": "https://github.com/thephpleague/event/tree/3.0.3"
             },
-            "time": "2025-03-14T19:51:10+00:00"
+            "time": "2024-09-04T16:06:53+00:00"
         },
         {
             "name": "league/flysystem",
@@ -3612,38 +3476,46 @@
         },
         {
             "name": "league/oauth2-server",
-            "version": "8.5.5",
+            "version": "9.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/oauth2-server.git",
-                "reference": "cc8778350f905667e796b3c2364a9d3bd7a73518"
+                "reference": "d8e2f39f645a82b207bbac441694d6e6079357cb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/oauth2-server/zipball/cc8778350f905667e796b3c2364a9d3bd7a73518",
-                "reference": "cc8778350f905667e796b3c2364a9d3bd7a73518",
+                "url": "https://api.github.com/repos/thephpleague/oauth2-server/zipball/d8e2f39f645a82b207bbac441694d6e6079357cb",
+                "reference": "d8e2f39f645a82b207bbac441694d6e6079357cb",
                 "shasum": ""
             },
             "require": {
-                "defuse/php-encryption": "^2.3",
+                "defuse/php-encryption": "^2.4",
+                "ext-json": "*",
                 "ext-openssl": "*",
-                "lcobucci/clock": "^2.2 || ^3.0",
-                "lcobucci/jwt": "^4.3 || ^5.0",
-                "league/event": "^2.2",
-                "league/uri": "^6.7 || ^7.0",
-                "php": "^8.0",
-                "psr/http-message": "^1.0.1 || ^2.0"
+                "lcobucci/clock": "^2.3 || ^3.0",
+                "lcobucci/jwt": "^5.0",
+                "league/event": "^3.0",
+                "league/uri": "^7.0",
+                "php": "~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0  || ~8.5.0",
+                "psr/http-message": "^2.0",
+                "psr/http-server-middleware": "^1.0"
             },
             "replace": {
                 "league/oauth2server": "*",
                 "lncd/oauth2": "*"
             },
             "require-dev": {
-                "laminas/laminas-diactoros": "^3.0.0",
-                "phpstan/phpstan": "^0.12.57",
-                "phpstan/phpstan-phpunit": "^0.12.16",
-                "phpunit/phpunit": "^9.6.6",
-                "roave/security-advisories": "dev-master"
+                "laminas/laminas-diactoros": "^3.5",
+                "php-parallel-lint/php-parallel-lint": "^1.3.2",
+                "phpstan/extension-installer": "^1.3.1",
+                "phpstan/phpstan": "^1.12|^2.0",
+                "phpstan/phpstan-deprecation-rules": "^1.1.4|^2.0",
+                "phpstan/phpstan-phpunit": "^1.3.15|^2.0",
+                "phpstan/phpstan-strict-rules": "^1.5.2|^2.0",
+                "phpunit/phpunit": "^10.5|^11.5|^12.0",
+                "roave/security-advisories": "dev-master",
+                "slevomat/coding-standard": "^8.14.1",
+                "squizlabs/php_codesniffer": "^3.8"
             },
             "type": "library",
             "autoload": {
@@ -3688,7 +3560,7 @@
             ],
             "support": {
                 "issues": "https://github.com/thephpleague/oauth2-server/issues",
-                "source": "https://github.com/thephpleague/oauth2-server/tree/8.5.5"
+                "source": "https://github.com/thephpleague/oauth2-server/tree/9.3.0"
             },
             "funding": [
                 {
@@ -3696,7 +3568,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-12-20T23:06:10+00:00"
+            "time": "2025-11-25T22:51:15+00:00"
         },
         {
             "name": "league/uri",
@@ -4329,45 +4201,6 @@
             "time": "2024-08-27T10:13:25+00:00"
         },
         {
-            "name": "padaliyajay/php-autoprefixer",
-            "version": "1.5",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/padaliyajay/php-autoprefixer.git",
-                "reference": "0fe905f63ba87c130eb712b69eb81a660c8127c6"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/padaliyajay/php-autoprefixer/zipball/0fe905f63ba87c130eb712b69eb81a660c8127c6",
-                "reference": "0fe905f63ba87c130eb712b69eb81a660c8127c6",
-                "shasum": ""
-            },
-            "require": {
-                "sabberworm/php-css-parser": "*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Padaliyajay\\PHPAutoprefixer\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jay padaliya"
-                }
-            ],
-            "description": "CSS Autoprefixer written in pure PHP.",
-            "support": {
-                "issues": "https://github.com/padaliyajay/php-autoprefixer/issues",
-                "source": "https://github.com/padaliyajay/php-autoprefixer/tree/1.5"
-            },
-            "time": "2025-12-01T07:31:35+00:00"
-        },
-        {
             "name": "pentatrion/vite-bundle",
             "version": "v7.1.0",
             "source": {
@@ -4427,96 +4260,6 @@
                 "source": "https://github.com/lhapaipai/vite-bundle/tree/v7.1.0"
             },
             "time": "2024-11-27T18:32:38+00:00"
-        },
-        {
-            "name": "phenx/php-font-lib",
-            "version": "0.5.6",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/dompdf/php-font-lib.git",
-                "reference": "a1681e9793040740a405ac5b189275059e2a9863"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/dompdf/php-font-lib/zipball/a1681e9793040740a405ac5b189275059e2a9863",
-                "reference": "a1681e9793040740a405ac5b189275059e2a9863",
-                "shasum": ""
-            },
-            "require": {
-                "ext-mbstring": "*"
-            },
-            "require-dev": {
-                "symfony/phpunit-bridge": "^3 || ^4 || ^5 || ^6"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "FontLib\\": "src/FontLib"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "LGPL-2.1-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Ménager",
-                    "email": "fabien.menager@gmail.com"
-                }
-            ],
-            "description": "A library to read, parse, export and make subsets of different types of font files.",
-            "homepage": "https://github.com/PhenX/php-font-lib",
-            "support": {
-                "issues": "https://github.com/dompdf/php-font-lib/issues",
-                "source": "https://github.com/dompdf/php-font-lib/tree/0.5.6"
-            },
-            "time": "2024-01-29T14:45:26+00:00"
-        },
-        {
-            "name": "phenx/php-svg-lib",
-            "version": "0.5.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/dompdf/php-svg-lib.git",
-                "reference": "46b25da81613a9cf43c83b2a8c2c1bdab27df691"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/dompdf/php-svg-lib/zipball/46b25da81613a9cf43c83b2a8c2c1bdab27df691",
-                "reference": "46b25da81613a9cf43c83b2a8c2c1bdab27df691",
-                "shasum": ""
-            },
-            "require": {
-                "ext-mbstring": "*",
-                "php": "^7.1 || ^8.0",
-                "sabberworm/php-css-parser": "^8.4"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^7.5 || ^8.5 || ^9.5"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Svg\\": "src/Svg"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "LGPL-3.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Ménager",
-                    "email": "fabien.menager@gmail.com"
-                }
-            ],
-            "description": "A library to read, parse and export to PDF SVG files.",
-            "homepage": "https://github.com/PhenX/php-svg-lib",
-            "support": {
-                "issues": "https://github.com/dompdf/php-svg-lib/issues",
-                "source": "https://github.com/dompdf/php-svg-lib/tree/0.5.4"
-            },
-            "time": "2024-04-08T12:52:34+00:00"
         },
         {
             "name": "phpstan/phpdoc-parser",
@@ -4969,6 +4712,119 @@
             "time": "2023-04-04T09:54:51+00:00"
         },
         {
+            "name": "psr/http-server-handler",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/http-server-handler.git",
+                "reference": "84c4fb66179be4caaf8e97bd239203245302e7d4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/http-server-handler/zipball/84c4fb66179be4caaf8e97bd239203245302e7d4",
+                "reference": "84c4fb66179be4caaf8e97bd239203245302e7d4",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0",
+                "psr/http-message": "^1.0 || ^2.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Http\\Server\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "https://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for HTTP server-side request handler",
+            "keywords": [
+                "handler",
+                "http",
+                "http-interop",
+                "psr",
+                "psr-15",
+                "psr-7",
+                "request",
+                "response",
+                "server"
+            ],
+            "support": {
+                "source": "https://github.com/php-fig/http-server-handler/tree/1.0.2"
+            },
+            "time": "2023-04-10T20:06:20+00:00"
+        },
+        {
+            "name": "psr/http-server-middleware",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/http-server-middleware.git",
+                "reference": "c1481f747daaa6a0782775cd6a8c26a1bf4a3829"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/http-server-middleware/zipball/c1481f747daaa6a0782775cd6a8c26a1bf4a3829",
+                "reference": "c1481f747daaa6a0782775cd6a8c26a1bf4a3829",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0",
+                "psr/http-message": "^1.0 || ^2.0",
+                "psr/http-server-handler": "^1.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Http\\Server\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "https://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for HTTP server-side middleware",
+            "keywords": [
+                "http",
+                "http-interop",
+                "middleware",
+                "psr",
+                "psr-15",
+                "psr-7",
+                "request",
+                "response"
+            ],
+            "support": {
+                "issues": "https://github.com/php-fig/http-server-middleware/issues",
+                "source": "https://github.com/php-fig/http-server-middleware/tree/1.0.2"
+            },
+            "time": "2023-04-11T06:14:47+00:00"
+        },
+        {
             "name": "psr/log",
             "version": "3.0.2",
             "source": {
@@ -5291,25 +5147,33 @@
         },
         {
             "name": "sabberworm/php-css-parser",
-            "version": "v8.9.0",
+            "version": "v9.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/MyIntervals/PHP-CSS-Parser.git",
-                "reference": "d8e916507b88e389e26d4ab03c904a082aa66bb9"
+                "reference": "1b363fdbdc6dd0ca0f4bf98d3a4d7f388133f1fb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/MyIntervals/PHP-CSS-Parser/zipball/d8e916507b88e389e26d4ab03c904a082aa66bb9",
-                "reference": "d8e916507b88e389e26d4ab03c904a082aa66bb9",
+                "url": "https://api.github.com/repos/MyIntervals/PHP-CSS-Parser/zipball/1b363fdbdc6dd0ca0f4bf98d3a4d7f388133f1fb",
+                "reference": "1b363fdbdc6dd0ca0f4bf98d3a4d7f388133f1fb",
                 "shasum": ""
             },
             "require": {
                 "ext-iconv": "*",
-                "php": "^5.6.20 || ^7.0.0 || ~8.0.0 || ~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0"
+                "php": "^7.2.0 || ~8.0.0 || ~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0 || ~8.5.0",
+                "thecodingmachine/safe": "^1.3 || ^2.5 || ^3.3"
             },
             "require-dev": {
-                "phpunit/phpunit": "5.7.27 || 6.5.14 || 7.5.20 || 8.5.41",
-                "rawr/cross-data-providers": "^2.0.0"
+                "php-parallel-lint/php-parallel-lint": "1.4.0",
+                "phpstan/extension-installer": "1.4.3",
+                "phpstan/phpstan": "1.12.28 || 2.1.25",
+                "phpstan/phpstan-phpunit": "1.4.2 || 2.0.7",
+                "phpstan/phpstan-strict-rules": "1.6.2 || 2.0.6",
+                "phpunit/phpunit": "8.5.46",
+                "rawr/phpunit-data-provider": "3.3.1",
+                "rector/rector": "1.2.10 || 2.1.7",
+                "rector/type-perfect": "1.0.0 || 2.1.0"
             },
             "suggest": {
                 "ext-mbstring": "for parsing UTF-8 CSS"
@@ -5317,7 +5181,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "9.0.x-dev"
+                    "dev-main": "9.2.x-dev"
                 }
             },
             "autoload": {
@@ -5351,9 +5215,9 @@
             ],
             "support": {
                 "issues": "https://github.com/MyIntervals/PHP-CSS-Parser/issues",
-                "source": "https://github.com/MyIntervals/PHP-CSS-Parser/tree/v8.9.0"
+                "source": "https://github.com/MyIntervals/PHP-CSS-Parser/tree/v9.1.0"
             },
-            "time": "2025-07-11T13:20:48+00:00"
+            "time": "2025-09-14T07:37:21+00:00"
         },
         {
             "name": "scssphp/scssphp",
@@ -5782,23 +5646,23 @@
         },
         {
             "name": "shopware/administration",
-            "version": "v6.6.10.5",
+            "version": "v6.7.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/shopware/administration.git",
-                "reference": "9c4bdd10cd0f1d543ebef9ca82f77cf49a41cfae"
+                "reference": "c7b7756baa617e9d56fb4d31557a4f097db8e0d9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/shopware/administration/zipball/9c4bdd10cd0f1d543ebef9ca82f77cf49a41cfae",
-                "reference": "9c4bdd10cd0f1d543ebef9ca82f77cf49a41cfae",
+                "url": "https://api.github.com/repos/shopware/administration/zipball/c7b7756baa617e9d56fb4d31557a4f097db8e0d9",
+                "reference": "c7b7756baa617e9d56fb4d31557a4f097db8e0d9",
                 "shasum": ""
             },
             "require": {
-                "doctrine/dbal": "^3.9",
+                "doctrine/dbal": "^4.2",
                 "pentatrion/vite-bundle": "^7.0",
                 "php": "~8.2.0 || ~8.3.0 || ~8.4.0",
-                "shopware/core": "v6.6.10.5",
+                "shopware/core": "v6.7.0.0",
                 "symfony/framework-bundle": "~7.2.0",
                 "symfony/http-foundation": "~7.2.0",
                 "symfony/mime": "~7.2.0",
@@ -5807,8 +5671,9 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-trunk": "6.6.x-dev",
-                    "dev-master": "6.6.x-dev"
+                    "dev-trunk": "6.7.x-dev",
+                    "dev-master": "6.7.x-dev",
+                    "dev-6.7.0.0": "6.7.x-dev"
                 }
             },
             "autoload": {
@@ -5826,10 +5691,10 @@
                 "docs": "https://developer.shopware.com",
                 "forum": "https://forum.shopware.com",
                 "issues": "https://github.com/shopware/shopware/issues",
-                "source": "https://github.com/shopware/administration/tree/v6.6.10.5",
+                "source": "https://github.com/shopware/administration/tree/v6.7.0.0",
                 "wiki": "https://developer.shopware.com"
             },
-            "time": "2025-06-10T08:32:40+00:00"
+            "time": "2025-06-17T07:48:40+00:00"
         },
         {
             "name": "shopware/conflicts",
@@ -5871,26 +5736,26 @@
         },
         {
             "name": "shopware/core",
-            "version": "v6.6.10.5",
+            "version": "v6.7.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/shopware/core.git",
-                "reference": "3507b528ab140cce7244171f1d70cf7974dd8bea"
+                "reference": "6a4ee12143aebee6894738e569c1892335873cfb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/shopware/core/zipball/3507b528ab140cce7244171f1d70cf7974dd8bea",
-                "reference": "3507b528ab140cce7244171f1d70cf7974dd8bea",
+                "url": "https://api.github.com/repos/shopware/core/zipball/6a4ee12143aebee6894738e569c1892335873cfb",
+                "reference": "6a4ee12143aebee6894738e569c1892335873cfb",
                 "shasum": ""
             },
             "require": {
                 "cocur/slugify": "^4.3.0",
                 "composer-runtime-api": "^2.1",
-                "composer/composer": "^2.7",
+                "composer/composer": "^2.8.5",
                 "composer/semver": "^3.2",
-                "doctrine/dbal": "^3.9",
+                "doctrine/dbal": "^4.2",
                 "doctrine/inflector": "^2.0",
-                "dompdf/dompdf": "2.0.4",
+                "dompdf/dompdf": "3.1.0",
                 "dragonmantank/cron-expression": "^3.3",
                 "ext-curl": "*",
                 "ext-dom": "*",
@@ -5918,7 +5783,7 @@
                 "league/flysystem-local": "^3.29.0",
                 "league/flysystem-memory": "^3.10.3",
                 "league/mime-type-detection": "^1.13.0",
-                "league/oauth2-server": "^8.5",
+                "league/oauth2-server": "^9.1",
                 "monolog/monolog": "^3.3.1",
                 "nyholm/psr7": "^1.5",
                 "php": "~8.2.0 || ~8.3.0 || ~8.4.0",
@@ -6005,16 +5870,15 @@
                 "symfony/polyfill-php82": "*"
             },
             "require-dev": {
-                "brianium/paratest": "^7.3",
                 "ergebnis/phpunit-slow-test-detector": "^2.4",
                 "ext-tokenizer": "*",
                 "ext-xmlwriter": "*",
                 "jdorn/sql-formatter": "^1.2.17",
                 "league/flysystem-async-aws-s3": "^3.29.0",
                 "league/flysystem-google-cloud-storage": "^3.10.3",
-                "nikic/php-parser": "^4.16.0",
+                "nikic/php-parser": "^5.4.0",
                 "opis/json-schema": "^2.3.0",
-                "phpunit/phpunit": "^10.5.38",
+                "phpunit/phpunit": "^11.5.17",
                 "shopware/dev-tools": "^1.3",
                 "smalot/pdfparser": "^2.2.2",
                 "symfony/browser-kit": "~7.2.0",
@@ -6030,8 +5894,9 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-trunk": "6.6.x-dev",
-                    "dev-master": "6.6.x-dev"
+                    "dev-trunk": "6.7.x-dev",
+                    "dev-master": "6.7.x-dev",
+                    "dev-6.7.0.0": "6.7.x-dev"
                 }
             },
             "autoload": {
@@ -6060,45 +5925,46 @@
                 "docs": "https://developer.shopware.com",
                 "forum": "https://forum.shopware.com",
                 "issues": "https://github.com/shopware/shopware/issues",
-                "source": "https://github.com/shopware/core/tree/v6.6.10.5",
+                "source": "https://github.com/shopware/core/tree/v6.7.0.0",
                 "wiki": "https://developer.shopware.com"
             },
-            "time": "2025-06-05T07:47:51+00:00"
+            "time": "2025-06-10T12:44:24+00:00"
         },
         {
             "name": "shopware/elasticsearch",
-            "version": "v6.6.10.5",
+            "version": "v6.7.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/shopware/elasticsearch.git",
-                "reference": "6ef084f8e944fd4fb39edee924fd4b792012f4c6"
+                "reference": "c71f41e2764305ce7be031ed7d9c647d28c98314"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/shopware/elasticsearch/zipball/6ef084f8e944fd4fb39edee924fd4b792012f4c6",
-                "reference": "6ef084f8e944fd4fb39edee924fd4b792012f4c6",
+                "url": "https://api.github.com/repos/shopware/elasticsearch/zipball/c71f41e2764305ce7be031ed7d9c647d28c98314",
+                "reference": "c71f41e2764305ce7be031ed7d9c647d28c98314",
                 "shasum": ""
             },
             "require": {
                 "async-aws/core": "^1.22",
-                "doctrine/dbal": "^3.9",
+                "doctrine/dbal": "^4.2",
                 "ext-curl": "*",
                 "monolog/monolog": "^3.3.1",
                 "opensearch-project/opensearch-php": "^2.3.1",
                 "php": "~8.2.0 || ~8.3.0 || ~8.4.0",
-                "shopware/core": "v6.6.10.5",
+                "shopware/core": "v6.7.0.0",
                 "shyim/opensearch-php-dsl": "^1.0.5",
                 "symfony/http-foundation": "~7.2.0",
                 "symfony/messenger": "~7.2.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^10.5.38"
+                "phpunit/phpunit": "^11.5.17"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-trunk": "6.6.x-dev",
-                    "dev-master": "6.6.x-dev"
+                    "dev-trunk": "6.7.x-dev",
+                    "dev-master": "6.7.x-dev",
+                    "dev-6.7.0.0": "6.7.x-dev"
                 }
             },
             "autoload": {
@@ -6119,10 +5985,10 @@
                 "docs": "https://developer.shopware.com",
                 "forum": "https://forum.shopware.com",
                 "issues": "https://github.com/shopware/shopware/issues/",
-                "source": "https://github.com/shopware/elasticsearch/tree/v6.6.10.5",
+                "source": "https://github.com/shopware/elasticsearch/tree/v6.7.0.0",
                 "wiki": "https://developer.shopware.com"
             },
-            "time": "2025-06-10T08:30:53+00:00"
+            "time": "2025-06-17T07:47:26+00:00"
         },
         {
             "name": "shopware/paas-meta",
@@ -6164,26 +6030,25 @@
         },
         {
             "name": "shopware/storefront",
-            "version": "v6.6.10.5",
+            "version": "v6.7.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/shopware/storefront.git",
-                "reference": "cc17bb0b7d887ff3fac5793dcc06ed823f1d1125"
+                "reference": "71831d1735a2e0814addf8bfffe4f9881a608949"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/shopware/storefront/zipball/cc17bb0b7d887ff3fac5793dcc06ed823f1d1125",
-                "reference": "cc17bb0b7d887ff3fac5793dcc06ed823f1d1125",
+                "url": "https://api.github.com/repos/shopware/storefront/zipball/71831d1735a2e0814addf8bfffe4f9881a608949",
+                "reference": "71831d1735a2e0814addf8bfffe4f9881a608949",
                 "shasum": ""
             },
             "require": {
                 "cocur/slugify": "^4.3.0",
-                "doctrine/dbal": "^3.9",
+                "doctrine/dbal": "^4.2",
                 "meyfa/php-svg": "^0.14.0",
-                "padaliyajay/php-autoprefixer": "^1.4",
                 "php": "~8.2.0 || ~8.3.0 || ~8.4.0",
                 "scssphp/scssphp": "v1.12.0",
-                "shopware/core": "v6.6.10.5",
+                "shopware/core": "v6.7.0.0",
                 "symfony/cache": "~7.2.0",
                 "symfony/cache-contracts": "~3.5.0",
                 "symfony/config": "~7.2.0",
@@ -6205,14 +6070,15 @@
                 "twig/twig": "^3.19.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^10.5.38",
+                "phpunit/phpunit": "^11.5.17",
                 "symfony/css-selector": "~7.2.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-trunk": "6.6.x-dev",
-                    "dev-master": "6.6.x-dev"
+                    "dev-trunk": "6.7.x-dev",
+                    "dev-master": "6.7.x-dev",
+                    "dev-6.7.0.0": "6.7.x-dev"
                 }
             },
             "autoload": {
@@ -6233,10 +6099,10 @@
                 "docs": "https://developer.shopware.com",
                 "forum": "https://forum.shopware.com",
                 "issues": "https://github.com/shopware/shopware/issues",
-                "source": "https://github.com/shopware/storefront/tree/v6.6.10.5",
+                "source": "https://github.com/shopware/storefront/tree/v6.7.0.0",
                 "wiki": "https://developer.shopware.com"
             },
-            "time": "2025-06-10T08:32:12+00:00"
+            "time": "2025-06-17T07:48:15+00:00"
         },
         {
             "name": "shyim/opensearch-php-dsl",
@@ -6343,68 +6209,6 @@
                 "source": "https://github.com/smalot/pdfparser/tree/v2.12.3"
             },
             "time": "2026-01-08T08:04:04+00:00"
-        },
-        {
-            "name": "spatie/once",
-            "version": "3.1.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/spatie/once.git",
-                "reference": "54c9908aff00913e82422da6938fba7bd2bf6c08"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/spatie/once/zipball/54c9908aff00913e82422da6938fba7bd2bf6c08",
-                "reference": "54c9908aff00913e82422da6938fba7bd2bf6c08",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^8.0"
-            },
-            "require-dev": {
-                "pestphp/pest": "^1.21",
-                "symfony/var-dumper": "^5.1|^6.0|^7.0|^8.0"
-            },
-            "type": "library",
-            "autoload": {
-                "files": [
-                    "src/functions.php"
-                ],
-                "psr-4": {
-                    "Spatie\\Once\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Freek Van der Herten",
-                    "email": "freek@spatie.be",
-                    "homepage": "https://spatie.be",
-                    "role": "Developer"
-                }
-            ],
-            "description": "A magic memoization function",
-            "homepage": "https://github.com/spatie/once",
-            "keywords": [
-                "cache",
-                "callable",
-                "memoization",
-                "once",
-                "spatie"
-            ],
-            "support": {
-                "source": "https://github.com/spatie/once/tree/3.1.2"
-            },
-            "funding": [
-                {
-                    "url": "https://spatie.be/open-source/support-us",
-                    "type": "custom"
-                }
-            ],
-            "time": "2025-11-25T15:44:06+00:00"
         },
         {
             "name": "squirrelphp/twig-php-syntax",
@@ -11373,6 +11177,149 @@
             "time": "2025-11-21T10:58:21+00:00"
         },
         {
+            "name": "thecodingmachine/safe",
+            "version": "v3.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thecodingmachine/safe.git",
+                "reference": "705683a25bacf0d4860c7dea4d7947bfd09eea19"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thecodingmachine/safe/zipball/705683a25bacf0d4860c7dea4d7947bfd09eea19",
+                "reference": "705683a25bacf0d4860c7dea4d7947bfd09eea19",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "php-parallel-lint/php-parallel-lint": "^1.4",
+                "phpstan/phpstan": "^2",
+                "phpunit/phpunit": "^10",
+                "squizlabs/php_codesniffer": "^3.2"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "lib/special_cases.php",
+                    "generated/apache.php",
+                    "generated/apcu.php",
+                    "generated/array.php",
+                    "generated/bzip2.php",
+                    "generated/calendar.php",
+                    "generated/classobj.php",
+                    "generated/com.php",
+                    "generated/cubrid.php",
+                    "generated/curl.php",
+                    "generated/datetime.php",
+                    "generated/dir.php",
+                    "generated/eio.php",
+                    "generated/errorfunc.php",
+                    "generated/exec.php",
+                    "generated/fileinfo.php",
+                    "generated/filesystem.php",
+                    "generated/filter.php",
+                    "generated/fpm.php",
+                    "generated/ftp.php",
+                    "generated/funchand.php",
+                    "generated/gettext.php",
+                    "generated/gmp.php",
+                    "generated/gnupg.php",
+                    "generated/hash.php",
+                    "generated/ibase.php",
+                    "generated/ibmDb2.php",
+                    "generated/iconv.php",
+                    "generated/image.php",
+                    "generated/imap.php",
+                    "generated/info.php",
+                    "generated/inotify.php",
+                    "generated/json.php",
+                    "generated/ldap.php",
+                    "generated/libxml.php",
+                    "generated/lzf.php",
+                    "generated/mailparse.php",
+                    "generated/mbstring.php",
+                    "generated/misc.php",
+                    "generated/mysql.php",
+                    "generated/mysqli.php",
+                    "generated/network.php",
+                    "generated/oci8.php",
+                    "generated/opcache.php",
+                    "generated/openssl.php",
+                    "generated/outcontrol.php",
+                    "generated/pcntl.php",
+                    "generated/pcre.php",
+                    "generated/pgsql.php",
+                    "generated/posix.php",
+                    "generated/ps.php",
+                    "generated/pspell.php",
+                    "generated/readline.php",
+                    "generated/rnp.php",
+                    "generated/rpminfo.php",
+                    "generated/rrd.php",
+                    "generated/sem.php",
+                    "generated/session.php",
+                    "generated/shmop.php",
+                    "generated/sockets.php",
+                    "generated/sodium.php",
+                    "generated/solr.php",
+                    "generated/spl.php",
+                    "generated/sqlsrv.php",
+                    "generated/ssdeep.php",
+                    "generated/ssh2.php",
+                    "generated/stream.php",
+                    "generated/strings.php",
+                    "generated/swoole.php",
+                    "generated/uodbc.php",
+                    "generated/uopz.php",
+                    "generated/url.php",
+                    "generated/var.php",
+                    "generated/xdiff.php",
+                    "generated/xml.php",
+                    "generated/xmlrpc.php",
+                    "generated/yaml.php",
+                    "generated/yaz.php",
+                    "generated/zip.php",
+                    "generated/zlib.php"
+                ],
+                "classmap": [
+                    "lib/DateTime.php",
+                    "lib/DateTimeImmutable.php",
+                    "lib/Exceptions/",
+                    "generated/Exceptions/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "PHP core functions that throw exceptions instead of returning FALSE on error",
+            "support": {
+                "issues": "https://github.com/thecodingmachine/safe/issues",
+                "source": "https://github.com/thecodingmachine/safe/tree/v3.4.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/OskarStark",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/shish",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/silasjoisten",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/staabm",
+                    "type": "github"
+                }
+            ],
+            "time": "2026-02-04T18:08:13+00:00"
+        },
+        {
             "name": "twig/intl-extra",
             "version": "v3.23.0",
             "source": {
@@ -11665,6 +11612,97 @@
         }
     ],
     "packages-dev": [
+        {
+            "name": "doctrine/event-manager",
+            "version": "2.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/event-manager.git",
+                "reference": "dda33921b198841ca8dbad2eaa5d4d34769d18cf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/event-manager/zipball/dda33921b198841ca8dbad2eaa5d4d34769d18cf",
+                "reference": "dda33921b198841ca8dbad2eaa5d4d34769d18cf",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.1"
+            },
+            "conflict": {
+                "doctrine/common": "<2.9"
+            },
+            "require-dev": {
+                "doctrine/coding-standard": "^14",
+                "phpdocumentor/guides-cli": "^1.4",
+                "phpstan/phpstan": "^2.1.32",
+                "phpunit/phpunit": "^10.5.58"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Doctrine\\Common\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Guilherme Blanco",
+                    "email": "guilhermeblanco@gmail.com"
+                },
+                {
+                    "name": "Roman Borschel",
+                    "email": "roman@code-factory.org"
+                },
+                {
+                    "name": "Benjamin Eberlei",
+                    "email": "kontakt@beberlei.de"
+                },
+                {
+                    "name": "Jonathan Wage",
+                    "email": "jonwage@gmail.com"
+                },
+                {
+                    "name": "Johannes Schmitt",
+                    "email": "schmittjoh@gmail.com"
+                },
+                {
+                    "name": "Marco Pivetta",
+                    "email": "ocramius@gmail.com"
+                }
+            ],
+            "description": "The Doctrine Event Manager is a simple PHP event system that was built to be used with the various Doctrine projects.",
+            "homepage": "https://www.doctrine-project.org/projects/event-manager.html",
+            "keywords": [
+                "event",
+                "event dispatcher",
+                "event manager",
+                "event system",
+                "events"
+            ],
+            "support": {
+                "issues": "https://github.com/doctrine/event-manager/issues",
+                "source": "https://github.com/doctrine/event-manager/tree/2.1.1"
+            },
+            "funding": [
+                {
+                    "url": "https://www.doctrine-project.org/sponsorship.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://www.patreon.com/phpdoctrine",
+                    "type": "patreon"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/doctrine%2Fevent-manager",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2026-01-29T07:11:08+00:00"
+        },
         {
             "name": "doctrine/persistence",
             "version": "4.1.1",
